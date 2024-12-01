@@ -1,0 +1,21 @@
+@import "../../styles/helpers/index.scss";
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  &__form-wrapper {
+    max-width: 1120px;
+    width: 100%;
+  }
+
+  &__search {
+    background: rgba(50, 53, 55, 1);
+    width: 100%;
+    padding: 16px;
+    @include font-default;
+    border-radius: 10px;
+  }
+}

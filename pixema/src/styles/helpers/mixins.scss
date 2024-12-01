@@ -1,0 +1,11 @@
+@import "./colors.scss";
+
+@mixin font-default {
+  font-family: Exo 2;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
