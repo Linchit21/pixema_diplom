@@ -1,21 +1,32 @@
+import { IMovie } from "@/types/movie";
 import styles from "./index.module.scss";
 
-export function MovieItem() {
+interface MovieItemProps {
+  movieData: IMovie;
+}
+
+export function MovieItem(props: MovieItemProps) {
+  const {
+    movieData: { name, genres, rating, poster },
+  } = props;
+
   return (
     <div className={styles["movie-item"]}>
       <div className={styles["movie-item__img-wrapper"]}>
-        <div className={styles["movie-item__rating"]}> 7.6</div>
+        <div className={styles["movie-item__rating"]}>
+          {rating.kp || rating.imdb}
+        </div>
         <img
           className={styles["movie-item__img"]}
-          src="/public/img/mock_movie.png"
+          src={poster?.previewUrl}
           alt="women"
         />
       </div>
-      <div className={styles["movie-item__title"]}>Wonder Woman: 1984</div>
+      <div className={styles["movie-item__title"]}>{name}</div>
       <div className={styles["movie-item__tags"]}>
-        <div className={styles["movie-item__tag"]}>Adventure</div>
-        <div className={styles["movie-item__tag"]}>Action</div>
-        <div className={styles["movie-item__tag"]}>Fantasy</div>
+        {genres.map((item) => {
+          return <div className={styles["movie-item__tag"]}>{item.name}</div>;
+        })}
       </div>
     </div>
   );

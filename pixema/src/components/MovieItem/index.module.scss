@@ -35,11 +35,13 @@
 
   &__tags {
     display: flex;
-    gap: 20px;
+    gap: 4px 20px;
+    flex-wrap: wrap;
   }
 
   &__tag {
     font-weight: 500;
     color: $light;
+    text-transform: capitalize;
   }
 }

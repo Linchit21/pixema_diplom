@@ -1,4 +1,4 @@
-const mockGetMovie = {
+export const mockGetMovie = {
   docs: [
     {
       id: 6640426,
