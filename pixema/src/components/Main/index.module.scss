@@ -1,0 +1,11 @@
+@import "../../styles/helpers/index.scss";
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 40px 62px 64px;
+  flex-grow: 1;
+}

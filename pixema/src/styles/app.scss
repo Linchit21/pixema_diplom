@@ -1,1 +1,12 @@
-@import "bootstrap/scss/bootstrap";
+@import "./helpers";
+@import "./global/";
+
+body,
+html {
+  background-color: $black;
+}
+
+body {
+  @include font-default;
+  color: $secondary;
+}

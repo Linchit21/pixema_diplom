@@ -1,19 +1,18 @@
+import { User } from "@/components/User";
 import styles from "./index.module.scss";
 
 export function Header() {
   return (
     <div className={styles.header}>
-      <div className={styles["header__form-wrapper"]}>
-        <form action="">
-          <input
-            className={styles.header__search}
-            type="text"
-            placeholder="Search"
-            id=""
-          />
-        </form>
-      </div>
-      <div>{/* TODO: User component */}USER</div>
+      <form className={styles.header__form}>
+        <input
+          className={styles.header__search}
+          type="text"
+          placeholder="Search"
+        />
+        <button type="button" className={styles.header__filter} />
+      </form>
+      <User />
     </div>
   );
 }

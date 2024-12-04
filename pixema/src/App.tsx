@@ -1,10 +1,11 @@
 import { Header } from "./components/Header";
+import { Layout } from "./components/Layout";
+import "./styles/app.scss";
 
 export function App() {
   return (
     <>
-      <h2>App</h2>
-      <Header />
+      <Layout />
     </>
   );
 }

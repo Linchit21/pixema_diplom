@@ -1,0 +1,8 @@
+@import "../../styles/helpers/index.scss";
+
+.sidebar {
+  width: 368px;
+  height: 100vh;
+  background-color: rgb(25, 52, 94);
+  flex-shrink: 0;
+}
