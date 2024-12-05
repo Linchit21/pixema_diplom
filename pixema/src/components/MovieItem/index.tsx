@@ -1,5 +1,5 @@
-import { IMovie } from "@/types/movie";
-import styles from "./index.module.scss";
+import { IMovie } from '@/types/movie';
+import styles from './index.module.scss';
 
 interface MovieItemProps {
   movieData: IMovie;
@@ -7,30 +7,22 @@ interface MovieItemProps {
 
 export function MovieItem(props: MovieItemProps) {
   const {
-    movieData: { name, genres, rating, poster },
+    movieData: { Poster, Title, Type, Year, imdbID },
   } = props;
 
+  //TODO: переход на фильм
+  const handleClickMovieItem = () => {};
+
   return (
-    <div className={styles["movie-item"]}>
-      <div className={styles["movie-item__img-wrapper"]}>
-        <div className={styles["movie-item__rating"]}>
-          {rating.kp || rating.imdb}
-        </div>
-        <img
-          className={styles["movie-item__img"]}
-          src={poster?.previewUrl}
-          alt="women"
-        />
+    <div className={styles['movie-item']}>
+      <div className={styles['movie-item__img-wrapper']}>
+        <div className={styles['movie-item__rating']}>{10}</div>
+        <img className={styles['movie-item__img']} src={Poster} alt="women" />
       </div>
-      <div className={styles["movie-item__title"]}>{name}</div>
-      <div className={styles["movie-item__tags"]}>
-        {genres.map((item, index) => {
-          return (
-            <div key={index} className={styles["movie-item__tag"]}>
-              {item.name}
-            </div>
-          );
-        })}
+      <div className={styles['movie-item__title']}>{Title}</div>
+      <div className={styles['movie-item__tags']}>
+        <div className={styles['movie-item__tag']}>{Type}</div>
+        <div className={styles['movie-item__tag']}>{Year}</div>
       </div>
     </div>
   );

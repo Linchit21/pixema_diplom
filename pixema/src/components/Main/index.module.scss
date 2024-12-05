@@ -1,4 +1,4 @@
-@import "@styles/helpers/index.scss";
+@import '@styles/helpers/index.scss';
 
 .main {
   display: flex;
@@ -6,7 +6,7 @@
   gap: 56px;
   height: 100%;
   overflow: hidden;
-  margin: 0 auto;
+  margin-left: 368px; //FIXME: Решение при Sidebar position fixed
   padding: 40px 62px 64px;
   flex-grow: 1;
 }

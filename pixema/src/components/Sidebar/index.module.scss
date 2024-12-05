@@ -1,4 +1,4 @@
-@import "@styles/helpers/index.scss";
+@import '@styles/helpers/index.scss';
 
 .sidebar {
   display: flex;
@@ -7,12 +7,13 @@
   height: 100vh;
   flex-shrink: 0;
   padding: 48px 40px 64px 62px;
+  position: fixed; //FIXME: main margin-left: 368px
 
   &__logo {
     margin-bottom: 64px;
     width: 158px;
     height: 40px;
-    background: url("/img/pixema.png");
+    background: url('/img/pixema.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

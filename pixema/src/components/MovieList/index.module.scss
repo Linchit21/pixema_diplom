@@ -1,10 +1,9 @@
-@import "@styles/helpers/index.scss";
+@import '@styles/helpers/index.scss';
 
 .movie-list {
   display: flex;
   justify-content: center;
-  height: calc(100vh - 352px); //FIXME:
-  overflow: hidden;
+  // height: calc(100vh - 352px); //FIXME:
   gap: 40px;
   flex-wrap: wrap;
 
