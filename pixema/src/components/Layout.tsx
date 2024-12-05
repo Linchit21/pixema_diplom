@@ -1,7 +1,5 @@
-import { Container } from "./Container";
-import { Header } from "@components/Header";
+import { Container } from "@components/Container";
 import { Main } from "@components/Main";
-import { Footer } from "./Footer";
 import { MovieList } from "@/components/MovieList";
 import { Sidebar } from "@/components/Sidebar";
 

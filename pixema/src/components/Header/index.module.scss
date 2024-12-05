@@ -1,4 +1,4 @@
-@import "../../styles/helpers/index.scss";
+@import "@styles/helpers/index.scss";
 
 .header {
   display: flex;
@@ -32,6 +32,6 @@
   &__filter {
     width: 24px;
     height: 24px;
-    background: url("/public/icons/filter.svg");
+    background: url("/icons/filter.svg");
   }
 }

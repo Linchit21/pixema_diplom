@@ -1,4 +1,4 @@
-@import "../../styles/helpers/index.scss";
+@import "@styles/helpers/index.scss";
 
 .user {
   display: flex;
@@ -29,6 +29,6 @@
   &__arrow {
     width: 24px;
     height: 24px;
-    background: url("/public/icons/arrow_down.svg");
+    background: url("/icons/arrow_down.svg");
   }
 }

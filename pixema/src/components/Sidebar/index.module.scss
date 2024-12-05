@@ -1,11 +1,10 @@
-@import "../../styles/helpers/index.scss";
+@import "@styles/helpers/index.scss";
 
 .sidebar {
   display: flex;
   flex-direction: column;
   width: 368px;
   height: 100vh;
-  background-color: rgb(25, 52, 94);
   flex-shrink: 0;
   padding: 48px 40px 64px 62px;
 
@@ -13,7 +12,7 @@
     margin-bottom: 64px;
     width: 158px;
     height: 40px;
-    background: url("/public/img/pixema.png");
+    background: url("/img/pixema.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -29,6 +28,7 @@
     display: flex;
     height: 24px;
     gap: 20px;
+    cursor: pointer;
   }
 
   &__item-icon {
@@ -38,7 +38,7 @@
 
   &__item-title {
     font-weight: 600;
-    color: $primary;
+    color: $secondary;
   }
 
   &__footer {

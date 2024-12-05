@@ -24,8 +24,12 @@ export function MovieItem(props: MovieItemProps) {
       </div>
       <div className={styles["movie-item__title"]}>{name}</div>
       <div className={styles["movie-item__tags"]}>
-        {genres.map((item) => {
-          return <div className={styles["movie-item__tag"]}>{item.name}</div>;
+        {genres.map((item, index) => {
+          return (
+            <div key={index} className={styles["movie-item__tag"]}>
+              {item.name}
+            </div>
+          );
         })}
       </div>
     </div>

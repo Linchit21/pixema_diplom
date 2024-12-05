@@ -6,10 +6,14 @@ export function Sidebar() {
     <div className={styles.sidebar}>
       <div className={styles.sidebar__logo}></div>
       <ul className={styles.sidebar__nav}>
-        {SidebarNavigation.map((item) => {
+        {SidebarNavigation.map((item, index) => {
           return (
-            <li className={styles.sidebar__item}>
-              <span className={styles["sidebar__item-icon"]}>{item.icon}</span>
+            <li key={index} className={styles.sidebar__item}>
+              <img
+                className={styles["sidebar__item-icon"]}
+                src={item.icon}
+                alt={item.title}
+              />
               <span className={styles["sidebar__item-title"]}>
                 {item.title}
               </span>

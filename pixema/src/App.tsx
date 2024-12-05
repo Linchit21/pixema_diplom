@@ -1,5 +1,5 @@
-import { Layout } from "./components/Layout";
-import "./styles/app.scss";
+import { Layout } from "@components/Layout";
+import "@styles/app.scss";
 
 export function App() {
   return (

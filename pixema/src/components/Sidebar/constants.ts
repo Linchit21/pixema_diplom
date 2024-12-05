@@ -5,10 +5,14 @@ interface ISidebarNavigationItem {
 }
 
 export const SidebarNavigation: ISidebarNavigationItem[] = [
-  { path: "", title: "Home", icon: "" },
-  { path: "", title: "Trends", icon: "" },
-  { path: "", title: "Favorites", icon: "" },
-  { path: "", title: "Settings", icon: "" },
+  {
+    path: "/icons/home.svg",
+    title: "Home",
+    icon: "/icons/home.svg",
+  },
+  { path: "", title: "Trends", icon: "/icons/trends.svg" },
+  { path: "", title: "Favorites", icon: "/icons/favorites.svg" },
+  { path: "", title: "Settings", icon: "/icons/settings.svg" },
 ];
 
 //FIXME: icon and path

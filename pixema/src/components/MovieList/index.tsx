@@ -20,8 +20,8 @@ export function MovieList() {
   return (
     <div className={styles["movie-list__wrapper"]}>
       <div className={styles["movie-list"]}>
-        {movies.map((item) => {
-          return <MovieItem key={item.id} movieData={item} />;
+        {movies.map((item, index) => {
+          return <MovieItem key={index} movieData={item} />;
         })}
       </div>
       <button className={styles["movie-list__button"]} type="button">
