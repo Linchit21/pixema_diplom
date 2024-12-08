@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import { Home } from '@/pages/Home';
 import { Trends } from '@/pages/Trends';
 import { MovieId } from '@/components/MovieId';
+import { SearchResult } from '@/pages/SearchResult';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: '/movie/:movieId',
         element: <MovieId />,
+      },
+      {
+        path: '/search/:searchId',
+        element: <SearchResult />,
       },
     ],
   },

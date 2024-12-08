@@ -1,18 +1,16 @@
 import { User } from '@/components/User';
 import styles from './index.module.scss';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchItems } from '@/redux/movie-items-slice';
+import { useNavigate } from 'react-router';
 
 export function Header() {
-  const { search } = useSelector((state) => state.movieItems);
-  const dispatch = useDispatch();
-  const [searchItem, setsearchItem] = useState(search || '');
+  const [searchItem, setsearchItem] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
 
-    dispatch(searchItems(searchItem));
+    navigate(`/search/${searchItem}`);
   };
 
   const handleChangeInput = (event) => {

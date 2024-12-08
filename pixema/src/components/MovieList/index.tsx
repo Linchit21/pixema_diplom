@@ -22,7 +22,7 @@ export function MovieList(props) {
     return <div>{error}</div>;
   }
 
-  if (movieItems.length == 0) {
+  if (movieItems == undefined || movieItems.length == 0) {
     return <div>No posts</div>;
   }
 

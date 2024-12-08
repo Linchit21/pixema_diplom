@@ -20,7 +20,6 @@ export function MovieItem(props: MovieItemProps) {
   return (
     <div className={styles['movie-item']} onClick={handleClickMovieItem}>
       <div className={styles['movie-item__img-wrapper']}>
-        <div className={styles['movie-item__rating']}>{10}</div>
         <img className={styles['movie-item__img']} src={Poster} alt="women" />
       </div>
       <div className={styles['movie-item__title']}>{Title}</div>

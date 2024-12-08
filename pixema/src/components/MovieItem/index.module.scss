@@ -1,4 +1,4 @@
-@import "@styles/helpers/index.scss";
+@import '@styles/helpers/index.scss';
 
 .movie-item {
   width: 266px;
@@ -6,25 +6,11 @@
   &__img-wrapper {
     height: 357px;
     margin-bottom: 24px;
-    position: relative;
   }
 
   &__img {
     object-fit: contain;
     border-radius: 20px;
-  }
-
-  &__rating {
-    @include flex-center;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 0 8px;
-    height: 28px;
-    border-radius: 6px;
-    font-weight: 600;
-    color: $white;
-    background-color: $green;
   }
 
   &__title {
