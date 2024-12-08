@@ -6,12 +6,14 @@ const initialState = {
   movieItems: [],
   isLoaded: false,
   error: null,
+
+  search: 'wars',
 };
 
 export const fetchMovieItemsThunk = createAsyncThunk(
   'movieItems/fetchMovieItemsThunk',
-  async () => {
-    const data = await requestMovieItems();
+  async (search) => {
+    const data = await requestMovieItems(search);
 
     return data;
   }
@@ -20,7 +22,11 @@ export const fetchMovieItemsThunk = createAsyncThunk(
 export const movieItemsSlice = createSlice({
   name: 'movieItems',
   initialState,
-  reducers: {},
+  reducers: {
+    searchItems: (state, action) => {
+      state.search = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMovieItemsThunk.pending, (state) => {
@@ -38,4 +44,5 @@ export const movieItemsSlice = createSlice({
   },
 });
 
+export const { searchItems } = movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

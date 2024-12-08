@@ -1,7 +1,7 @@
 import { movieItemsEndpoint } from '@/config/api';
 
-export const requestMovieItems = async () => {
-  const response = await fetch(movieItemsEndpoint, {
+export const requestMovieItems = async (search) => {
+  const response = await fetch(movieItemsEndpoint(search), {
     method: 'GET',
   })
     .then(function (response) {

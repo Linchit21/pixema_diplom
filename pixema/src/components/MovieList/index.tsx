@@ -8,15 +8,13 @@ import { fetchMovieItemsThunk } from '@/redux/movie-items-slice';
 
 export function MovieList() {
   const dispatch = useDispatch();
-  const { movieItems, isLoaded, error } = useSelector(
+  const { movieItems, isLoaded, error, search } = useSelector(
     (state) => state.movieItems
   );
 
-  console.log(movieItems);
-
   useEffect(() => {
-    dispatch(fetchMovieItemsThunk());
-  }, [dispatch]);
+    dispatch(fetchMovieItemsThunk(search));
+  }, [search]);
 
   if (isLoaded) {
     return <div>Loading...</div>;
