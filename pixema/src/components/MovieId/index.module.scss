@@ -1,0 +1,145 @@
+@import '@styles/helpers/index.scss';
+
+.movie-id {
+  display: flex;
+  gap: 42px;
+  width: 100%;
+
+  &__preview {
+    width: 266px;
+  }
+
+  &__img-wrapper {
+    // width: 266px;
+    height: 356px;
+    margin-bottom: 32px;
+  }
+
+  &__img {
+    border-radius: 20px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 2px;
+  }
+
+  &__button {
+    padding: 16px 54px;
+    background-color: $graphite;
+
+    &_left {
+      border-radius: 10px 0 0 10px;
+    }
+
+    &_right {
+      border-radius: 0 10px 10px 0;
+    }
+
+    & img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__tag {
+    color: $light;
+    font-weight: 500;
+  }
+
+  &__title {
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 40px;
+    font-family: Exo 2;
+    line-height: 60px;
+    color: $white;
+  }
+
+  &__ratings {
+    display: flex;
+    gap: 20px;
+    color: $white;
+    margin-bottom: 40px;
+  }
+
+  //FIXME: рейтинги с иконками и обработкой числа
+  &__ratings__imdb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 32px;
+    border-radius: 10%;
+    background-color: rgb(245, 197, 24);
+    color: $black;
+    font-weight: 800;
+    font-size: 20px;
+  }
+
+  &__ratings__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $black;
+    font-weight: 600;
+    // font-size: 20px;
+    width: 64px;
+    height: 32px;
+    border-radius: 10%;
+    background-color: rgb(51, 165, 136);
+  }
+
+  &__ratings__tomato {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $black;
+    font-weight: 600;
+    // font-size: 20px;
+    width: 64px;
+    height: 32px;
+    border-radius: 10%;
+    background-color: rgb(228, 112, 17);
+  }
+
+  &__text {
+    font-weight: 500;
+    color: $white;
+    margin-bottom: 40px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 56px;
+    font-weight: 600;
+    color: $light;
+    position: relative;
+  }
+
+  & span {
+    position: absolute;
+    left: 20%;
+    font-weight: 500;
+    color: $white;
+  }
+
+  &__recomendation {
+    font-weight: 600;
+    color: $white;
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+
+  &__posters {
+    display: flex;
+    gap: 40px;
+  }
+}

@@ -1,5 +1,7 @@
 export const baseUrl = 'https://www.omdbapi.com/?apikey=3ded1844&';
 export const movieItemsEndpoint = (search) => `${baseUrl + `s=${search}&`}`;
+export const movieItemEndpoint = (id) => `${baseUrl + `i=${id}&`}`;
+
 //TODO: придумать пропсы для эндпоинтов
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=3ded1844

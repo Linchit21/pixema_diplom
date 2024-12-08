@@ -1,20 +1,18 @@
 import { MovieItem } from '@/components/MovieItem';
 import styles from './index.module.scss';
-import { useEffect, useState } from 'react';
-import { mockGetMovie } from '@/mocks/getMovie';
-import { IMovie } from '@/types/movie';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovieItemsThunk } from '@/redux/movie-items-slice';
 
-export function MovieList() {
+export function MovieList(props) {
   const dispatch = useDispatch();
-  const { movieItems, isLoaded, error, search } = useSelector(
+  const { movieItems, isLoaded, error } = useSelector(
     (state) => state.movieItems
   );
 
   useEffect(() => {
-    dispatch(fetchMovieItemsThunk(search));
-  }, [search]);
+    dispatch(fetchMovieItemsThunk(props.filter));
+  }, [props.filter]);
 
   if (isLoaded) {
     return <div>Loading...</div>;

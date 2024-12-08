@@ -1,5 +1,6 @@
 import { IMovie } from '@/types/movie';
 import styles from './index.module.scss';
+import { useNavigate } from 'react-router';
 
 interface MovieItemProps {
   movieData: IMovie;
@@ -9,12 +10,15 @@ export function MovieItem(props: MovieItemProps) {
   const {
     movieData: { Poster, Title, Type, Year, imdbID },
   } = props;
+  const navigate = useNavigate();
 
   //TODO: переход на фильм
-  const handleClickMovieItem = () => {};
+  const handleClickMovieItem = () => {
+    navigate(`/movie/${imdbID}`);
+  };
 
   return (
-    <div className={styles['movie-item']}>
+    <div className={styles['movie-item']} onClick={handleClickMovieItem}>
       <div className={styles['movie-item__img-wrapper']}>
         <div className={styles['movie-item__rating']}>{10}</div>
         <img className={styles['movie-item__img']} src={Poster} alt="women" />
