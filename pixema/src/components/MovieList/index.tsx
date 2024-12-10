@@ -4,15 +4,10 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovieItemsThunk } from '@/redux/movie-items-slice';
 
-export function MovieList(props) {
-  const dispatch = useDispatch();
+export function MovieList() {
   const { movieItems, isLoaded, error } = useSelector(
     (state) => state.movieItems
   );
-
-  useEffect(() => {
-    dispatch(fetchMovieItemsThunk(props.filter));
-  }, [props.filter]);
 
   if (isLoaded) {
     return <div>Loading...</div>;

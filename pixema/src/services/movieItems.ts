@@ -1,35 +1,45 @@
-import { movieItemEndpoint, movieItemsEndpoint } from '@/config/api';
+import {
+  movieItemEndpoint,
+  movieItemsEndpoint,
+  movieItemsFilterEndpoint,
+  moviePremieresItemsEndpoint,
+} from '@/config/api';
+import { client } from '@/utils/client';
 
-export const requestMovieItems = async (filter) => {
-  const response = await fetch(movieItemsEndpoint(filter), {
-    method: 'GET',
-  })
-    .then(function (response) {
-      // The response is a Response instance.
-      // You parse the data into a useable format using `.json()`
-      return response.json();
-    })
-    .then(function (data) {
-      // `data` is the parsed version of the JSON returned from the above endpoint.
-      return data;
-    });
+export const requestMovieItems = async () => {
+  const response = await client.get(movieItemsEndpoint, {
+    params: {
+      type: 'TOP_250_MOVIES', // Передаем параметры запроса
+      page: '1',
+    },
+  });
 
-  return response.Search;
+  return response.data.items;
 };
 
 export const requestMovieItem = async (id) => {
-  const response = await fetch(movieItemEndpoint(id), {
-    method: 'GET',
-  })
-    .then(function (response) {
-      // The response is a Response instance.
-      // You parse the data into a useable format using `.json()`
-      return response.json();
-    })
-    .then(function (data) {
-      // `data` is the parsed version of the JSON returned from the above endpoint.
-      return data;
-    });
+  const response = await client.get(movieItemEndpoint(id));
 
-  return response;
+  return response.data;
+};
+
+export const requestPremieresItems = async () => {
+  const response = await client.get(moviePremieresItemsEndpoint, {
+    params: {
+      year: '2024', // Передаем параметры запроса
+      month: 'OCTOBER',
+    },
+  });
+
+  return response.data.items;
+};
+
+export const requestFilterItems = async (searchId) => {
+  const response = await client.get(movieItemsFilterEndpoint, {
+    params: {
+      keyword: searchId, // Передаем параметры запроса
+    },
+  });
+
+  return response.data.items;
 };

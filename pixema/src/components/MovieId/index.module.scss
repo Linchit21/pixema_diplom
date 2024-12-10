@@ -116,17 +116,28 @@
 
   &__list {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: 54px;
     margin-bottom: 56px;
-    font-weight: 600;
-    color: $light;
-    position: relative;
+
+    &_col-key {
+      display: flex;
+      flex-direction: column;
+
+      font-weight: 600;
+      color: $light;
+      gap: 20px;
+    }
+
+    &_col-string {
+      display: flex;
+      flex-direction: column;
+      font-weight: 500;
+      color: $white;
+      gap: 20px;
+    }
   }
 
   & span {
-    position: absolute;
-    left: 20%;
     font-weight: 500;
     color: $white;
   }
@@ -140,6 +151,7 @@
 
   &__posters {
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
   }
 }

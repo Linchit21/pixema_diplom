@@ -119,7 +119,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -130,6 +130,15 @@ table {
 input,
 button {
   font-family: inherit;
+  outline: 0;
+
+  border: 0;
+}
+
+select {
+  outline: 0;
+
+  border: 0;
 }
 
 button {

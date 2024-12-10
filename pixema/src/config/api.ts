@@ -1,13 +1,10 @@
-export const baseUrl = 'https://www.omdbapi.com/?apikey=3ded1844&';
-export const movieItemsEndpoint = (search) => `${baseUrl + `s=${search}&`}`;
-export const movieItemEndpoint = (id) => `${baseUrl + `i=${id}&`}`;
+export const baseUrl = 'https://kinopoiskapiunofficial.tech';
+export const movieItemsEndpoint = '/api/v2.2/films/collections';
+export const movieItemsFilterEndpoint = '/api/v2.2/films';
 
-//TODO: придумать пропсы для эндпоинтов
+export const moviePremieresItemsEndpoint = '/api/v2.2/films/premieres';
 
-// http://www.omdbapi.com/?i=tt3896198&apikey=3ded1844
+export const movieItemEndpoint = (id) => `/api/v2.2/films/${id}`;
 
-// http://www.omdbapi.com/?t=car&apikey=3ded1844
-
-// http://www.omdbapi.com/?apikey=3ded1844&
-
-// https://www.omdbapi.com/?apikey=3ded1844&t=hell
+//https://kinopoiskapiunofficial.tech/documentation/api/#/
+//'X-API-KEY': 'eaf32ec7-79d1-4ad7-bc9f-09983f32fc8a',

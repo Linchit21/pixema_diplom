@@ -1,10 +1,12 @@
 import { User } from '@/components/User';
 import styles from './index.module.scss';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
 export function Header() {
-  const [searchItem, setsearchItem] = useState('');
+  //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
+
+  const [searchItem, setSearchItem] = useState('');
   const navigate = useNavigate();
 
   const handleSubmitForm = (event) => {
@@ -14,7 +16,7 @@ export function Header() {
   };
 
   const handleChangeInput = (event) => {
-    setsearchItem(event.target.value);
+    setSearchItem(event.target.value);
   };
 
   return (

@@ -1,4 +1,9 @@
-import { requestMovieItem, requestMovieItems } from '@/services/movieItems';
+import {
+  requestFilterItems,
+  requestMovieItem,
+  requestMovieItems,
+  requestPremieresItems,
+} from '@/services/movieItems';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit/react';
 
 const initialState = {
@@ -11,19 +16,41 @@ const initialState = {
   search: '',
 };
 
+// Запрос за постами для HOME
 export const fetchMovieItemsThunk = createAsyncThunk(
   'movieItems/fetchMovieItemsThunk',
-  async (filter) => {
-    const data = await requestMovieItems(filter);
+  async () => {
+    const data = await requestMovieItems();
 
     return data;
   }
 );
 
+// Запрос за постами для TRENDS
+export const fetchPremieresItemsThunk = createAsyncThunk(
+  'movieItems/fetchPremieresItemsThunk',
+  async () => {
+    const data = await requestPremieresItems();
+
+    return data;
+  }
+);
+
+// Запрос за постом по ид
 export const fetchMovieItemThunk = createAsyncThunk(
   'movieItems/fetchMovieItemThunk',
   async (id) => {
     const data = await requestMovieItem(id);
+
+    return data;
+  }
+);
+
+// Запрос за постами по фильтру по ид
+export const fetchFilterItemsThunk = createAsyncThunk(
+  'movieItems/fetchFilterItemsThunk',
+  async (searchId) => {
+    const data = await requestFilterItems(searchId);
 
     return data;
   }
@@ -48,6 +75,30 @@ export const movieItemsSlice = createSlice({
         state.movieItems = action.payload;
       })
       .addCase(fetchMovieItemsThunk.rejected, (state, action) => {
+        state.isLoaded = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchPremieresItemsThunk.pending, (state) => {
+        state.isLoaded = true;
+        state.error = null;
+      })
+      .addCase(fetchPremieresItemsThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.movieItems = action.payload;
+      })
+      .addCase(fetchPremieresItemsThunk.rejected, (state, action) => {
+        state.isLoaded = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchFilterItemsThunk.pending, (state) => {
+        state.isLoaded = true;
+        state.error = null;
+      })
+      .addCase(fetchFilterItemsThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.movieItems = action.payload;
+      })
+      .addCase(fetchFilterItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message;
       })
