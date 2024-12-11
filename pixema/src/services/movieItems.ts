@@ -34,10 +34,10 @@ export const requestPremieresItems = async () => {
   return response.data.items;
 };
 
-export const requestFilterItems = async (searchId) => {
+export const requestFilterItems = async (body) => {
   const response = await client.get(movieItemsFilterEndpoint, {
     params: {
-      keyword: searchId, // Передаем параметры запроса
+      ...body,
     },
   });
 

@@ -3,15 +3,17 @@ import styles from './index.module.scss';
 import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  favorite,
   fetchMovieItemsThunk,
   fetchMovieItemThunk,
 } from '@/redux/movie-items-slice';
-import trends from '/icons/favorites.svg';
+import favorites from '/icons/favorites.svg';
+import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
 
 export function MovieId() {
   const dispatch = useDispatch();
-  const { movieItem, movieItems, isLoaded, error } = useSelector(
+  const { movieItem, movieItems, favoriteItems, isLoaded, error } = useSelector(
     (state) => state.movieItems
   );
 
@@ -27,12 +29,19 @@ export function MovieId() {
     genres,
   } = movieItem;
 
-  console.log(movieItem);
+  const find = favoriteItems.find((item) => item.kinopoiskId == movieId);
+
+  console.log(find);
 
   useEffect(() => {
     dispatch(fetchMovieItemThunk(movieId));
     dispatch(fetchMovieItemsThunk());
   }, [movieId]);
+
+  const handleClickFavoriteButton = () => {
+    dispatch(favorite(movieItem));
+    event?.preventDefault();
+  };
 
   if (isLoaded) {
     return <div>Loading...</div>;
@@ -48,7 +57,6 @@ export function MovieId() {
 
   //FIXME: Должны быть рандомные фильмы, мб новый запрос?
   const recommendPosters = movieItems.slice(1, 4);
-  console.log(recommendPosters);
 
   return (
     <div className={styles['movie-id']}>
@@ -64,14 +72,15 @@ export function MovieId() {
           <button
             className={`${styles['movie-id__button']} ${styles['movie-id__button_left']}`}
             type="button"
+            onClick={handleClickFavoriteButton}
           >
-            <img src={trends} alt="" />
+            <img src={find ? favoritesActive : favorites} alt="" />
           </button>
           <button
             className={`${styles['movie-id__button']} ${styles['movie-id__button_right']}`}
             type="button"
           >
-            <img src={trends} alt="" />
+            <img src={favorites} alt="" />
           </button>
         </div>
       </div>

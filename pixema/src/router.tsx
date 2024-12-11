@@ -4,6 +4,7 @@ import { Home } from '@/pages/Home';
 import { Trends } from '@/pages/Trends';
 import { MovieId } from '@/components/MovieId';
 import { SearchResult } from '@/pages/SearchResult';
+import { Favorites } from './pages/Favorites';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: '/search/:searchId',
         element: <SearchResult />,
+      },
+      {
+        path: '/favorites',
+        element: <Favorites />,
       },
     ],
   },

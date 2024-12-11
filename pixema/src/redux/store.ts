@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { movieItemsReducer } from '@/redux/movie-items-slice';
+import { filtersReducer } from './filters-slice';
 
 const loggerMiddleware = (store) => (next) => (action) => {
   console.log(action.type);
@@ -12,6 +13,7 @@ const arrMiddleware = [loggerMiddleware];
 
 export const store = configureStore({
   reducer: {
+    filters: filtersReducer,
     movieItems: movieItemsReducer,
   },
 

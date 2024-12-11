@@ -11,7 +11,7 @@ export function SearchResult() {
   //api/v2.2/films
 
   useEffect(() => {
-    dispatch(fetchFilterItemsThunk(searchId));
+    dispatch(fetchFilterItemsThunk({ keyword: searchId }));
   }, [searchId]);
 
   return <MovieList />;

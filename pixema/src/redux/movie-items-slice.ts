@@ -10,6 +10,7 @@ const initialState = {
   value: 0,
   movieItems: [],
   movieItem: {},
+  favoriteItems: [],
   isLoaded: false,
   error: null,
 
@@ -60,8 +61,17 @@ export const movieItemsSlice = createSlice({
   name: 'movieItems',
   initialState,
   reducers: {
-    searchItems: (state, action) => {
-      state.search = action.payload;
+    favorite: (state, action) => {
+      const favoriteData = state.favoriteItems;
+      const findIndex = favoriteData.findIndex(
+        (item) => item.kinopoiskId == action.payload.kinopoiskId
+      );
+
+      if (findIndex === -1) {
+        favoriteData.push(action.payload);
+      } else {
+        favoriteData.splice(findIndex, 1);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -117,5 +127,5 @@ export const movieItemsSlice = createSlice({
   },
 });
 
-export const { searchItems } = movieItemsSlice.actions;
+export const { favorite } = movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

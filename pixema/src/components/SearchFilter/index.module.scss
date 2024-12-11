@@ -1,13 +1,18 @@
 @import '@styles/helpers/index.scss';
 
 .search-filter {
-  display: flex;
-  flex-direction: column;
-  padding: 48px 40px;
-  width: 518px;
-  border-radius: 10px;
-  background-color: $dark;
-  color: $white;
+  display: none;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 48px 40px;
+    width: 518px;
+    border-radius: 10px;
+    background-color: $dark;
+    color: $white;
+  }
 
   &__title {
     display: flex;
