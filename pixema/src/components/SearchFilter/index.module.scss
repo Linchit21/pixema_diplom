@@ -22,18 +22,22 @@
     margin-bottom: 32px;
   }
 
+  &__label {
+    margin-bottom: 8px;
+  }
+
   &__toggle {
-    //TODO:
     display: flex;
     margin-bottom: 33px;
 
     & input {
       display: none;
-    }
-  }
 
-  &__label {
-    margin-bottom: 8px;
+      &:checked + label {
+        background-color: $black;
+        transition: ease-in-out 0.2s;
+      }
+    }
   }
 
   &__radiobutton {
@@ -50,7 +54,7 @@
 
     &_right {
       border-radius: 0 10px 10px 0;
-      background-color: $black;
+      background-color: $graphite;
     }
   }
 
@@ -67,25 +71,25 @@
 
   &__movie-name {
     & input {
-      padding: 16px 0;
+      padding: 16px 0 16px 20px;
       background-color: $graphite;
       border-radius: 10px;
       width: 100%;
+      color: $white;
       font-weight: 500;
       font-size: 16px;
-      text-align: start;
     }
   }
 
   &__years {
     & input {
-      padding: 16px 0;
+      padding: 16px 0 16px 20px;
       background-color: $graphite;
       border-radius: 10px;
       width: 199px;
+      color: $white;
       font-weight: 500;
       font-size: 16px;
-      text-align: start;
     }
 
     & div {
@@ -95,11 +99,10 @@
   }
 
   &__countries {
-    padding: 16px 0;
-
     & select {
       background-color: $graphite;
-      padding: 16px 0;
+      padding: 16px 20px;
+      color: $white;
       width: 100%;
       border-radius: 10px;
     }

@@ -135,6 +135,18 @@ button {
   border: 0;
 }
 
+input[type='number'] {
+  -webkit-appearance: none; /* Убирает стили для Chrome, Safari, Edge */
+  -moz-appearance: textfield; /* Убирает стили для Firefox */
+  appearance: none; /* Универсальный сброс */
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Убирает спиннеры для Chrome, Safari, Edge */
+  margin: 0; /* Сбрасывает отступы */
+}
+
 select {
   outline: 0;
 
