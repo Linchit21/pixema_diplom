@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import styles from './index.module.scss';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   favorite,
@@ -10,36 +10,34 @@ import {
 import favorites from '/icons/favorites.svg';
 import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
+import { AppDispatch, RootState } from '@/redux/store';
+import { IMovieCountries, IMovieItem } from '@/types/movie/movie';
 
 export function MovieId() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { movieItem, movieItems, favoriteItems, isLoaded, error } = useSelector(
-    (state) => state.movieItems
+    (state: RootState) => state.movieItems
   );
 
-  const { movieId } = useParams();
-  const {
-    posterUrl,
-    nameRu,
-    description,
-    year,
-    countries,
-    ratingAgeLimits,
-    filmLength,
-    genres,
-  } = movieItem;
+  const { movieId } = useParams<{ movieId: string | undefined }>();
 
-  const find = favoriteItems.find((item) => item.kinopoiskId == movieId);
+  const find = favoriteItems.find(
+    (item: IMovieItem) => item.kinopoiskId === movieId
+  );
 
   console.log(find);
 
   useEffect(() => {
-    dispatch(fetchMovieItemThunk(movieId));
-    dispatch(fetchMovieItemsThunk());
-  }, [movieId]);
+    if (movieId) {
+      dispatch(fetchMovieItemThunk(movieId));
+      dispatch(fetchMovieItemsThunk());
+    }
+  }, [dispatch, movieId]);
 
   const handleClickFavoriteButton = () => {
-    dispatch(favorite(movieItem));
+    if (movieItem) {
+      dispatch(favorite(movieItem));
+    }
     event?.preventDefault();
   };
 
@@ -51,9 +49,20 @@ export function MovieId() {
     return <div>{error}</div>;
   }
 
-  if (movieItem.length == 0) {
+  if (!movieItem) {
     return <div>No posts</div>;
   }
+
+  const {
+    posterUrl,
+    nameRu,
+    description,
+    year,
+    countries,
+    ratingAgeLimits,
+    filmLength,
+    genres,
+  } = movieItem;
 
   //FIXME: Должны быть рандомные фильмы, мб новый запрос?
   const recommendPosters = movieItems.slice(1, 4);
@@ -117,7 +126,7 @@ export function MovieId() {
           <div className={styles['movie-id__list_col-string']}>
             <p>{year}</p>
             <div style={{ display: 'flex', gap: '10px' }}>
-              {countries?.map((item, index) => {
+              {countries?.map((item: IMovieCountries, index: number) => {
                 return <p key={index}>{item.country}</p>;
               })}
             </div>

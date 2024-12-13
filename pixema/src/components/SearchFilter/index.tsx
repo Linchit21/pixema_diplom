@@ -1,39 +1,55 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilterItemsThunk } from '@/redux/movie-items-slice';
-import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { fetchFiltersThunk } from '@/redux/filters-slice';
+import { RootState } from '@/redux/store';
 
-export function SearchFilter({ visible }) {
+interface SearchFilterProps {
+  toggle: boolean; // Типизация пропса toggle
+}
+
+interface FilterFormValues {
+  order: 'RATING' | 'YEAR'; // Значение для сортировки
+  keyword: string; // Ключевое слово для поиска
+  genres: string; // id жанра
+  countries: string; // id страны
+  yearFrom: number; // Год начала
+  yearTo: number; // Год конца
+  ratingFrom: number; // Рейтинг от
+  ratingTo: number; // Рейтинг до
+}
+
+export function SearchFilter({ toggle }: SearchFilterProps) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { genres, countries } = useSelector((state) => state.filters);
+  const { genres, countries } = useSelector(
+    (state: RootState) => state.filters
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<FilterFormValues>();
 
   useEffect(() => {
     dispatch(fetchFiltersThunk());
   }, []);
 
-  const onSubmit = (body) => {
+  const onSubmit: SubmitHandler<FilterFormValues> = (body) => {
     event.preventDefault();
 
     // navigate(`/search`);
     dispatch(fetchFilterItemsThunk(body));
-    visible = false;
+    toggle = false;
   };
 
   const handleCliclButtonReset = () => reset();
 
   return (
-    <div className={visible ? '' : styles['search-filter']}>
+    <div className={toggle ? '' : styles['search-filter']}>
       <div className={styles['search-filter__wrapper']}>
         <div className={styles['search-filter__title']}>
           <div>Filters</div>
@@ -48,7 +64,6 @@ export function SearchFilter({ visible }) {
               <input
                 type="radio"
                 id="RATING"
-                name="search-name"
                 value="RATING"
                 {...register('order')}
               />
@@ -62,7 +77,6 @@ export function SearchFilter({ visible }) {
               <input
                 type="radio"
                 id="YEAR"
-                name="search-name"
                 value="YEAR"
                 {...register('order')}
               />
@@ -84,7 +98,6 @@ export function SearchFilter({ visible }) {
               <input
                 placeholder="Your text"
                 type="text"
-                name="search-name"
                 id=""
                 {...register('keyword')}
               />
@@ -92,7 +105,7 @@ export function SearchFilter({ visible }) {
 
             <div className={styles['search-filter__countries']}>
               <div className={styles['search-filter__label']}>Genres</div>
-              <select name="" id="" {...register('genres')}>
+              <select id="" {...register('genres')}>
                 {/* <option value=""></option> */}
                 {genres.map((item, index) => {
                   return (
@@ -110,14 +123,12 @@ export function SearchFilter({ visible }) {
                 <input
                   placeholder="From"
                   type="number"
-                  name="search-name"
                   id=""
                   {...register('yearFrom')}
                 />
                 <input
                   placeholder="To"
                   type="number"
-                  name="search-name"
                   id=""
                   {...register('yearTo')}
                 />
@@ -130,14 +141,12 @@ export function SearchFilter({ visible }) {
                 <input
                   placeholder="From"
                   type="number"
-                  name="search-name"
                   id=""
                   {...register('ratingFrom')}
                 />
                 <input
                   placeholder="To"
                   type="number"
-                  name="search-name"
                   id=""
                   {...register('ratingTo')}
                 />
@@ -146,7 +155,7 @@ export function SearchFilter({ visible }) {
 
             <div className={styles['search-filter__countries']}>
               <div className={styles['search-filter__label']}>Countries</div>
-              <select name="" id="" {...register('countries')}>
+              <select id="" {...register('countries')}>
                 <option value=""></option>
 
                 {countries.map((item, index) => {

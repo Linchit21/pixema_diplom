@@ -1,11 +1,11 @@
 import { MovieList } from '@/components/MovieList';
-
 import { fetchMovieItemsThunk } from '@/redux/movie-items-slice';
+import { AppDispatch } from '@/redux/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export function Home() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   // type
   // page
@@ -13,7 +13,7 @@ export function Home() {
 
   useEffect(() => {
     dispatch(fetchMovieItemsThunk());
-  }, []);
+  }, [dispatch]);
 
   return <MovieList />;
 }

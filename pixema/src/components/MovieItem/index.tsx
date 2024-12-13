@@ -1,12 +1,12 @@
-import { IMovie } from '@/types/movie';
+import { IMovieItem } from '@/types/movie/movie';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router';
 
-// interface MovieItemProps {
-//   movieData: IMovie;
-// }
+interface MovieItemProps {
+  movieData: IMovieItem;
+}
 
-export function MovieItem(props) {
+export function MovieItem(props: MovieItemProps) {
   const {
     movieData: { posterUrl, nameRu, genres, kinopoiskId },
   } = props;

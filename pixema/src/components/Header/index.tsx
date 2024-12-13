@@ -1,23 +1,23 @@
 import { User } from '@/components/User';
 import styles from './index.module.scss';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { SearchFilter } from '../SearchFilter';
 
 export function Header() {
   //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
 
-  const [searchItem, setSearchItem] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [searchItem, setSearchItem] = useState<string>('');
+  const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     navigate(`/search/${searchItem}`);
   };
 
-  const handleChangeInput = (event) => {
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchItem(event.target.value);
   };
 
@@ -35,7 +35,6 @@ export function Header() {
           onChange={handleChangeInput}
           value={searchItem}
         />
-        {/* TODO: Filter */}
 
         <button
           type="button"
@@ -44,7 +43,7 @@ export function Header() {
         />
       </form>
       <div className={styles.header__modal}>
-        <SearchFilter visible={visible} />
+        <SearchFilter toggle={visible} />
       </div>
       <User />
     </div>

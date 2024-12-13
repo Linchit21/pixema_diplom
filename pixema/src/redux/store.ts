@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { movieItemsReducer } from '@/redux/movie-items-slice';
-import { filtersReducer } from './filters-slice';
+import { movieItemsReducer, MovieItemsState } from '@/redux/movie-items-slice';
+import { filtersReducer, FiltersState } from './filters-slice';
 
-const loggerMiddleware = (store) => (next) => (action) => {
-  console.log(action.type);
+// const loggerMiddleware: Middleware = () => (next) => (action) => {
+//   console.log(action.type);
 
-  // переход к следющему мидлу по цепочке
-  return next(action);
-};
+//   // переход к следющему мидлу по цепочке
+//   return next(action);
+// };
 
-const arrMiddleware = [loggerMiddleware];
+// const arrMiddleware: Middleware[] = [loggerMiddleware];
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +21,13 @@ export const store = configureStore({
   devTools: true,
 
   // конкатенация к уже имеющимся мидлам
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(arrMiddleware),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware().concat(arrMiddleware),
 });
+
+export type RootState = {
+  filters: FiltersState;
+  movieItems: MovieItemsState;
+};
+
+export type AppDispatch = typeof store.dispatch;

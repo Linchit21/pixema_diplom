@@ -1,12 +1,13 @@
 import { MovieItem } from '@/components/MovieItem';
+import { IMovieItem } from '@/types/movie/movie';
+import { useSelector } from 'react-redux';
+
 import styles from './index.module.scss';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovieItemsThunk } from '@/redux/movie-items-slice';
+import { RootState } from '@/redux/store';
 
 export function MovieList() {
   const { movieItems, isLoaded, error } = useSelector(
-    (state) => state.movieItems
+    (state: RootState) => state.movieItems
   );
 
   if (isLoaded) {
@@ -24,7 +25,7 @@ export function MovieList() {
   return (
     <div className={styles['movie-list__wrapper']}>
       <div className={styles['movie-list']}>
-        {movieItems.map((item, index) => {
+        {movieItems.map((item: IMovieItem, index: number) => {
           return <MovieItem key={index} movieData={item} />;
         })}
       </div>
