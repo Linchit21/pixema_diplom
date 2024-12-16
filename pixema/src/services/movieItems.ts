@@ -2,6 +2,7 @@ import {
   movieItemEndpoint,
   movieItemsEndpoint,
   movieItemsFilterEndpoint,
+  movieItemsSimilarEndpoint,
   moviePremieresItemsEndpoint,
 } from '@/config/api';
 import { client } from '@/utils/client';
@@ -40,6 +41,12 @@ export const requestFilterItems = async (body) => {
       ...body,
     },
   });
+
+  return response.data.items;
+};
+
+export const requestMovieSimilaryItems = async (id) => {
+  const response = await client.get(movieItemsSimilarEndpoint(id));
 
   return response.data.items;
 };

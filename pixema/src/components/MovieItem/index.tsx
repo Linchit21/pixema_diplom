@@ -8,13 +8,18 @@ interface MovieItemProps {
 
 export function MovieItem(props: MovieItemProps) {
   const {
-    movieData: { posterUrl, nameRu, genres, kinopoiskId },
+    movieData: { posterUrl, nameRu, genres, kinopoiskId, filmId },
   } = props;
   const navigate = useNavigate();
 
   //TODO: переход на фильм
   const handleClickMovieItem = () => {
-    navigate(`/movie/${kinopoiskId}`);
+    if (kinopoiskId) {
+      navigate(`/movie/${kinopoiskId}`);
+    } else if (filmId) {
+      // при запросе похожих фильмов, сервер отдает другое название id
+      navigate(`/movie/${filmId}`);
+    }
   };
 
   return (
@@ -28,7 +33,7 @@ export function MovieItem(props: MovieItemProps) {
       </div>
       <div className={styles['movie-item__title']}>{nameRu}</div>
       <div className={styles['movie-item__tags']}>
-        {genres.map((item, index) => {
+        {genres?.map((item, index) => {
           return (
             <div key={index} className={styles['movie-item__tag']}>
               {item.genre}

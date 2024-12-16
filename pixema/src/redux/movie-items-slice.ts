@@ -2,6 +2,7 @@ import {
   requestFilterItems,
   requestMovieItem,
   requestMovieItems,
+  requestMovieSimilaryItems,
   requestPremieresItems,
 } from '@/services/movieItems';
 import { IMovieItem } from '@/types/movie/movie';
@@ -64,6 +65,16 @@ export const fetchFilterItemsThunk = createAsyncThunk<IMovieItem[], number>(
   'movieItems/fetchFilterItemsThunk',
   async (searchId) => {
     const data = await requestFilterItems(searchId);
+
+    return data;
+  }
+);
+
+// Запрос за похожими фильмами по ид
+export const fetcMovieSimialryItemsThunk = createAsyncThunk(
+  'movieItems/fetcMovieSimialryItemsThunk',
+  async (id) => {
+    const data = await requestMovieSimilaryItems(id);
 
     return data;
   }
@@ -145,6 +156,21 @@ export const movieItemsSlice = createSlice({
         }
       )
       .addCase(fetchMovieItemThunk.rejected, (state, action) => {
+        state.isLoaded = false;
+        state.error = action.error.message ?? 'Ошибка загрузки';
+      })
+      .addCase(fetcMovieSimialryItemsThunk.pending, (state) => {
+        state.isLoaded = true;
+        state.error = null;
+      })
+      .addCase(
+        fetcMovieSimialryItemsThunk.fulfilled,
+        (state, action: PayloadAction<IMovieItem[]>) => {
+          state.isLoaded = false;
+          state.movieItems = action.payload;
+        }
+      )
+      .addCase(fetcMovieSimialryItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';
       });

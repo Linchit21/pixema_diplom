@@ -6,6 +6,7 @@ import {
   favorite,
   fetchMovieItemsThunk,
   fetchMovieItemThunk,
+  fetcMovieSimialryItemsThunk,
 } from '@/redux/movie-items-slice';
 import favorites from '/icons/favorites.svg';
 import favoritesActive from '/icons/favorites_active.svg';
@@ -30,7 +31,7 @@ export function MovieId() {
   useEffect(() => {
     if (movieId) {
       dispatch(fetchMovieItemThunk(movieId));
-      dispatch(fetchMovieItemsThunk());
+      dispatch(fetcMovieSimialryItemsThunk(movieId));
     }
   }, [dispatch, movieId]);
 
@@ -63,9 +64,6 @@ export function MovieId() {
     filmLength,
     genres,
   } = movieItem;
-
-  //FIXME: Должны быть рандомные фильмы, мб новый запрос?
-  const recommendPosters = movieItems.slice(1, 4);
 
   return (
     <div className={styles['movie-id']}>
@@ -141,7 +139,8 @@ export function MovieId() {
         </div>
         <div className={styles['movie-id__recomendation']}>Recommendations</div>
         <div className={styles['movie-id__posters']}>
-          {recommendPosters.map((item, index) => {
+          {movieItems.map((item, index) => {
+            console.log(item);
             return <MovieItem key={index} movieData={item} />;
           })}
         </div>
