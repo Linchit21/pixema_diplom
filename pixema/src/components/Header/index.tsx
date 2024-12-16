@@ -1,11 +1,23 @@
 import { User } from '@/components/User';
 import styles from './index.module.scss';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { SearchFilter } from '../SearchFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { jwt } from '@/utils/jwt';
+import { fetchGetCurrentUserThunk } from '@/redux/auth-slice';
 
 export function Header() {
   //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
+  const { jwt } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGetCurrentUserThunk(jwt?.access));
+  }, [jwt]);
+
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [searchItem, setSearchItem] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(false);
@@ -45,7 +57,7 @@ export function Header() {
       <div className={styles.header__modal}>
         <SearchFilter toggle={visible} />
       </div>
-      <User />
+      {user ? <User /> : ''}
     </div>
   );
 }

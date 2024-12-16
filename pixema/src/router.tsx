@@ -4,7 +4,11 @@ import { Home } from '@/pages/Home';
 import { Trends } from '@/pages/Trends';
 import { MovieId } from '@/components/MovieId';
 import { SearchResult } from '@/pages/SearchResult';
-import { Favorites } from './pages/Favorites';
+import { Favorites } from '@/pages/Favorites';
+import { SignInForm } from '@/components/SignInForm';
+import { SignUpForm } from '@/components/SignUpForm';
+import { RegistrationConfirm } from '@/components/RegistrationConfirm';
+import { AuthActivation } from '@/pages/AuthActivation';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +34,22 @@ export const router = createBrowserRouter([
       {
         path: '/favorites',
         element: <Favorites />,
+      },
+      {
+        path: '/auth/sign-in',
+        element: <SignInForm />,
+      },
+      {
+        path: '/auth/sign-up',
+        element: <SignUpForm />,
+      },
+      {
+        path: '/auth/activation/',
+        element: <RegistrationConfirm />,
+      },
+      {
+        path: '/auth/activation/:uid/:token',
+        element: <AuthActivation />,
       },
     ],
   },

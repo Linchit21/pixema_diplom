@@ -1,7 +1,7 @@
-@import "@styles/helpers/colors.scss";
+@import '@styles/helpers/colors.scss';
 
 @mixin font-default {
-  font-family: "Exo 2", sans-serif;
+  font-family: 'Exo 2', sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -14,4 +14,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin submit-button {
+  height: 56px;
+  background: $graphite;
+  color: $white;
+  display: block;
+  width: 100%;
+}
+
+@mixin shadow-button {
+  width: 100%;
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  color: rgb(255, 255, 255);
+  background-color: $graphite;
+  padding: 18px 32px;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 6px 0 #4c7087;
+  transition: 0.1s;
+
+  &:active {
+    transform: translateY(5px);
+    box-shadow: 0 3px $primary;
+  }
 }

@@ -1,0 +1,65 @@
+@import '@/styles/helpers/index.scss';
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  color: $white;
+  font-size: 24px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 72px;
+  }
+
+  &__title {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 80px;
+    text-align: center;
+  }
+
+  &__form {
+    max-width: 625px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: $dark;
+    border-radius: 10px;
+    border: 5px solid $primary;
+  }
+
+  &__logo {
+    margin: 0 auto;
+    margin-bottom: 64px;
+    height: 70px;
+    background: url('/img/pixema.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  &__submit-button {
+    margin-bottom: 24px;
+    @include shadow-button;
+  }
+
+  &__hint {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  &__sign-in-link {
+    color: $primary;
+  }
+}
