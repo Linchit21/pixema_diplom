@@ -151,7 +151,32 @@
 
   &__posters {
     display: flex;
+    height: 380px;
     flex-wrap: wrap;
     gap: 40px;
+  }
+
+  &__swiper {
+    position: relative;
+    width: 1120px; //FIXME: костыль
+  }
+
+  &__arrow {
+    position: absolute;
+    font-size: 36px;
+    color: $white;
+    background-color: $black;
+
+    cursor: pointer;
+  }
+
+  &__arrow-prev {
+    top: -20%;
+    right: 25%;
+  }
+
+  &__arrow-next {
+    top: -20%;
+    right: 20%;
   }
 }

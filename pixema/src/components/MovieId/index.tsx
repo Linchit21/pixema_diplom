@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './index.module.scss';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,19 +14,32 @@ import { MovieItem } from '../MovieItem';
 import { AppDispatch, RootState } from '@/redux/store';
 import { IMovieCountries, IMovieItem } from '@/types/movie/movie';
 
+//swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// import './styles.css';
+
+// import required modules
+import { Pagination, Navigation } from 'swiper/modules';
+
 export function MovieId() {
   const dispatch: AppDispatch = useDispatch();
   const { movieItem, movieItems, favoriteItems, isLoaded, error } = useSelector(
     (state: RootState) => state.movieItems
   );
+  const prevRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLDivElement>(null);
 
   const { movieId } = useParams<{ movieId: string | undefined }>();
 
   const find = favoriteItems.find(
     (item: IMovieItem) => item.kinopoiskId === movieId
   );
-
-  console.log(find);
 
   useEffect(() => {
     if (movieId) {
@@ -91,7 +104,7 @@ export function MovieId() {
           </button>
         </div>
       </div>
-      <div style={{ width: '100%' }}>
+      <div>
         <div className={styles['movie-id__tags']}>
           {/* {genre.map((item, index) => {
             return (
@@ -138,11 +151,46 @@ export function MovieId() {
           </div>
         </div>
         <div className={styles['movie-id__recomendation']}>Recommendations</div>
-        <div className={styles['movie-id__posters']}>
-          {movieItems.map((item, index) => {
-            console.log(item);
-            return <MovieItem key={index} movieData={item} />;
-          })}
+        <div className={styles['movie-id__swiper']}>
+          <button
+            ref={prevRef}
+            className={`${styles['movie-id__arrow-prev']} ${styles['movie-id__arrow']}`}
+          >
+            ←
+          </button>
+          <button
+            ref={nextRef}
+            className={`${styles['movie-id__arrow-next']} ${styles['movie-id__arrow']}`}
+          >
+            →
+          </button>
+          <Swiper
+            slidesPerView={5}
+            spaceBetween={280}
+            navigation={{
+              prevEl: prevRef.current,
+              nextEl: nextRef.current,
+            }}
+            onInit={(swiper) => {
+              // Связываем стрелки после инициализации
+              if (prevRef.current && nextRef.current) {
+                swiper.params.navigation.prevEl = prevRef.current;
+                swiper.params.navigation.nextEl = nextRef.current;
+                swiper.navigation.init();
+                swiper.navigation.update();
+              }
+            }}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {movieItems.map((item, index) => {
+              return (
+                <SwiperSlide>
+                  <MovieItem key={index} movieData={item} />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
       </div>
     </div>
