@@ -44,8 +44,8 @@ export const filtersSlice = createSlice({
         }
       );
     // .addCase(fetchFiltersThunk.rejected, (state, action) => {
-    //   // state.isLoaded = false;
-    //   // state.error = action.error.message;
+    //   state.isLoaded = false;
+    //   state.error = action.error.message;
     // });
   },
 });

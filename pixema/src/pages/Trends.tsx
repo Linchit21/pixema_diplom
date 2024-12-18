@@ -3,11 +3,12 @@ import {
   fetchPremieresItemsThunk,
   resetMovieItems,
 } from '@/redux/movie-items-slice';
+import { AppDispatch } from '@/redux/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export function Trends() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const fetchData = () =>
     dispatch(fetchPremieresItemsThunk({ year: '2024', month: 'OCTOBER' }));
 

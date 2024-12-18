@@ -1,26 +1,23 @@
 import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
   IRequestMovieItemsParams,
+  IRequestPremieresItemsParams,
   requestFilterItems,
   requestMovieItem,
   requestMovieItems,
   requestMovieSimilaryItems,
   requestPremieresItems,
 } from '@/services/movieItems';
-import { IMovieItem } from '@/types/movie/movie';
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit/react';
+import { IMovieArticle, IMovieItem } from '@/types/movie/movie';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit/react';
 import { RootState } from './store';
 
 export interface MovieItemsState {
   page: number;
   total: number;
-  movieItems: IMovieItem[];
-  movieItem: IMovieItem | null;
-  favoriteItems: IMovieItem[];
+  movieItems: IMovieArticle[];
+  movieItem: IMovieArticle | null;
+  favoriteItems: IMovieArticle[];
   isLoaded: boolean;
   error: string | null;
 }
@@ -37,7 +34,7 @@ const initialState: MovieItemsState = {
 
 // Запрос за постами для HOME
 export const fetchMovieItemsThunk = createAsyncThunk<
-  IMovieItem[],
+  IMovieItem,
   IRequestMovieItemsParams
 >('movieItems/fetchMovieItemsThunk', async (params, { getState }) => {
   const page = (getState as () => RootState)().movieItems.page;
@@ -48,19 +45,19 @@ export const fetchMovieItemsThunk = createAsyncThunk<
 });
 
 // Запрос за постами для TRENDS
-export const fetchPremieresItemsThunk = createAsyncThunk<IMovieItem[]>(
-  'movieItems/fetchPremieresItemsThunk',
-  async (params, { getState }) => {
-    const page = getState().movieItems.page;
+export const fetchPremieresItemsThunk = createAsyncThunk<
+  IMovieItem,
+  IRequestPremieresItemsParams
+>('movieItems/fetchPremieresItemsThunk', async (params, { getState }) => {
+  const page = (getState as () => RootState)().movieItems.page;
 
-    const data = await requestPremieresItems({ ...params, page });
+  const data = await requestPremieresItems({ ...params, page });
 
-    return data;
-  }
-);
+  return data;
+});
 
 // Запрос за постом по ид
-export const fetchMovieItemThunk = createAsyncThunk<IMovieItem, string>(
+export const fetchMovieItemThunk = createAsyncThunk<IMovieArticle, string>(
   'movieItems/fetchMovieItemThunk',
   async (id) => {
     const data = await requestMovieItem(id);
@@ -71,7 +68,7 @@ export const fetchMovieItemThunk = createAsyncThunk<IMovieItem, string>(
 
 // Запрос за постами по фильтру по ид
 export const fetchFilterItemsThunk = createAsyncThunk<
-  IMovieItem[],
+  IMovieItem,
   ISearchFilterFormValues
 >('movieItems/fetchFilterItemsThunk', async (body) => {
   const data = await requestFilterItems(body);
@@ -80,20 +77,20 @@ export const fetchFilterItemsThunk = createAsyncThunk<
 });
 
 // Запрос за похожими фильмами по ид
-export const fetcMovieSimialryItemsThunk = createAsyncThunk<
-  IMovieItem[],
-  string
->('movieItems/fetcMovieSimialryItemsThunk', async (id: string) => {
-  const data = await requestMovieSimilaryItems(id);
+export const fetcMovieSimialryItemsThunk = createAsyncThunk<IMovieItem, string>(
+  'movieItems/fetcMovieSimialryItemsThunk',
+  async (id: string) => {
+    const data = await requestMovieSimilaryItems(id);
 
-  return data;
-});
+    return data;
+  }
+);
 
 export const movieItemsSlice = createSlice({
   name: 'movieItems',
   initialState,
   reducers: {
-    favorite: (state, action: PayloadAction<IMovieItem>) => {
+    favorite: (state, action) => {
       const favoriteData = [...state.favoriteItems];
       const findIndex = favoriteData.findIndex(
         (item) => item.kinopoiskId == action.payload.kinopoiskId
@@ -120,16 +117,12 @@ export const movieItemsSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetchMovieItemsThunk.fulfilled,
-        (state, action: PayloadAction<IMovieItem[]>) => {
-          state.total = action.payload.total;
-          state.isLoaded = false;
-          state.movieItems = [...state.movieItems, ...action.payload.items];
-          // state.movieItems = action.payload;
-          state.page += 1;
-        }
-      )
+      .addCase(fetchMovieItemsThunk.fulfilled, (state, action) => {
+        state.total = action.payload.total;
+        state.isLoaded = false;
+        state.movieItems = [...state.movieItems, ...action.payload.items];
+        state.page += 1;
+      })
       .addCase(fetchMovieItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';
@@ -138,16 +131,12 @@ export const movieItemsSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetchPremieresItemsThunk.fulfilled,
-        (state, action: PayloadAction<IMovieItem[]>) => {
-          state.total = action.payload.total;
-          state.isLoaded = false;
-          state.movieItems = [...state.movieItems, ...action.payload.items];
-          // state.movieItems = action.payload;
-          state.page += 1;
-        }
-      )
+      .addCase(fetchPremieresItemsThunk.fulfilled, (state, action) => {
+        state.total = action.payload.total;
+        state.isLoaded = false;
+        state.movieItems = [...state.movieItems, ...action.payload.items];
+        state.page += 1;
+      })
       .addCase(fetchPremieresItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';
@@ -156,13 +145,10 @@ export const movieItemsSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetchFilterItemsThunk.fulfilled,
-        (state, action: PayloadAction<IMovieItem[]>) => {
-          state.isLoaded = false;
-          state.movieItems = action.payload;
-        }
-      )
+      .addCase(fetchFilterItemsThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.movieItems = action.payload.items;
+      })
       .addCase(fetchFilterItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';
@@ -171,13 +157,10 @@ export const movieItemsSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetchMovieItemThunk.fulfilled,
-        (state, action: PayloadAction<IMovieItem>) => {
-          state.isLoaded = false;
-          state.movieItem = action.payload;
-        }
-      )
+      .addCase(fetchMovieItemThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.movieItem = action.payload;
+      })
       .addCase(fetchMovieItemThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';
@@ -186,13 +169,10 @@ export const movieItemsSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetcMovieSimialryItemsThunk.fulfilled,
-        (state, action: PayloadAction<IMovieItem[]>) => {
-          state.isLoaded = false;
-          state.movieItems = action.payload;
-        }
-      )
+      .addCase(fetcMovieSimialryItemsThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.movieItems = action.payload.items;
+      })
       .addCase(fetcMovieSimialryItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
         state.error = action.error.message ?? 'Ошибка загрузки';

@@ -10,7 +10,7 @@ import { client } from '@/utils/client';
 
 export interface IRequestMovieItemsParams {
   type: string;
-  page: number;
+  page?: number;
 }
 
 export const requestMovieItems = async (params: IRequestMovieItemsParams) => {
@@ -21,13 +21,21 @@ export const requestMovieItems = async (params: IRequestMovieItemsParams) => {
   return response.data;
 };
 
-export const requestMovieItem = async (id) => {
+export const requestMovieItem = async (id: string) => {
   const response = await client.get(movieItemEndpoint(id));
 
   return response.data;
 };
 
-export const requestPremieresItems = async (params) => {
+export interface IRequestPremieresItemsParams {
+  year: string;
+  month: string;
+  page?: number;
+}
+
+export const requestPremieresItems = async (
+  params: IRequestPremieresItemsParams
+) => {
   const response = await client.get(moviePremieresItemsEndpoint, {
     params,
   });
@@ -45,7 +53,7 @@ export const requestFilterItems = async (params: RequestFilterItemsParams) => {
   return response.data.items;
 };
 
-export const requestMovieSimilaryItems = async (id) => {
+export const requestMovieSimilaryItems = async (id: string) => {
   const response = await client.get(movieItemsSimilarEndpoint(id));
 
   return response.data.items;

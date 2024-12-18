@@ -1,5 +1,3 @@
-import { MovieItem } from '@/components/MovieItem';
-import { IMovieItem } from '@/types/movie/movie';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 

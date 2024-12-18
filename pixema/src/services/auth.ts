@@ -7,28 +7,51 @@ import {
 } from '@/config/api';
 import { clientAuth } from '@/utils/client';
 
-export const requestSignUp = async (body) => {
+export interface IRequestSignUpParams {
+  userename: string;
+  password: number;
+  email: string;
+  course_group: number;
+}
+
+export const requestSignUp = async (params: IRequestSignUpParams) => {
   const response = await clientAuth.post(signUpEndpoint, {
-    ...body,
+    ...params,
     course_group: 13,
   });
 
   return response.data;
 };
 
-export const requestAuthActivation = async (body) => {
+export interface IRequestAuthActivationBody {
+  uid: string;
+  token: string;
+}
+
+export const requestAuthActivation = async (
+  body: IRequestAuthActivationBody
+) => {
   const response = await clientAuth.post(authActivationEndpoint, { ...body });
 
   return response.data;
 };
 
-export const requestSignIn = async (body) => {
+export interface IRequestSignInBody {
+  email: string;
+  password: string;
+}
+
+export const requestSignIn = async (body: IRequestSignInBody) => {
   const response = await clientAuth.post(signInEndpoint, { ...body });
 
   return response.data;
 };
 
-export const requestGetUser = async (body) => {
+export interface IRequestGetUserBody {
+  access: string;
+}
+
+export const requestGetUser = async (body: IRequestGetUserBody) => {
   const response = await clientAuth.get(usernameEndpoint, {
     headers: { Authorization: `Bearer ${body}` },
   });
@@ -36,7 +59,13 @@ export const requestGetUser = async (body) => {
   return response.data;
 };
 
-export const requestRefreshAccessToken = async (refresh) => {
+export interface IRequestRefreshAccessTokenBody {
+  refresh: string;
+}
+
+export const requestRefreshAccessToken = async (
+  refresh: IRequestRefreshAccessTokenBody
+) => {
   const response = await clientAuth.post(refreshAccessTokenEndpoint, {
     refresh,
   });

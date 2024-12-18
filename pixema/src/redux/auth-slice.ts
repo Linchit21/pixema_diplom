@@ -1,38 +1,32 @@
 import {
+  IRequestAuthActivationBody,
+  IRequestGetUserBody,
+  IRequestRefreshAccessTokenBody,
+  IRequestSignInBody,
+  IRequestSignUpParams,
   requestAuthActivation,
   requestGetUser,
   requestRefreshAccessToken,
   requestSignIn,
   requestSignUp,
 } from '@/services/auth';
+import {
+  IAuthJwt,
+  IAuthRefresh,
+  IAuthSignUp,
+  IAuthUser,
+} from '@/types/auth/auth';
 import { jwt } from '@/utils/jwt';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface IAuthProfile {
-  id: number;
-  userename: string;
-  email: string;
-  course_group: number;
-}
-
-export interface IJwt {
-  access: string;
-  refresh: string;
-}
-
-export interface IUser {
-  username: string;
-  id: number;
-  email: string;
-}
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export interface AuthState {
-  profile: IAuthProfile | null;
-  user: IUser | null;
+  profile: IAuthSignUp | null;
+  user: IAuthUser | null;
   isLoaded: boolean;
   error: string | null;
   isActivated: boolean;
-  jwt: IJwt | null;
+  jwt: IAuthJwt | null;
 }
 
 const initialState: AuthState = {
@@ -44,25 +38,25 @@ const initialState: AuthState = {
   jwt: jwt.getFromLocalStorage() || null,
 };
 
-export const fetchSignUpThunk = createAsyncThunk(
-  'auth/fetchSignUpThunk',
-  async (body) => {
-    const data = await requestSignUp(body);
+export const fetchSignUpThunk = createAsyncThunk<
+  IAuthSignUp,
+  IRequestSignUpParams
+>('auth/fetchSignUpThunk', async (body) => {
+  const data = await requestSignUp(body);
 
-    return data;
-  }
-);
+  return data;
+});
 
-export const fetchAuthActivationThunk = createAsyncThunk(
-  'auth/fetchAuthActivationThunk',
-  async (body) => {
-    const data = await requestAuthActivation(body);
+export const fetchAuthActivationThunk = createAsyncThunk<
+  string,
+  IRequestAuthActivationBody
+>('auth/fetchAuthActivationThunk', async (body) => {
+  const data = await requestAuthActivation(body);
 
-    return data;
-  }
-);
+  return data;
+});
 
-export const fetchSignInThunk = createAsyncThunk(
+export const fetchSignInThunk = createAsyncThunk<IAuthJwt, IRequestSignInBody>(
   'auth/fetchSignInThunk',
   async (body) => {
     const data = await requestSignIn(body);
@@ -74,26 +68,26 @@ export const fetchSignInThunk = createAsyncThunk(
   }
 );
 
-export const fetchGetCurrentUserThunk = createAsyncThunk(
-  'auth/fetchGetCurrentUserThunk',
-  async (body) => {
-    const data = await requestGetUser(body);
+export const fetchGetCurrentUserThunk = createAsyncThunk<
+  IAuthUser,
+  IRequestGetUserBody
+>('auth/fetchGetCurrentUserThunk', async (body) => {
+  const data = await requestGetUser(body);
 
-    return data;
-  }
-);
+  return data;
+});
 
-export const fetchRefreshAccessTokenThunk = createAsyncThunk(
-  'auth/fetchRefreshAccessTokenThunk',
-  async (body, { getState }) => {
-    const data = await requestRefreshAccessToken(body);
+export const fetchRefreshAccessTokenThunk = createAsyncThunk<
+  IAuthRefresh,
+  IRequestRefreshAccessTokenBody
+>('auth/fetchRefreshAccessTokenThunk', async (body, { getState }) => {
+  const data = await requestRefreshAccessToken(body);
 
-    const currentJwt = getState().auth.jwt;
-    jwt.setToLocalStorage({ ...currentJwt, access: data });
+  const currentJwt = (getState as () => RootState)().auth.jwt;
+  jwt.setToLocalStorage({ ...currentJwt, access: data });
 
-    return data;
-  }
-);
+  return data;
+});
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -105,19 +99,14 @@ export const authSlice = createSlice({
         state.isLoaded = true;
         state.error = null;
       })
-      .addCase(
-        fetchSignUpThunk.fulfilled,
-        (state, action: PayloadAction<IAuthProfile>) => {
-          state.isLoaded = false;
-          state.profile = action.payload;
-          console.log(action);
-        }
-      )
+      .addCase(fetchSignUpThunk.fulfilled, (state, action) => {
+        state.isLoaded = false;
+        state.profile = action.payload;
+      })
       .addCase(fetchSignUpThunk.rejected, (state, action) => {
         state.isLoaded = false;
 
         state.error = action.error.message ?? 'Ошибка загрузки';
-        console.log(action);
       })
       .addCase(fetchAuthActivationThunk.pending, (state) => {
         state.isLoaded = true;
@@ -130,9 +119,7 @@ export const authSlice = createSlice({
       })
       .addCase(fetchAuthActivationThunk.rejected, (state, action) => {
         state.isLoaded = false;
-
         state.error = action.error.message ?? 'Ошибка загрузки';
-        console.log(action);
       })
       .addCase(fetchSignInThunk.pending, (state) => {
         state.isLoaded = true;

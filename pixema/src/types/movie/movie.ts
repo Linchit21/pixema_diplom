@@ -1,4 +1,9 @@
 export interface IMovieItem {
+  total: number;
+  items: IMovieArticle[];
+}
+
+export interface IMovieArticle {
   posterUrl: string;
   nameRu: string;
   genres: IMovieGenres[];
