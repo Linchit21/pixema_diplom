@@ -4,56 +4,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilterItemsThunk } from '@/redux/movie-items-slice';
 import { useEffect } from 'react';
 import { fetchFiltersThunk } from '@/redux/filters-slice';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useNavigate } from 'react-router';
+import { ISearchFilterFormValues } from './type';
 
 interface SearchFilterProps {
   toggle: boolean; // Типизация пропса toggle
+  onClose: () => void;
 }
 
-interface FilterFormValues {
-  order: 'RATING' | 'YEAR'; // Значение для сортировки
-  keyword: string; // Ключевое слово для поиска
-  genres: string; // id жанра
-  countries: string; // id страны
-  yearFrom: number; // Год начала
-  yearTo: number; // Год конца
-  ratingFrom: number; // Рейтинг от
-  ratingTo: number; // Рейтинг до
-}
-
-export function SearchFilter({ toggle }: SearchFilterProps) {
-  const dispatch = useDispatch();
+export function SearchFilter({ toggle, onClose }: SearchFilterProps) {
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
   const { genres, countries } = useSelector(
     (state: RootState) => state.filters
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FilterFormValues>();
+  const { register, handleSubmit, reset } = useForm<ISearchFilterFormValues>();
 
   useEffect(() => {
     dispatch(fetchFiltersThunk());
   }, []);
 
-  const onSubmit: SubmitHandler<FilterFormValues> = (body) => {
-    event.preventDefault();
-
-    // navigate(`/search`);
+  const onSubmit: SubmitHandler<ISearchFilterFormValues> = (body) => {
+    navigate(`/`);
     dispatch(fetchFilterItemsThunk(body));
-    toggle = false;
+    onClose();
   };
 
-  const handleCliclButtonReset = () => reset();
+  const handleClickButtonReset = () => reset();
 
   return (
     <div className={toggle ? '' : styles['search-filter']}>
       <div className={styles['search-filter__wrapper']}>
         <div className={styles['search-filter__title']}>
           <div>Filters</div>
-          <button type="button"></button>
+          <button
+            className={styles['search-filter__close-button']}
+            type="button"
+            onClick={onClose}
+          ></button>
         </div>
 
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -172,7 +162,7 @@ export function SearchFilter({ toggle }: SearchFilterProps) {
           <div className={styles['search-filter__buttons']}>
             <button
               className={`${styles['search-filter__button']} ${styles['search-filter__button-clear']} `}
-              onClick={handleCliclButtonReset}
+              onClick={handleClickButtonReset}
               type="button"
             >
               Clear filter

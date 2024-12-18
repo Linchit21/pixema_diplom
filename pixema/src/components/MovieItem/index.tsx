@@ -12,7 +12,6 @@ export function MovieItem(props: MovieItemProps) {
   } = props;
   const navigate = useNavigate();
 
-  //TODO: переход на фильм
   const handleClickMovieItem = () => {
     if (kinopoiskId) {
       navigate(`/movie/${kinopoiskId}`);
@@ -28,7 +27,7 @@ export function MovieItem(props: MovieItemProps) {
         <img
           className={styles['movie-item__img']}
           src={posterUrl}
-          alt="women"
+          alt={nameRu}
         />
       </div>
       <div className={styles['movie-item__title']}>{nameRu}</div>

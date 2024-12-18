@@ -4,23 +4,31 @@ import { useSelector } from 'react-redux';
 
 import styles from './index.module.scss';
 import { RootState } from '@/redux/store';
+import { useEffect } from 'react';
 
-export function MovieList() {
-  const { movieItems, isLoaded, error } = useSelector(
+interface MovieListProps {
+  showMoreCallback: () => void;
+}
+
+export function MovieList({ showMoreCallback }: MovieListProps) {
+  const { movieItems, total, error, isLoaded } = useSelector(
     (state: RootState) => state.movieItems
   );
 
-  if (isLoaded) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   if (movieItems == undefined || movieItems.length == 0) {
     return <div>No posts</div>;
   }
+
+  const handleClickShowMore = () => {
+    showMoreCallback();
+    event?.preventDefault();
+  };
 
   return (
     <div className={styles['movie-list__wrapper']}>
@@ -29,9 +37,22 @@ export function MovieList() {
           return <MovieItem key={index} movieData={item} />;
         })}
       </div>
-      <button className={styles['movie-list__button']} type="button">
-        Show more
-      </button>
+      {total > movieItems.length && (
+        <button
+          className={styles['movie-list__button']}
+          type="button"
+          onClick={handleClickShowMore}
+        >
+          Show more
+          {isLoaded && (
+            <img
+              className={styles['movie-list__spinner']}
+              src="/public/icons/spinner.svg"
+              alt=""
+            />
+          )}
+        </button>
+      )}
     </div>
   );
 }

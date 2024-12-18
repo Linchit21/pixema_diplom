@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   favorite,
-  fetchMovieItemsThunk,
   fetchMovieItemThunk,
   fetcMovieSimialryItemsThunk,
 } from '@/redux/movie-items-slice';
@@ -15,11 +14,11 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { IMovieCountries, IMovieItem } from '@/types/movie/movie';
 
 //swiper
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
+import 'swiper/css/pagination'; //TODO:
 import 'swiper/css/navigation';
 
 // import './styles.css';
@@ -32,14 +31,17 @@ export function MovieId() {
   const { movieItem, movieItems, favoriteItems, isLoaded, error } = useSelector(
     (state: RootState) => state.movieItems
   );
-  const prevRef = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
 
   const { movieId } = useParams<{ movieId: string | undefined }>();
 
   const find = favoriteItems.find(
-    (item: IMovieItem) => item.kinopoiskId === movieId
+    (item: IMovieItem) => item.kinopoiskId == movieId
   );
+
+  console.log(find);
+  console.log(favoriteItems);
 
   useEffect(() => {
     if (movieId) {
@@ -106,13 +108,9 @@ export function MovieId() {
       </div>
       <div>
         <div className={styles['movie-id__tags']}>
-          {/* {genre.map((item, index) => {
-            return (
-              <div className={styles['movie-id__tag']} key={index}>
-                {item}
-              </div>
-            );
-          })} */}
+          {genres?.map((item, index) => {
+            return <p key={index}>{item.genre}</p>;
+          })}
         </div>
         <div className={styles['movie-id__title']}>{nameRu}</div>
         {/* //FIXME: ratings */}
@@ -132,7 +130,6 @@ export function MovieId() {
             <p>Страна</p>
             <p>Время</p>
             <p>Возраст</p>
-            <p>Жанр</p>
           </div>
           <div className={styles['movie-id__list_col-string']}>
             <p>{year}</p>
@@ -143,11 +140,6 @@ export function MovieId() {
             </div>
             <p>{filmLength}</p>
             <p>{ratingAgeLimits}</p>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              {genres?.map((item, index) => {
-                return <p key={index}>{item.genre}</p>;
-              })}
-            </div>
           </div>
         </div>
         <div className={styles['movie-id__recomendation']}>Recommendations</div>
@@ -171,9 +163,15 @@ export function MovieId() {
               prevEl: prevRef.current,
               nextEl: nextRef.current,
             }}
-            onInit={(swiper) => {
+            onInit={(swiper: SwiperClass) => {
               // Связываем стрелки после инициализации
-              if (prevRef.current && nextRef.current) {
+              if (
+                prevRef.current &&
+                nextRef.current &&
+                nextRef.current &&
+                swiper.params.navigation &&
+                typeof swiper.params.navigation === 'object'
+              ) {
                 swiper.params.navigation.prevEl = prevRef.current;
                 swiper.params.navigation.nextEl = nextRef.current;
                 swiper.navigation.init();

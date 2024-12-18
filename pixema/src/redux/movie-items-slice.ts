@@ -1,4 +1,6 @@
+import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
+  IRequestMovieItemsParams,
   requestFilterItems,
   requestMovieItem,
   requestMovieItems,
@@ -11,9 +13,11 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit/react';
+import { RootState } from './store';
 
 export interface MovieItemsState {
-  value: number;
+  page: number;
+  total: number;
   movieItems: IMovieItem[];
   movieItem: IMovieItem | null;
   favoriteItems: IMovieItem[];
@@ -22,7 +26,8 @@ export interface MovieItemsState {
 }
 
 const initialState: MovieItemsState = {
-  value: 0,
+  page: 1,
+  total: 0,
   movieItems: [],
   movieItem: null,
   favoriteItems: [],
@@ -31,20 +36,24 @@ const initialState: MovieItemsState = {
 };
 
 // Запрос за постами для HOME
-export const fetchMovieItemsThunk = createAsyncThunk<IMovieItem[]>(
-  'movieItems/fetchMovieItemsThunk',
-  async () => {
-    const data = await requestMovieItems();
+export const fetchMovieItemsThunk = createAsyncThunk<
+  IMovieItem[],
+  IRequestMovieItemsParams
+>('movieItems/fetchMovieItemsThunk', async (params, { getState }) => {
+  const page = (getState as () => RootState)().movieItems.page;
 
-    return data;
-  }
-);
+  const data = await requestMovieItems({ ...params, page });
+
+  return data;
+});
 
 // Запрос за постами для TRENDS
 export const fetchPremieresItemsThunk = createAsyncThunk<IMovieItem[]>(
   'movieItems/fetchPremieresItemsThunk',
-  async () => {
-    const data = await requestPremieresItems();
+  async (params, { getState }) => {
+    const page = getState().movieItems.page;
+
+    const data = await requestPremieresItems({ ...params, page });
 
     return data;
   }
@@ -61,31 +70,31 @@ export const fetchMovieItemThunk = createAsyncThunk<IMovieItem, string>(
 );
 
 // Запрос за постами по фильтру по ид
-export const fetchFilterItemsThunk = createAsyncThunk<IMovieItem[], number>(
-  'movieItems/fetchFilterItemsThunk',
-  async (searchId) => {
-    const data = await requestFilterItems(searchId);
+export const fetchFilterItemsThunk = createAsyncThunk<
+  IMovieItem[],
+  ISearchFilterFormValues
+>('movieItems/fetchFilterItemsThunk', async (body) => {
+  const data = await requestFilterItems(body);
 
-    return data;
-  }
-);
+  return data;
+});
 
 // Запрос за похожими фильмами по ид
-export const fetcMovieSimialryItemsThunk = createAsyncThunk(
-  'movieItems/fetcMovieSimialryItemsThunk',
-  async (id) => {
-    const data = await requestMovieSimilaryItems(id);
+export const fetcMovieSimialryItemsThunk = createAsyncThunk<
+  IMovieItem[],
+  string
+>('movieItems/fetcMovieSimialryItemsThunk', async (id: string) => {
+  const data = await requestMovieSimilaryItems(id);
 
-    return data;
-  }
-);
+  return data;
+});
 
 export const movieItemsSlice = createSlice({
   name: 'movieItems',
   initialState,
   reducers: {
     favorite: (state, action: PayloadAction<IMovieItem>) => {
-      const favoriteData = state.favoriteItems;
+      const favoriteData = [...state.favoriteItems];
       const findIndex = favoriteData.findIndex(
         (item) => item.kinopoiskId == action.payload.kinopoiskId
       );
@@ -95,6 +104,14 @@ export const movieItemsSlice = createSlice({
       } else {
         favoriteData.splice(findIndex, 1);
       }
+
+      state.favoriteItems = [...favoriteData];
+      console.log(state.favoriteItems);
+    },
+    resetMovieItems: (state) => {
+      state.page = 1;
+      state.total = 0;
+      state.movieItems = [];
     },
   },
   extraReducers: (builder) => {
@@ -106,8 +123,11 @@ export const movieItemsSlice = createSlice({
       .addCase(
         fetchMovieItemsThunk.fulfilled,
         (state, action: PayloadAction<IMovieItem[]>) => {
+          state.total = action.payload.total;
           state.isLoaded = false;
-          state.movieItems = action.payload;
+          state.movieItems = [...state.movieItems, ...action.payload.items];
+          // state.movieItems = action.payload;
+          state.page += 1;
         }
       )
       .addCase(fetchMovieItemsThunk.rejected, (state, action) => {
@@ -121,8 +141,11 @@ export const movieItemsSlice = createSlice({
       .addCase(
         fetchPremieresItemsThunk.fulfilled,
         (state, action: PayloadAction<IMovieItem[]>) => {
+          state.total = action.payload.total;
           state.isLoaded = false;
-          state.movieItems = action.payload;
+          state.movieItems = [...state.movieItems, ...action.payload.items];
+          // state.movieItems = action.payload;
+          state.page += 1;
         }
       )
       .addCase(fetchPremieresItemsThunk.rejected, (state, action) => {
@@ -177,5 +200,5 @@ export const movieItemsSlice = createSlice({
   },
 });
 
-export const { favorite } = movieItemsSlice.actions;
+export const { favorite, resetMovieItems } = movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

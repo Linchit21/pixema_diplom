@@ -28,7 +28,7 @@ export function SignInForm() {
     console.log(body);
   };
 
-  console.log(jwt);
+  // console.log(jwt);
 
   const emailRef = useRef<FormFieldElement>(null);
 

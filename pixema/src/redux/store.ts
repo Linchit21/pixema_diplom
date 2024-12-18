@@ -22,7 +22,7 @@ export const store = configureStore({
   // для работы расширения в браузере
   devTools: true,
 
-  // конкатенация к уже имеющимся мидлам
+  // конкантенация к уже имеющимся мидлам
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(arrMiddleware),
 });

@@ -5,13 +5,13 @@ export const jwt = {
 
   setToLocalStorage(tokens) {
     const json = JSON.stringify(tokens);
-    console.log('Set to localStorage');
+    // console.log('Set to localStorage');
     localStorage.setItem(this._jwtKey, json);
   },
 
   getFromLocalStorage() {
     const tokens = localStorage.getItem(this._jwtKey);
-    console.log('Get to localStorage');
+    // console.log('Get to localStorage');
 
     if (!tokens) return null;
 

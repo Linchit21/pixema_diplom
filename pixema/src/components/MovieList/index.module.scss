@@ -17,6 +17,7 @@
 
   &__button {
     @include flex-center;
+    flex-shrink: 0;
     font-weight: 500;
     color: $white;
     gap: 10px;
@@ -24,5 +25,20 @@
     border-radius: 40px;
     padding: 0 24px;
     height: 40px;
+  }
+
+  &__spinner {
+    width: 20px;
+    height: 20px;
+    animation: spinner 1.5s linear infinite;
+  }
+
+  @keyframes spinner {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

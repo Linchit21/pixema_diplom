@@ -1,3 +1,4 @@
+import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
   movieItemEndpoint,
   movieItemsEndpoint,
@@ -7,15 +8,17 @@ import {
 } from '@/config/api';
 import { client } from '@/utils/client';
 
-export const requestMovieItems = async () => {
+export interface IRequestMovieItemsParams {
+  type: string;
+  page: number;
+}
+
+export const requestMovieItems = async (params: IRequestMovieItemsParams) => {
   const response = await client.get(movieItemsEndpoint, {
-    params: {
-      type: 'TOP_250_MOVIES', // Передаем параметры запроса
-      page: '1',
-    },
+    params,
   });
 
-  return response.data.items;
+  return response.data;
 };
 
 export const requestMovieItem = async (id) => {
@@ -24,22 +27,19 @@ export const requestMovieItem = async (id) => {
   return response.data;
 };
 
-export const requestPremieresItems = async () => {
+export const requestPremieresItems = async (params) => {
   const response = await client.get(moviePremieresItemsEndpoint, {
-    params: {
-      year: '2024', // Передаем параметры запроса
-      month: 'OCTOBER',
-    },
+    params,
   });
 
-  return response.data.items;
+  return response.data;
 };
 
-export const requestFilterItems = async (body) => {
+interface RequestFilterItemsParams extends ISearchFilterFormValues {}
+
+export const requestFilterItems = async (params: RequestFilterItemsParams) => {
   const response = await client.get(movieItemsFilterEndpoint, {
-    params: {
-      ...body,
-    },
+    params,
   });
 
   return response.data.items;

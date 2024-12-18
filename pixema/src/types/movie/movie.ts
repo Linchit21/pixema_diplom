@@ -3,6 +3,7 @@ export interface IMovieItem {
   nameRu: string;
   genres: IMovieGenres[];
   kinopoiskId: string;
+  filmId: string;
   description: string;
   year: number;
   ratingAgeLimits: number;

@@ -33,7 +33,7 @@ export function Header() {
     setSearchItem(event.target.value);
   };
 
-  const handleClickFilterButton = () => {
+  const toggleFilter = () => {
     setVisible(!visible);
   };
 
@@ -51,11 +51,11 @@ export function Header() {
         <button
           type="button"
           className={styles.header__filter}
-          onClick={handleClickFilterButton}
+          onClick={toggleFilter}
         />
       </form>
       <div className={styles.header__modal}>
-        <SearchFilter toggle={visible} />
+        <SearchFilter toggle={visible} onClose={toggleFilter} />
       </div>
       {user ? <User /> : ''}
     </div>
