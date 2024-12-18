@@ -1,18 +1,35 @@
 import { MovieList } from '@/components/MovieList';
-import { fetchFilterItemsThunk } from '@/redux/movie-items-slice';
+import {
+  fetchFilterItemsThunk,
+  resetMovieItems,
+} from '@/redux/movie-items-slice';
+import { AppDispatch } from '@/redux/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
 export function SearchResult() {
   const { searchId } = useParams();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
-  //api/v2.2/films
+  //Нужна была проверка на undefined
+  const keyWordQuery = () => {
+    if (searchId) {
+      return { keyword: searchId };
+    } else return { keyword: '' };
+  };
 
   useEffect(() => {
-    dispatch(fetchFilterItemsThunk({ keyword: searchId }));
+    dispatch(fetchFilterItemsThunk(keyWordQuery()));
+
+    return () => {
+      dispatch(resetMovieItems());
+    };
   }, [searchId]);
 
-  return <MovieList />;
+  return (
+    <MovieList
+      showMoreCallback={() => dispatch(fetchFilterItemsThunk(keyWordQuery()))}
+    />
+  );
 }

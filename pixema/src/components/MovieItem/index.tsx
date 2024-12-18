@@ -1,9 +1,9 @@
-import { IMovieItem } from '@/types/movie/movie';
+import { IMovieArticle } from '@/types/movie/movie';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router';
 
 interface MovieItemProps {
-  movieData: IMovieItem;
+  movieData: IMovieArticle;
 }
 
 export function MovieItem(props: MovieItemProps) {

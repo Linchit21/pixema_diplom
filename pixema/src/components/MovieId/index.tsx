@@ -1,54 +1,37 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import styles from './index.module.scss';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  favorite,
-  fetchMovieItemThunk,
-  fetcMovieSimialryItemsThunk,
-} from '@/redux/movie-items-slice';
+import { favorite } from '@/redux/movie-items-slice';
 import favorites from '/icons/favorites.svg';
 import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
 import { AppDispatch, RootState } from '@/redux/store';
-import { IMovieCountries, IMovieItem } from '@/types/movie/movie';
+import { IMovieArticle, IMovieCountries } from '@/types/movie/movie';
 
 //swiper
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination'; //TODO:
+import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-// import './styles.css';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 
 export function MovieId() {
   const dispatch: AppDispatch = useDispatch();
-  const { movieItem, movieItems, favoriteItems, isLoaded, error } = useSelector(
+  const { movieItem, movieItems, favoriteItems, error } = useSelector(
     (state: RootState) => state.movieItems
   );
+  const { movieId } = useParams<{ movieId: string | undefined }>();
+
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
 
-  const { movieId } = useParams<{ movieId: string | undefined }>();
-
   const find = favoriteItems.find(
-    (item: IMovieItem) => item.kinopoiskId == movieId
+    (item: IMovieArticle) => item.kinopoiskId == movieId
   );
-
-  console.log(find);
-  console.log(favoriteItems);
-
-  useEffect(() => {
-    if (movieId) {
-      dispatch(fetchMovieItemThunk(movieId));
-      dispatch(fetcMovieSimialryItemsThunk(movieId));
-    }
-  }, [dispatch, movieId]);
 
   const handleClickFavoriteButton = () => {
     if (movieItem) {
@@ -56,10 +39,6 @@ export function MovieId() {
     }
     event?.preventDefault();
   };
-
-  if (isLoaded) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     return <div>{error}</div>;
@@ -181,10 +160,10 @@ export function MovieId() {
             modules={[Pagination, Navigation]}
             className="mySwiper"
           >
-            {movieItems.map((item, index) => {
+            {movieItems?.map((item, index) => {
               return (
-                <SwiperSlide>
-                  <MovieItem key={index} movieData={item} />
+                <SwiperSlide key={index}>
+                  <MovieItem movieData={item} />
                 </SwiperSlide>
               );
             })}

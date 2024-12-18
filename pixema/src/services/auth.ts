@@ -47,11 +47,7 @@ export const requestSignIn = async (body: IRequestSignInBody) => {
   return response.data;
 };
 
-export interface IRequestGetUserBody {
-  access: string;
-}
-
-export const requestGetUser = async (body: IRequestGetUserBody) => {
+export const requestGetUser = async (body: string) => {
   const response = await clientAuth.get(usernameEndpoint, {
     headers: { Authorization: `Bearer ${body}` },
   });

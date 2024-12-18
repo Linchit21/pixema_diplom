@@ -2,13 +2,13 @@ import { createBrowserRouter } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from '@/pages/Home';
 import { Trends } from '@/pages/Trends';
-import { MovieId } from '@/components/MovieId';
 import { SearchResult } from '@/pages/SearchResult';
 import { Favorites } from '@/pages/Favorites';
 import { SignInForm } from '@/components/SignInForm';
 import { SignUpForm } from '@/components/SignUpForm';
 import { RegistrationConfirm } from '@/components/RegistrationConfirm';
 import { AuthActivation } from '@/pages/AuthActivation';
+import { Movie } from './pages/Movie';
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/movie/:movieId',
-        element: <MovieId />,
+        element: <Movie />,
       },
       {
         path: '/search/:searchId',

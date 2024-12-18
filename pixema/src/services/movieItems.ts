@@ -50,7 +50,7 @@ export const requestFilterItems = async (params: RequestFilterItemsParams) => {
     params,
   });
 
-  return response.data.items;
+  return response.data;
 };
 
 export const requestMovieSimilaryItems = async (id: string) => {

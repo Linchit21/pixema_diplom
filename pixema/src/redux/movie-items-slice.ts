@@ -77,14 +77,14 @@ export const fetchFilterItemsThunk = createAsyncThunk<
 });
 
 // Запрос за похожими фильмами по ид
-export const fetcMovieSimialryItemsThunk = createAsyncThunk<IMovieItem, string>(
-  'movieItems/fetcMovieSimialryItemsThunk',
-  async (id: string) => {
-    const data = await requestMovieSimilaryItems(id);
+export const fetcMovieSimialryItemsThunk = createAsyncThunk<
+  IMovieArticle[],
+  string
+>('movieItems/fetcMovieSimialryItemsThunk', async (id: string) => {
+  const data = await requestMovieSimilaryItems(id);
 
-    return data;
-  }
-);
+  return data;
+});
 
 export const movieItemsSlice = createSlice({
   name: 'movieItems',
@@ -146,6 +146,7 @@ export const movieItemsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchFilterItemsThunk.fulfilled, (state, action) => {
+        state.total = action.payload.total;
         state.isLoaded = false;
         state.movieItems = action.payload.items;
       })
@@ -171,7 +172,7 @@ export const movieItemsSlice = createSlice({
       })
       .addCase(fetcMovieSimialryItemsThunk.fulfilled, (state, action) => {
         state.isLoaded = false;
-        state.movieItems = action.payload.items;
+        state.movieItems = action.payload;
       })
       .addCase(fetcMovieSimialryItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;

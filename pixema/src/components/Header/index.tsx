@@ -4,17 +4,18 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { SearchFilter } from '../SearchFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { jwt } from '@/utils/jwt';
+import { AppDispatch, RootState } from '@/redux/store';
 import { fetchGetCurrentUserThunk } from '@/redux/auth-slice';
 
 export function Header() {
   //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
   const { jwt } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchGetCurrentUserThunk(jwt?.access));
+    if (jwt?.access) {
+      dispatch(fetchGetCurrentUserThunk(jwt?.access));
+    }
   }, [jwt]);
 
   const { user } = useSelector((state: RootState) => state.auth);

@@ -1,6 +1,5 @@
 import {
   IRequestAuthActivationBody,
-  IRequestGetUserBody,
   IRequestRefreshAccessTokenBody,
   IRequestSignInBody,
   IRequestSignUpParams,
@@ -68,14 +67,14 @@ export const fetchSignInThunk = createAsyncThunk<IAuthJwt, IRequestSignInBody>(
   }
 );
 
-export const fetchGetCurrentUserThunk = createAsyncThunk<
-  IAuthUser,
-  IRequestGetUserBody
->('auth/fetchGetCurrentUserThunk', async (body) => {
-  const data = await requestGetUser(body);
+export const fetchGetCurrentUserThunk = createAsyncThunk<IAuthUser, string>(
+  'auth/fetchGetCurrentUserThunk',
+  async (body) => {
+    const data = await requestGetUser(body);
 
-  return data;
-});
+    return data;
+  }
+);
 
 export const fetchRefreshAccessTokenThunk = createAsyncThunk<
   IAuthRefresh,
