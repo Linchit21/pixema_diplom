@@ -6,6 +6,7 @@ import {
   movieItemsSimilarEndpoint,
   moviePremieresItemsEndpoint,
 } from '@/config/api';
+import { IMovieArticle } from '@/types/movie/movie';
 import { client } from '@/utils/client';
 
 export interface IRequestMovieItemsParams {
@@ -13,10 +14,18 @@ export interface IRequestMovieItemsParams {
   page?: number;
 }
 
+export interface IRequestMovieItemsResponse {
+  total: number;
+  items: IMovieArticle[];
+}
+
 export const requestMovieItems = async (params: IRequestMovieItemsParams) => {
-  const response = await client.get(movieItemsEndpoint, {
-    params,
-  });
+  const response = await client.get<IRequestMovieItemsResponse>(
+    movieItemsEndpoint,
+    {
+      params,
+    }
+  );
 
   return response.data;
 };
@@ -33,28 +42,53 @@ export interface IRequestPremieresItemsParams {
   page?: number;
 }
 
+export interface IRequestPremieresItemsResponse {
+  total: number;
+  items: IMovieArticle[];
+}
+
 export const requestPremieresItems = async (
   params: IRequestPremieresItemsParams
 ) => {
-  const response = await client.get(moviePremieresItemsEndpoint, {
-    params,
-  });
+  const response = await client.get<IRequestPremieresItemsResponse>(
+    moviePremieresItemsEndpoint,
+    {
+      params,
+    }
+  );
 
   return response.data;
 };
 
 interface RequestFilterItemsParams extends ISearchFilterFormValues {}
 
+export interface IRequestFilterItemsResponse {
+  total: number;
+  items: IMovieArticle[];
+}
+
 export const requestFilterItems = async (params: RequestFilterItemsParams) => {
-  const response = await client.get(movieItemsFilterEndpoint, {
-    params,
-  });
+  const response = await client.get<IRequestFilterItemsResponse>(
+    movieItemsFilterEndpoint,
+    {
+      params,
+    }
+  );
 
   return response.data;
 };
 
-export const requestMovieSimilaryItems = async (id: string) => {
-  const response = await client.get(movieItemsSimilarEndpoint(id));
+export interface IRequestMovieSimilaryItemsResponse {
+  total: number;
+  items: IMovieArticle[];
+}
+
+export const requestMovieSimilaryItems = async (
+  id: string
+): Promise<IMovieArticle[]> => {
+  const response = await client.get<IRequestMovieSimilaryItemsResponse>(
+    movieItemsSimilarEndpoint(id)
+  );
 
   return response.data.items;
 };

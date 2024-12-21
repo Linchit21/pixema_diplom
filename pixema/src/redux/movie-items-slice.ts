@@ -1,14 +1,17 @@
 import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
+  IRequestFilterItemsResponse,
   IRequestMovieItemsParams,
+  IRequestMovieItemsResponse,
   IRequestPremieresItemsParams,
+  IRequestPremieresItemsResponse,
   requestFilterItems,
   requestMovieItem,
   requestMovieItems,
   requestMovieSimilaryItems,
   requestPremieresItems,
 } from '@/services/movieItems';
-import { IMovieArticle, IMovieItem } from '@/types/movie/movie';
+import { IMovieArticle } from '@/types/movie/movie';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit/react';
 import { RootState } from './store';
 
@@ -34,7 +37,7 @@ const initialState: MovieItemsState = {
 
 // Запрос за постами для HOME
 export const fetchMovieItemsThunk = createAsyncThunk<
-  IMovieItem,
+  IRequestMovieItemsResponse,
   IRequestMovieItemsParams
 >('movieItems/fetchMovieItemsThunk', async (params, { getState }) => {
   const page = (getState as () => RootState)().movieItems.page;
@@ -46,7 +49,7 @@ export const fetchMovieItemsThunk = createAsyncThunk<
 
 // Запрос за постами для TRENDS
 export const fetchPremieresItemsThunk = createAsyncThunk<
-  IMovieItem,
+  IRequestPremieresItemsResponse,
   IRequestPremieresItemsParams
 >('movieItems/fetchPremieresItemsThunk', async (params, { getState }) => {
   const page = (getState as () => RootState)().movieItems.page;
@@ -68,7 +71,7 @@ export const fetchMovieItemThunk = createAsyncThunk<IMovieArticle, string>(
 
 // Запрос за постами по фильтру по ид
 export const fetchFilterItemsThunk = createAsyncThunk<
-  IMovieItem,
+  IRequestFilterItemsResponse,
   ISearchFilterFormValues
 >('movieItems/fetchFilterItemsThunk', async (body) => {
   const data = await requestFilterItems(body);

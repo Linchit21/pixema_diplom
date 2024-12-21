@@ -1,0 +1,19 @@
+@import '@styles/helpers/index.scss';
+
+.input {
+  width: 100%;
+  background-color: $graphite;
+  padding: 16px 0 16px 20px;
+  font-weight: 500;
+  border-radius: 10px;
+  height: 56px;
+  color: $white;
+
+  &__label {
+    font-weight: 600;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

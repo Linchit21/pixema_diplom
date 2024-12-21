@@ -91,7 +91,13 @@ export const fetchRefreshAccessTokenThunk = createAsyncThunk<
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      state.jwt = null;
+      state.user = null;
+      localStorage.removeItem('jwt');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSignUpThunk.pending, (state) => {
@@ -152,3 +158,4 @@ export const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
+export const { logOut } = authSlice.actions;

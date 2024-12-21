@@ -1,13 +1,8 @@
-import { requestFilters } from '@/services/filters';
+import { IRequestFiltersResponse, requestFilters } from '@/services/filters';
 import { IFiltersCountries, IFiltersGenres } from '@/types/filters/filters';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FiltersState {
-  genres: IFiltersGenres[];
-  countries: IFiltersCountries[];
-}
-
-interface FetchFilter {
   genres: IFiltersGenres[];
   countries: IFiltersCountries[];
 }
@@ -18,7 +13,7 @@ const initialState: FiltersState = {
 };
 
 // получение списка фильтров и стран
-export const fetchFiltersThunk = createAsyncThunk<FetchFilter>(
+export const fetchFiltersThunk = createAsyncThunk<IRequestFiltersResponse>(
   'filters/fetchFiltersThunk',
   async () => {
     const data = await requestFilters();
@@ -32,21 +27,13 @@ export const filtersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      // .addCase(fetchFiltersThunk.pending, (state) => {
-
-      // })
-      .addCase(
-        fetchFiltersThunk.fulfilled,
-        (state, action: PayloadAction<FetchFilter>) => {
-          state.genres = action.payload.genres;
-          state.countries = action.payload.countries;
-        }
-      );
-    // .addCase(fetchFiltersThunk.rejected, (state, action) => {
-    //   state.isLoaded = false;
-    //   state.error = action.error.message;
-    // });
+    builder.addCase(
+      fetchFiltersThunk.fulfilled,
+      (state, action: PayloadAction<IRequestFiltersResponse>) => {
+        state.genres = action.payload.genres;
+        state.countries = action.payload.countries;
+      }
+    );
   },
 });
 

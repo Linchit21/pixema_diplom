@@ -9,6 +9,8 @@ import { SignUpForm } from '@/components/SignUpForm';
 import { RegistrationConfirm } from '@/components/RegistrationConfirm';
 import { AuthActivation } from '@/pages/AuthActivation';
 import { Movie } from './pages/Movie';
+import { ModalProfile } from './components/ModalProfile';
+import { UnauthorizedLayout } from './components/UnauthorizedLayout';
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +37,16 @@ export const router = createBrowserRouter([
         path: '/favorites',
         element: <Favorites />,
       },
+
+      {
+        path: '/settings',
+        element: <ModalProfile />,
+      },
+    ],
+  },
+  {
+    element: <UnauthorizedLayout />,
+    children: [
       {
         path: '/auth/sign-in',
         element: <SignInForm />,

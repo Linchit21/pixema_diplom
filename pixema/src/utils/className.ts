@@ -1,15 +1,25 @@
-interface ClassNameParam {
-  [key: string]: boolean;
+interface StylesModuleType {
+  [key: string]: string;
 }
 
-export function className(classes: ClassNameParam): string {
-  let result: string = '';
+interface ClassNameMod {
+  [key: string]: string | number | boolean | undefined;
+}
 
-  for (let key in classes) {
-    if (classes[key]) {
-      result += ` ${key}`;
+export function createClassName(
+  styles: StylesModuleType,
+  block: string
+): (element?: string, mods?: ClassNameMod) => string {
+  return (element?: string, mods: ClassNameMod = {}): string => {
+    const initialClassname = element ? `${block}__${element}` : block;
+    let result: string = styles[initialClassname];
+
+    for (const mod in mods) {
+      if (mods[mod]) {
+        result += ` ${styles[`${initialClassname}_${mod}`]}`;
+      }
     }
-  }
 
-  return result;
+    return result;
+  };
 }

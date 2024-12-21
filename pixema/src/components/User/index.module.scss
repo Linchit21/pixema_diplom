@@ -1,4 +1,4 @@
-@import "@styles/helpers/index.scss";
+@import '@styles/helpers/index.scss';
 
 .user {
   display: flex;
@@ -6,6 +6,7 @@
   align-items: center;
   width: 264px;
   height: 56px;
+  position: relative;
 
   &__initials {
     @include flex-center;
@@ -29,6 +30,38 @@
   &__arrow {
     width: 24px;
     height: 24px;
-    background: url("/icons/arrow_down.svg");
+    background: url('/icons/arrow_down.svg');
+  }
+
+  &__menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+    background-color: $dark;
+    position: absolute;
+    left: 0;
+    top: calc(100% + 24px);
+
+    &_visible {
+      display: flex;
+    }
+  }
+
+  &__menu-item {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    color: $white;
+    font-weight: 500;
+    padding: 0 20px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $graphite;
+    }
+
+    &_logout {
+      color: $primary;
+    }
   }
 }

@@ -11,13 +11,15 @@ export interface IRequestSignUpParams {
   userename: string;
   password: number;
   email: string;
+
+  /**id для запроса */
   course_group: number;
 }
 
 export const requestSignUp = async (params: IRequestSignUpParams) => {
   const response = await clientAuth.post(signUpEndpoint, {
     ...params,
-    course_group: 13,
+    course_group: 13, // номер моей группы
   });
 
   return response.data;

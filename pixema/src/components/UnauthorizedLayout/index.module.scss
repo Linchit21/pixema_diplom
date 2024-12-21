@@ -1,0 +1,8 @@
+@import '@styles/helpers/index.scss';
+
+.unauthorized-layout {
+  height: 100vh;
+  background-image: url(/public/img/unauthorized.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
