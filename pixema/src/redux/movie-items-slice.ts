@@ -14,6 +14,7 @@ import {
 import { IMovieArticle } from '@/types/movie/movie';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit/react';
 import { RootState } from './store';
+import { localStorageService } from '@/utils/localStorage';
 
 export interface MovieItemsState {
   page: number;
@@ -30,7 +31,7 @@ const initialState: MovieItemsState = {
   total: 0,
   movieItems: [],
   movieItem: null,
-  favoriteItems: [],
+  favoriteItems: localStorageService.get<IMovieArticle[]>('favorites') || [],
   isLoaded: false,
   error: null,
 };
@@ -105,6 +106,9 @@ export const movieItemsSlice = createSlice({
         favoriteData.splice(findIndex, 1);
       }
 
+      const json = JSON.stringify(favoriteData);
+      localStorage.setItem('favorites', json);
+
       state.favoriteItems = [...favoriteData];
       console.log(state.favoriteItems);
     },
@@ -112,6 +116,9 @@ export const movieItemsSlice = createSlice({
       state.page = 1;
       state.total = 0;
       state.movieItems = [];
+    },
+    resetMovieItem: (state) => {
+      state.movieItem = null;
     },
   },
   extraReducers: (builder) => {
@@ -184,5 +191,6 @@ export const movieItemsSlice = createSlice({
   },
 });
 
-export const { favorite, resetMovieItems } = movieItemsSlice.actions;
+export const { favorite, resetMovieItems, resetMovieItem } =
+  movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

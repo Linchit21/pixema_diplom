@@ -7,7 +7,7 @@ export interface FormFieldProps {
   className?: string;
   name?: string;
   label?: string;
-  value: string;
+  value?: string;
   id?: string;
   placeholder?: string;
   ref?: React.Ref<FormFieldElement>;

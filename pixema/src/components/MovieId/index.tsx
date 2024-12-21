@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './index.module.scss';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { favorite } from '@/redux/movie-items-slice';
+import { favorite, resetMovieItem } from '@/redux/movie-items-slice';
 import favorites from '/icons/favorites.svg';
 import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
@@ -32,6 +32,12 @@ export function MovieId() {
   const find = favoriteItems.find(
     (item: IMovieArticle) => item.kinopoiskId == movieId
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetMovieItem());
+    };
+  }, []);
 
   const handleClickFavoriteButton = () => {
     if (movieItem) {

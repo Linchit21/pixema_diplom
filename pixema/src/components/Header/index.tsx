@@ -11,10 +11,13 @@ export function Header() {
   //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
   const { jwt } = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (jwt?.access) {
       dispatch(fetchGetCurrentUserThunk(jwt?.access));
+    } else {
+      navigate('/auth/sign-in');
     }
   }, [jwt]);
 
@@ -22,7 +25,6 @@ export function Header() {
 
   const [searchItem, setSearchItem] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

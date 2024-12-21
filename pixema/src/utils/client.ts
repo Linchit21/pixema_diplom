@@ -20,6 +20,7 @@ export const clientAuth: AxiosInstance = axios.create({
   timeout: 5000,
 });
 
+// Перехватчик запроса
 clientAuth.interceptors.request.use(async (config) => {
   if (config.url === refreshAccessTokenEndpoint) return config;
 
@@ -36,3 +37,20 @@ clientAuth.interceptors.request.use(async (config) => {
   config.headers.Authorization = `Bearer ${tokens.access}`;
   return config;
 });
+
+// Перехватчик ответа
+clientAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.status == 401) {
+      window.location.href = '/auth/sign-in';
+      console.log('yes');
+      localStorage.removeItem('jwt');
+    }
+    console.error(error);
+
+    return Promise.reject(error);
+  }
+);

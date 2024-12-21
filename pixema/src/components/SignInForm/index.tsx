@@ -1,34 +1,36 @@
-import React, { useEffect, useRef, ChangeEvent, FormEvent } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormField } from '@/components/FormField';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSignInThunk, fetchSignUpThunk } from '@/redux/auth-slice';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchSignInThunk } from '@/redux/auth-slice';
 
 import styles from './index.module.scss';
 import { FormFieldElement } from '@/components/FormField/types';
-import { useForm } from 'react-hook-form';
-import { RootState } from '@/redux/store';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { SignInFormValuesType } from './types';
+import { AppDispatch } from '@/redux/store';
 
 export function SignInForm() {
-  const { jwt } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FilterFormValues>();
+  const { register, handleSubmit } = useForm<SignInFormValuesType>({
+    defaultValues: {
+      email: 'linchest21@gmail.com',
+      password: '123123Qw',
+    },
+  });
 
-  const onSubmit: SubmitHandler<FilterFormValues> = (body) => {
-    event.preventDefault();
-
-    dispatch(fetchSignInThunk(body));
+  const onSubmit: SubmitHandler<SignInFormValuesType> = (
+    body: SignInFormValuesType
+  ) => {
     console.log(body);
-  };
+    const successCallback = () => {
+      navigate('/');
+    };
 
-  // console.log(jwt);
+    dispatch(fetchSignInThunk({ body, successCallback }));
+  };
 
   const emailRef = useRef<FormFieldElement>(null);
 
@@ -50,10 +52,10 @@ export function SignInForm() {
         <div className={styles['sign-in-form__logo']}></div>
         <div className={styles['sign-in-form__form-fields']}>
           <FormField
-            ref={emailRef}
             label="Email"
             type="email"
             {...register('email', { required: true })}
+            ref={emailRef}
           />
 
           <FormField

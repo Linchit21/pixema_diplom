@@ -55,17 +55,22 @@ export const fetchAuthActivationThunk = createAsyncThunk<
   return data;
 });
 
-export const fetchSignInThunk = createAsyncThunk<IAuthJwt, IRequestSignInBody>(
-  'auth/fetchSignInThunk',
-  async (body) => {
-    const data = await requestSignIn(body);
+export interface FetchSignInThunkPayload {
+  body: IRequestSignInBody;
+  successCallback: () => void;
+}
 
-    // Запись токена при запросе
-    jwt.setToLocalStorage(data);
+export const fetchSignInThunk = createAsyncThunk<
+  IAuthJwt,
+  FetchSignInThunkPayload
+>('auth/fetchSignInThunk', async (payload) => {
+  const data = await requestSignIn(payload.body);
 
-    return data;
-  }
-);
+  // Запись токена при запросе
+  jwt.setToLocalStorage(data);
+
+  return data;
+});
 
 export const fetchGetCurrentUserThunk = createAsyncThunk<IAuthUser, string>(
   'auth/fetchGetCurrentUserThunk',
@@ -133,6 +138,7 @@ export const authSlice = createSlice({
       .addCase(fetchSignInThunk.fulfilled, (state, action) => {
         state.isLoaded = false;
         state.jwt = action.payload;
+        action.meta.arg.successCallback();
       })
       .addCase(fetchSignInThunk.rejected, (state, action) => {
         state.isLoaded = false;
