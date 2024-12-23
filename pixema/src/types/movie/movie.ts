@@ -6,9 +6,13 @@ export interface IMovieArticle {
   filmId: string;
   description: string;
   year: number;
-  ratingAgeLimits: number;
+  ratingAgeLimits: string;
   filmLength: number;
   countries: IMovieCountries[];
+  ratingKinopoisk: string;
+  ratingImdb: string;
+  imdbId: string;
+  webUrl: string;
 }
 
 export interface IMovieGenres {

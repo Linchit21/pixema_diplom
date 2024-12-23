@@ -18,6 +18,7 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
+import { createClassName } from '@/utils/className';
 
 export function MovieId() {
   const dispatch: AppDispatch = useDispatch();
@@ -25,6 +26,8 @@ export function MovieId() {
     (state: RootState) => state.movieItems
   );
   const { movieId } = useParams<{ movieId: string | undefined }>();
+  const cn = createClassName(styles, 'movie-id');
+  console.log(movieItem);
 
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -63,6 +66,10 @@ export function MovieId() {
     ratingAgeLimits,
     filmLength,
     genres,
+    ratingKinopoisk,
+    ratingImdb,
+    imdbId,
+    webUrl,
   } = movieItem;
 
   return (
@@ -98,15 +105,33 @@ export function MovieId() {
           })}
         </div>
         <div className={styles['movie-id__title']}>{nameRu}</div>
-        {/* //FIXME: ratings */}
         <div className={styles['movie-id__ratings']}>
-          <div className={styles['movie-id__ratings__imdb']}>IMDb</div>
-          <div className={styles['movie-id__ratings__meta']}>
-            {/* {ratings[2]?.Value} */}
-          </div>
-          <div className={styles['movie-id__ratings__tomato']}>
-            {/* {ratings[1]?.Value} */}
-          </div>
+          {ratingKinopoisk && (
+            <a
+              href={webUrl}
+              className={`${cn('rating')} ${cn('rating_kinopoisk')}`}
+            >
+              <img
+                className={cn('img-kinopoisk')}
+                src="/public/img/kinopoisk.png"
+                alt=""
+              />
+              <p>{ratingKinopoisk}</p>
+            </a>
+          )}
+          {ratingImdb && (
+            <a
+              href={`https://www.imdb.com/title/${imdbId}/`}
+              className={`${cn('rating')} ${cn('rating_imdb')}`}
+            >
+              <img
+                className={cn('img-imdb')}
+                src="/public/img/imdb.png"
+                alt=""
+              />
+              <p>{ratingImdb}</p>
+            </a>
+          )}
         </div>
         <div className={styles['movie-id__text']}>{description}</div>
         <div className={styles['movie-id__list']}>
@@ -123,58 +148,64 @@ export function MovieId() {
                 return <p key={index}>{item.country}</p>;
               })}
             </div>
-            <p>{filmLength}</p>
-            <p>{ratingAgeLimits}</p>
+            <p>{filmLength ?? 'Неизвестно'}</p>
+            <p>{`${ratingAgeLimits.slice(3)} +`}</p>
           </div>
         </div>
-        <div className={styles['movie-id__recomendation']}>Recommendations</div>
-        <div className={styles['movie-id__swiper']}>
-          <button
-            ref={prevRef}
-            className={`${styles['movie-id__arrow-prev']} ${styles['movie-id__arrow']}`}
-          >
-            ←
-          </button>
-          <button
-            ref={nextRef}
-            className={`${styles['movie-id__arrow-next']} ${styles['movie-id__arrow']}`}
-          >
-            →
-          </button>
-          <Swiper
-            slidesPerView={5}
-            spaceBetween={280}
-            navigation={{
-              prevEl: prevRef.current,
-              nextEl: nextRef.current,
-            }}
-            onInit={(swiper: SwiperClass) => {
-              // Связываем стрелки после инициализации
-              if (
-                prevRef.current &&
-                nextRef.current &&
-                nextRef.current &&
-                swiper.params.navigation &&
-                typeof swiper.params.navigation === 'object'
-              ) {
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-                swiper.navigation.init();
-                swiper.navigation.update();
-              }
-            }}
-            modules={[Pagination, Navigation]}
-            className="mySwiper"
-          >
-            {movieItems?.map((item, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  <MovieItem movieData={item} />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
+        {movieItems.length != 0 && (
+          <>
+            <div className={styles['movie-id__recomendation']}>
+              Recommendations
+            </div>
+            <div className={styles['movie-id__swiper']}>
+              <button
+                ref={prevRef}
+                className={`${styles['movie-id__arrow-prev']} ${styles['movie-id__arrow']}`}
+              >
+                ←
+              </button>
+              <button
+                ref={nextRef}
+                className={`${styles['movie-id__arrow-next']} ${styles['movie-id__arrow']}`}
+              >
+                →
+              </button>
+              <Swiper
+                slidesPerView={5}
+                spaceBetween={280}
+                navigation={{
+                  prevEl: prevRef.current,
+                  nextEl: nextRef.current,
+                }}
+                onInit={(swiper: SwiperClass) => {
+                  // Связываем стрелки после инициализации
+                  if (
+                    prevRef.current &&
+                    nextRef.current &&
+                    nextRef.current &&
+                    swiper.params.navigation &&
+                    typeof swiper.params.navigation === 'object'
+                  ) {
+                    swiper.params.navigation.prevEl = prevRef.current;
+                    swiper.params.navigation.nextEl = nextRef.current;
+                    swiper.navigation.init();
+                    swiper.navigation.update();
+                  }
+                }}
+                modules={[Pagination, Navigation]}
+                className="mySwiper"
+              >
+                {movieItems?.map((item, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <MovieItem movieData={item} />
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

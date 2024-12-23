@@ -2,15 +2,7 @@
 
 .form-field {
   &__label {
-    margin-bottom: 20px;
-  }
-
-  &__password-toggle {
-    position: absolute;
-    height: 100%;
-    top: 50%;
-    right: 5%;
-    transform: translate(0, -50%);
+    margin-bottom: 8px;
   }
 
   &__input-wraper {
@@ -19,7 +11,9 @@
 
   &__input-field {
     width: 100%;
-    padding: 10px;
-    border-radius: 20px;
+    padding: 16px 0 16px 20px;
+    border-radius: 10px;
+    background-color: $graphite;
+    color: $white;
   }
 }

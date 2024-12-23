@@ -1,31 +1,32 @@
 import {
   IRequestAuthActivationBody,
+  IRequestGetUserResponse,
   IRequestRefreshAccessTokenBody,
+  IRequestRefreshAccessTokenResponse,
+  IRequestSetPasswordBody,
+  IRequestSetPasswordResponse,
   IRequestSignInBody,
+  IRequestSignInResponse,
   IRequestSignUpParams,
+  IRequestSignUpResponse,
   requestAuthActivation,
   requestGetUser,
   requestRefreshAccessToken,
+  requestSetPassword,
   requestSignIn,
   requestSignUp,
 } from '@/services/auth';
-import {
-  IAuthJwt,
-  IAuthRefresh,
-  IAuthSignUp,
-  IAuthUser,
-} from '@/types/auth/auth';
 import { jwt } from '@/utils/jwt';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 export interface AuthState {
-  profile: IAuthSignUp | null;
-  user: IAuthUser | null;
+  profile: IRequestSignUpResponse | null;
+  user: IRequestGetUserResponse | null;
   isLoaded: boolean;
   error: string | null;
   isActivated: boolean;
-  jwt: IAuthJwt | null;
+  jwt: IRequestSignInResponse | null;
 }
 
 const initialState: AuthState = {
@@ -38,7 +39,7 @@ const initialState: AuthState = {
 };
 
 export const fetchSignUpThunk = createAsyncThunk<
-  IAuthSignUp,
+  IRequestSignUpResponse,
   IRequestSignUpParams
 >('auth/fetchSignUpThunk', async (body) => {
   const data = await requestSignUp(body);
@@ -57,11 +58,11 @@ export const fetchAuthActivationThunk = createAsyncThunk<
 
 export interface FetchSignInThunkPayload {
   body: IRequestSignInBody;
-  successCallback: () => void;
+  successCallback: () => void; //TODO: подумай
 }
 
 export const fetchSignInThunk = createAsyncThunk<
-  IAuthJwt,
+  IRequestSignInResponse,
   FetchSignInThunkPayload
 >('auth/fetchSignInThunk', async (payload) => {
   const data = await requestSignIn(payload.body);
@@ -72,23 +73,32 @@ export const fetchSignInThunk = createAsyncThunk<
   return data;
 });
 
-export const fetchGetCurrentUserThunk = createAsyncThunk<IAuthUser, string>(
-  'auth/fetchGetCurrentUserThunk',
-  async (body) => {
-    const data = await requestGetUser(body);
+export const fetchGetCurrentUserThunk = createAsyncThunk<
+  IRequestGetUserResponse,
+  string
+>('auth/fetchGetCurrentUserThunk', async (body) => {
+  const data = await requestGetUser(body);
 
-    return data;
-  }
-);
+  return data;
+});
 
 export const fetchRefreshAccessTokenThunk = createAsyncThunk<
-  IAuthRefresh,
+  IRequestRefreshAccessTokenResponse,
   IRequestRefreshAccessTokenBody
 >('auth/fetchRefreshAccessTokenThunk', async (body, { getState }) => {
   const data = await requestRefreshAccessToken(body);
 
   const currentJwt = (getState as () => RootState)().auth.jwt;
   jwt.setToLocalStorage({ ...currentJwt, access: data });
+
+  return data;
+});
+
+export const fetchSetPasswordThunk = createAsyncThunk<
+  IRequestSetPasswordResponse,
+  IRequestSetPasswordBody
+>('auth/fetchRefreshAccessTokenThunk', async (body) => {
+  const data = await requestSetPassword(body);
 
   return data;
 });
@@ -159,6 +169,15 @@ export const authSlice = createSlice({
 
         state.error = action.error.message ?? 'Ошибка загрузки';
         console.log(action);
+      })
+      .addCase(fetchSetPasswordThunk.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(fetchSetPasswordThunk.fulfilled, (state, action) => {
+        console.log(action);
+      })
+      .addCase(fetchSetPasswordThunk.rejected, (state, action) => {
+        state.error = action.error.message ?? 'Ошибка загрузки';
       });
   },
 });

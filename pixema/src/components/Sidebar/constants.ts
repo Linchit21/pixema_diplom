@@ -1,4 +1,4 @@
-interface ISidebarNavigationItem {
+export interface ISidebarNavigationItem {
   path: string;
   title: string;
   icon: string;
@@ -30,15 +30,4 @@ export const SidebarNavigation: ISidebarNavigationItem[] = [
     icon: '/icons/settings.svg',
     activeIcon: '/icons/settings_active.svg',
   },
-
-  //Auth
-  // { path: '/auth/sign-in', title: 'Sign In', icon: '/icons/settings.svg' },
-  // { path: '/auth/sign-up', title: 'Sign Up', icon: '/icons/settings.svg' },
-  // {
-  //   path: '/auth/activation/',
-  //   title: 'Auth',
-  //   icon: '/icons/settings.svg',
-  // },
 ];
-
-//FIXME: icon and path

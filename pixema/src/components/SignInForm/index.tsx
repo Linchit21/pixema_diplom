@@ -6,25 +6,24 @@ import { fetchSignInThunk } from '@/redux/auth-slice';
 import styles from './index.module.scss';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import { SignInFormValuesType } from './types';
+import { NavLink, useNavigate } from 'react-router';
+import { ISignInFormValuesType } from './types';
 import { AppDispatch } from '@/redux/store';
 
 export function SignInForm() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm<SignInFormValuesType>({
+  const { register, handleSubmit } = useForm<ISignInFormValuesType>({
     defaultValues: {
       email: 'linchest21@gmail.com',
       password: '123123Qw',
     },
   });
 
-  const onSubmit: SubmitHandler<SignInFormValuesType> = (
-    body: SignInFormValuesType
+  const onSubmit: SubmitHandler<ISignInFormValuesType> = (
+    body: ISignInFormValuesType
   ) => {
-    console.log(body);
     const successCallback = () => {
       navigate('/');
     };
@@ -42,14 +41,8 @@ export function SignInForm() {
 
   return (
     <div className={styles['sign-in-form']}>
-      <div className={styles['sign-in-form__header']}>
-        <h2 className={styles['sign-in-form__title']}>Sign In</h2>
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles['sign-in-form__form']}
-      >
-        <div className={styles['sign-in-form__logo']}></div>
+      <div className={styles['sign-in-form__title']}>Sign In</div>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles['sign-in-form__form-fields']}>
           <FormField
             label="Email"
@@ -67,13 +60,16 @@ export function SignInForm() {
         </div>
 
         <button type="submit" className={styles['sign-in-form__submit-button']}>
-          SignIn
+          Sign In
         </button>
         <p className={styles['sign-in-form__hint']}>
-          You don't have account?
-          <a href="#" className={styles['sign-in-form__sign-in-link']}>
-            SignUp
-          </a>
+          Don’t have an account?
+          <NavLink
+            className={styles['sign-in-form__sign-in-link']}
+            to={'/auth/sign-up'}
+          >
+            Sign Up
+          </NavLink>
         </p>
       </form>
     </div>

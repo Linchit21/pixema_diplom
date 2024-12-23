@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import styles from './index.module.scss';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react';
+import { EmptyItem } from '../EmptyItem';
 
 interface MovieListProps {
   showMoreCallback: () => void;
@@ -22,12 +23,11 @@ export function MovieList({ showMoreCallback }: MovieListProps) {
   }, [error]);
 
   if (movieItems == undefined || movieItems.length == 0) {
-    return <div>No posts</div>;
+    return <EmptyItem />;
   }
 
   const handleClickShowMore = () => {
     showMoreCallback();
-    event?.preventDefault();
   };
 
   return (

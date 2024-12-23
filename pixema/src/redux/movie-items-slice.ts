@@ -110,7 +110,6 @@ export const movieItemsSlice = createSlice({
       localStorage.setItem('favorites', json);
 
       state.favoriteItems = [...favoriteData];
-      console.log(state.favoriteItems);
     },
     resetMovieItems: (state) => {
       state.page = 1;
@@ -119,6 +118,10 @@ export const movieItemsSlice = createSlice({
     },
     resetMovieItem: (state) => {
       state.movieItem = null;
+    },
+    setFavoritesItems: (state) => {
+      state.movieItems = [...state.favoriteItems];
+      state.total = state.favoriteItems.length;
     },
   },
   extraReducers: (builder) => {
@@ -191,6 +194,6 @@ export const movieItemsSlice = createSlice({
   },
 });
 
-export const { favorite, resetMovieItems, resetMovieItem } =
+export const { favorite, resetMovieItems, resetMovieItem, setFavoritesItems } =
   movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

@@ -3,42 +3,27 @@
 .sign-up-form {
   display: flex;
   flex-direction: column;
+  gap: 40px;
   color: $white;
-  font-size: 24px;
-
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    margin-bottom: 72px;
-  }
+  max-width: 574px;
+  width: 100%;
+  padding: 40px;
+  background-color: $dark;
+  border-radius: 10px;
 
   &__title {
-    font-size: 56px;
-    font-weight: 700;
-    line-height: 80px;
-    text-align: center;
+    font-size: 24px;
   }
 
-  &__form {
-    max-width: 625px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 40px;
-    background-color: $dark;
-    border-radius: 10px;
-    border: 5px solid $primary;
-  }
-
-  &__logo {
-    margin: 0 auto;
-    margin-bottom: 64px;
-    height: 70px;
-    background: url('/img/pixema.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
+  // &__logo {
+  //   margin: 0 auto;
+  //   margin-bottom: 64px;
+  //   height: 70px;
+  //   background: url('/img/pixema.png');
+  //   background-size: contain;
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+  // }
 
   &__form-fields {
     display: flex;
@@ -49,17 +34,22 @@
 
   &__submit-button {
     margin-bottom: 24px;
-    @include shadow-button;
+    width: 100%;
+    padding: 16px 0;
+    background-color: $primary;
+    border-radius: 10px;
+    color: $white;
   }
 
   &__hint {
-    font-size: 16px;
     font-weight: 500;
-    line-height: 20px;
     text-align: center;
+    color: $secondary;
   }
 
   &__sign-in-link {
     color: $primary;
+    text-decoration: none;
+    margin-left: 10px;
   }
 }

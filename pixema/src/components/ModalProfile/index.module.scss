@@ -22,6 +22,10 @@
     margin-bottom: 40px;
   }
 
+  &__invalid {
+    border: 2px solid red;
+  }
+
   &__input {
     width: 50%;
   }
@@ -59,5 +63,27 @@
 
   &__toggle {
     margin-left: auto;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 40px;
+    margin-left: auto;
+  }
+
+  &__button {
+    padding: 16px 0;
+    width: 266px;
+    font-weight: 600;
+    color: $white;
+    border-radius: 10px;
+
+    &_cancel {
+      background-color: $graphite;
+    }
+
+    &_save {
+      background-color: $primary;
+    }
   }
 }

@@ -1,28 +1,26 @@
-import React, { useEffect, useRef, ChangeEvent, FormEvent } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormField } from '@/components/FormField';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchSignUpThunk } from '@/redux/auth-slice';
 
 import styles from './index.module.scss';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
+import { ISignUpFormValuesType } from './types';
+import { AppDispatch } from '@/redux/store';
 
 export function SignUpForm() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm<FilterFormValues>();
+  } = useForm<ISignUpFormValuesType>();
 
-  const onSubmit: SubmitHandler<FilterFormValues> = (body) => {
-    event.preventDefault();
-
+  const onSubmit: SubmitHandler<ISignUpFormValuesType> = (body) => {
     if (body.password === body['confirm password']) {
       dispatch(fetchSignUpThunk(body));
       navigate('/auth/activation/');
@@ -50,10 +48,8 @@ export function SignUpForm() {
   return (
     <div className={styles['sign-up-form']}>
       {renderAlert()}
+      <div className={styles['sign-up-form__title']}>Sign Up</div>
 
-      <div className={styles['sign-up-form__header']}>
-        <h2 className={styles['sign-up-form__title']}>Registration</h2>
-      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles['sign-up-form__form']}
@@ -68,12 +64,12 @@ export function SignUpForm() {
           />
 
           <FormField
-            ref={emailRef}
             label="Email"
             type="email"
             {...register('email', {
               required: true,
             })}
+            ref={emailRef}
           />
 
           <FormField
@@ -100,9 +96,12 @@ export function SignUpForm() {
         </button>
         <p className={styles['sign-up-form__hint']}>
           You alredy have account?
-          <a href="#" className={styles['sign-up-form__sign-in-link']}>
-            SignIn
-          </a>
+          <NavLink
+            className={styles['sign-up-form__sign-in-link']}
+            to={'/auth/sign-in'}
+          >
+            Sign In
+          </NavLink>
         </p>
       </form>
     </div>

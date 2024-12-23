@@ -5,4 +5,13 @@
   background-image: url(/public/img/unauthorized.png);
   background-repeat: no-repeat;
   background-size: cover;
+  flex-grow: 1;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 }
