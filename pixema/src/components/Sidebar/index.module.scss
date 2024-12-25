@@ -9,6 +9,19 @@
   padding: 48px 40px 64px 62px;
   position: fixed; //FIXME: main margin-left: 368px
 
+  @include media-tablet {
+    display: none;
+    position: static;
+    padding: 48px 0 64px 48px;
+    width: 264px;
+  }
+
+  &_open {
+    @include media-tablet {
+      display: block;
+    }
+  }
+
   &__logo {
     margin-bottom: 64px;
     width: 158px;
@@ -17,6 +30,18 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+
+    @include media-tablet {
+      display: none;
+    }
+  }
+
+  &__user {
+    display: none;
+
+    @include media-tablet {
+      display: block;
+    }
   }
 
   &__nav {
@@ -51,5 +76,9 @@
     margin-top: auto;
     color: $light;
     font-weight: 500;
+
+    @include media-tablet {
+      display: none;
+    }
   }
 }

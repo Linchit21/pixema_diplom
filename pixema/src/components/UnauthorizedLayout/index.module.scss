@@ -13,5 +13,18 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    position: relative;
+  }
+
+  &__logo {
+    position: absolute;
+    top: 43px;
+    left: 62px;
+    width: 158px;
+    height: 40px;
+    background: url('/img/pixema.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }

@@ -39,5 +39,33 @@
     position: fixed;
     top: 0;
     right: 0;
+    z-index: 1;
+  }
+
+  &__user {
+    @include media-tablet {
+      display: none;
+    }
+  }
+
+  &__burger {
+    @include flex-center;
+    display: none;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: $primary;
+    background-image: url(/public/icons/burger_line.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+
+    @include media-tablet {
+      display: block;
+    }
+
+    &_open {
+      background-image: url(/public/icons/burger_open.svg);
+    }
   }
 }

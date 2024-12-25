@@ -24,6 +24,8 @@ export interface MovieItemsState {
   favoriteItems: IMovieArticle[];
   isLoaded: boolean;
   error: string | null;
+  search: ISearchFilterFormValues;
+  burger: boolean;
 }
 
 const initialState: MovieItemsState = {
@@ -34,9 +36,11 @@ const initialState: MovieItemsState = {
   favoriteItems: localStorageService.get<IMovieArticle[]>('favorites') || [],
   isLoaded: false,
   error: null,
+  search: {},
+  burger: false,
 };
 
-// Запрос за постами для HOME
+// Запрос за постами для HOME //TODO: нужен?
 export const fetchMovieItemsThunk = createAsyncThunk<
   IRequestMovieItemsResponse,
   IRequestMovieItemsParams
@@ -73,9 +77,13 @@ export const fetchMovieItemThunk = createAsyncThunk<IMovieArticle, string>(
 // Запрос за постами по фильтру по ид
 export const fetchFilterItemsThunk = createAsyncThunk<
   IRequestFilterItemsResponse,
-  ISearchFilterFormValues
->('movieItems/fetchFilterItemsThunk', async (body) => {
-  const data = await requestFilterItems(body);
+  ISearchFilterFormValues | undefined
+>('movieItems/fetchFilterItemsThunk', async (params, { getState }) => {
+  const page = (getState as () => RootState)().movieItems.page;
+
+  const search = (getState as () => RootState)().movieItems.search;
+
+  const data = await requestFilterItems({ ...search, ...params, page });
 
   return data;
 });
@@ -114,6 +122,7 @@ export const movieItemsSlice = createSlice({
     resetMovieItems: (state) => {
       state.page = 1;
       state.total = 0;
+      state.search = {};
       state.movieItems = [];
     },
     resetMovieItem: (state) => {
@@ -122,6 +131,15 @@ export const movieItemsSlice = createSlice({
     setFavoritesItems: (state) => {
       state.movieItems = [...state.favoriteItems];
       state.total = state.favoriteItems.length;
+    },
+    searchFilters: (state, action) => {
+      state.search = { ...state.search, ...action.payload };
+      state.page = 1;
+      state.total = 0;
+      state.movieItems = [];
+    },
+    setBurger: (state, action) => {
+      state.burger = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -159,9 +177,11 @@ export const movieItemsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchFilterItemsThunk.fulfilled, (state, action) => {
+        console.log(action);
         state.total = action.payload.total;
         state.isLoaded = false;
-        state.movieItems = action.payload.items;
+        state.movieItems = [...state.movieItems, ...action.payload.items];
+        state.page += 1;
       })
       .addCase(fetchFilterItemsThunk.rejected, (state, action) => {
         state.isLoaded = false;
@@ -194,6 +214,12 @@ export const movieItemsSlice = createSlice({
   },
 });
 
-export const { favorite, resetMovieItems, resetMovieItem, setFavoritesItems } =
-  movieItemsSlice.actions;
+export const {
+  favorite,
+  resetMovieItems,
+  resetMovieItem,
+  setFavoritesItems,
+  searchFilters,
+  setBurger,
+} = movieItemsSlice.actions;
 export const movieItemsReducer = movieItemsSlice.reducer;

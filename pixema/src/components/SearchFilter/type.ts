@@ -1,6 +1,6 @@
 export interface ISearchFilterFormValues {
   order?: 'RATING' | 'YEAR'; // Значение для сортировки
-  keyword: string; // Ключевое слово для поиска
+  keyword?: string; // Ключевое слово для поиска
   genres?: string; // id жанра
   countries?: string; // id страны
   yearFrom?: number; // Год начала

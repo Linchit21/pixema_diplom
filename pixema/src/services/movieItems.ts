@@ -60,11 +60,14 @@ export const requestPremieresItems = async (
   return response.data;
 };
 
-interface RequestFilterItemsParams extends ISearchFilterFormValues {}
+interface RequestFilterItemsParams extends ISearchFilterFormValues {
+  page?: number;
+}
 
 export interface IRequestFilterItemsResponse {
   total: number;
   items: IMovieArticle[];
+  page?: number;
 }
 
 export const requestFilterItems = async (params: RequestFilterItemsParams) => {

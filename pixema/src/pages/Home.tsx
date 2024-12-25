@@ -1,35 +1,28 @@
 import { MovieList } from '@/components/MovieList';
 import {
-  fetchMovieItemsThunk,
+  fetchFilterItemsThunk,
   resetMovieItems,
 } from '@/redux/movie-items-slice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function Home() {
   const dispatch: AppDispatch = useDispatch();
-
-  // type
-  // page
-  // /api/v2.2/films/premieres
-
-  //TODO: pagination
+  const { search } = useSelector((state: RootState) => state.movieItems);
 
   useEffect(() => {
-    dispatch(fetchMovieItemsThunk({ type: 'TOP_POPULAR_ALL' }));
-
     //При уничтожении компонента, сбрасываем стэйт
     return () => {
       dispatch(resetMovieItems());
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchFilterItemsThunk());
+  }, [search]);
+
   return (
-    <MovieList
-      showMoreCallback={() =>
-        dispatch(fetchMovieItemsThunk({ type: 'TOP_POPULAR_ALL' }))
-      }
-    />
+    <MovieList showMoreCallback={() => dispatch(fetchFilterItemsThunk())} />
   );
 }

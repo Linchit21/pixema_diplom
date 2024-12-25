@@ -1,24 +1,23 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilterItemsThunk } from '@/redux/movie-items-slice';
+import { searchFilters } from '@/redux/movie-items-slice';
 import { useEffect } from 'react';
 import { fetchFiltersThunk } from '@/redux/filters-slice';
 import { AppDispatch, RootState } from '@/redux/store';
-import { useNavigate } from 'react-router';
 import { ISearchFilterFormValues } from './type';
 
 interface SearchFilterProps {
   toggle: boolean; // Типизация пропса toggle
-  onClose: () => void;
+  setVisible: (isVisible: boolean) => void;
 }
 
-export function SearchFilter({ toggle, onClose }: SearchFilterProps) {
-  const navigate = useNavigate();
+export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
   const dispatch: AppDispatch = useDispatch();
   const { genres, countries } = useSelector(
     (state: RootState) => state.filters
   );
+  const { search } = useSelector((state: RootState) => state.movieItems);
 
   const { register, handleSubmit, reset } = useForm<ISearchFilterFormValues>();
 
@@ -26,10 +25,16 @@ export function SearchFilter({ toggle, onClose }: SearchFilterProps) {
     dispatch(fetchFiltersThunk());
   }, []);
 
+  useEffect(() => {
+    if (!Object.keys(search).length) {
+      reset();
+      setVisible(false);
+    }
+  }, [search]);
+
   const onSubmit: SubmitHandler<ISearchFilterFormValues> = (body) => {
-    navigate(`/`);
-    dispatch(fetchFilterItemsThunk(body));
-    onClose();
+    dispatch(searchFilters(body));
+    setVisible(false);
   };
 
   const handleClickButtonReset = () => reset();
@@ -42,7 +47,7 @@ export function SearchFilter({ toggle, onClose }: SearchFilterProps) {
           <button
             className={styles['search-filter__close-button']}
             type="button"
-            onClick={onClose}
+            onClick={() => setVisible(false)}
           ></button>
         </div>
 
@@ -81,18 +86,6 @@ export function SearchFilter({ toggle, onClose }: SearchFilterProps) {
           </div>
 
           <div className={styles['search-filter__settings']}>
-            <div className={styles['search-filter__movie-name']}>
-              <div className={styles['search-filter__label']}>
-                Full or short movie name
-              </div>
-              <input
-                placeholder="Your text"
-                type="text"
-                id=""
-                {...register('keyword')}
-              />
-            </div>
-
             <div className={styles['search-filter__countries']}>
               <div className={styles['search-filter__label']}>Genres</div>
               <select id="" {...register('genres')}>

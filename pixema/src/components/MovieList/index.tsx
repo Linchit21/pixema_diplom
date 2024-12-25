@@ -15,6 +15,7 @@ export function MovieList({ showMoreCallback }: MovieListProps) {
   const { movieItems, total, error, isLoaded } = useSelector(
     (state: RootState) => state.movieItems
   );
+  console.log(movieItems);
 
   useEffect(() => {
     if (error) {

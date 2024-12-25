@@ -6,12 +6,19 @@ import { SearchFilter } from '../SearchFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchGetCurrentUserThunk } from '@/redux/auth-slice';
+import { searchFilters, setBurger } from '@/redux/movie-items-slice';
+import { createClassName } from '@/utils/className';
 
 export function Header() {
   //FIXME: при обнове страницы в импуте должно содержаться значение из useParams
+  const cn = createClassName(styles, 'header');
+  const { burger } = useSelector((state: RootState) => state.movieItems);
+
   const { jwt } = useSelector((state: RootState) => state.auth);
+  const { search } = useSelector((state: RootState) => state.movieItems);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchItem, setSearchItem] = useState<string>('');
 
   useEffect(() => {
     if (jwt?.access) {
@@ -21,15 +28,24 @@ export function Header() {
     }
   }, [jwt]);
 
+  useEffect(() => {
+    if (!search.keyword) {
+      setSearchItem('');
+    }
+  }, [search]);
+
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const [searchItem, setSearchItem] = useState<string>('');
+  const handleClickBurger = () => {
+    dispatch(setBurger(!burger));
+  };
+
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    navigate(`/search/${searchItem}`);
+    dispatch(searchFilters({ keyword: searchItem }));
   };
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,9 +74,16 @@ export function Header() {
         />
       </form>
       <div className={styles.header__modal}>
-        <SearchFilter toggle={visible} onClose={toggleFilter} />
+        <SearchFilter toggle={visible} setVisible={setVisible} />
       </div>
-      {user ? <User /> : ''}
+      <div className={styles.header__user}>{user ? <User /> : ''}</div>
+      <button
+        className={cn('burger', {
+          open: burger,
+        })}
+        type="button"
+        onClick={handleClickBurger}
+      ></button>
     </div>
   );
 }

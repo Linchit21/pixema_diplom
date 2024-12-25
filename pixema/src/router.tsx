@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from '@/pages/Home';
 import { Trends } from '@/pages/Trends';
-import { SearchResult } from '@/pages/SearchResult';
 import { Favorites } from '@/pages/Favorites';
 import { SignInForm } from '@/components/SignInForm';
 import { SignUpForm } from '@/components/SignUpForm';
@@ -29,10 +28,10 @@ export const router = createBrowserRouter([
         path: '/movie/:movieId',
         element: <Movie />,
       },
-      {
-        path: '/search/:searchId',
-        element: <SearchResult />,
-      },
+      // {
+      //   path: '/search/:searchId',
+      //   element: <SearchResult />,
+      // },
       {
         path: '/favorites',
         element: <Favorites />,
