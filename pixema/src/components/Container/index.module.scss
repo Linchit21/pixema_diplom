@@ -4,4 +4,23 @@
   margin: 0 auto;
   width: 100%;
   flex-grow: 1;
+  position: relative;
+
+  &__loadbar {
+    position: fixed;
+    width: 100%;
+    height: 5px;
+    background-color: yellow;
+    animation: loadbar 5s linear infinite;
+    transform-origin: 0% 0%;
+  }
+
+  @keyframes loadbar {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 }

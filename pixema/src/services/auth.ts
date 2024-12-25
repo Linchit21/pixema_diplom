@@ -103,7 +103,7 @@ export const requestRefreshAccessToken = async (
     }
   );
 
-  return response.data;
+  return response.data.access;
 };
 
 export interface IRequestSetPasswordBody {

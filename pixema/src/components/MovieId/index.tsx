@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { favorite, resetMovieItem } from '@/redux/movie-items-slice';
 import favorites from '/icons/favorites.svg';
+import share from '/icons/share.svg';
 import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -19,6 +20,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 import { createClassName } from '@/utils/className';
+import { ShareModal } from '../ShareButtons';
 
 export function MovieId() {
   const dispatch: AppDispatch = useDispatch();
@@ -28,6 +30,8 @@ export function MovieId() {
   const { movieId } = useParams<{ movieId: string | undefined }>();
   const cn = createClassName(styles, 'movie-id');
   console.log(movieItem);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -47,6 +51,10 @@ export function MovieId() {
       dispatch(favorite(movieItem));
     }
     event?.preventDefault();
+  };
+
+  const handleClickShareButton = () => {
+    setIsVisible(!isVisible);
   };
 
   if (error) {
@@ -93,9 +101,13 @@ export function MovieId() {
           <button
             className={`${styles['movie-id__button']} ${styles['movie-id__button_right']}`}
             type="button"
+            onClick={handleClickShareButton}
           >
-            <img src={favorites} alt="" />
+            <img src={share} alt="" />
           </button>
+          <div className={cn('share')}>
+            <ShareModal title={nameRu} visible={isVisible} />
+          </div>
         </div>
       </div>
       <div>
