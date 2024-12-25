@@ -20,7 +20,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 import { createClassName } from '@/utils/className';
-import { ShareModal } from '../ShareButtons';
+import { ShareButtons } from '../ShareButtons';
 
 export function MovieId() {
   const dispatch: AppDispatch = useDispatch();
@@ -106,7 +106,7 @@ export function MovieId() {
             <img src={share} alt="" />
           </button>
           <div className={cn('share')}>
-            <ShareModal title={nameRu} visible={isVisible} />
+            <ShareButtons title={nameRu} visible={isVisible} />
           </div>
         </div>
       </div>

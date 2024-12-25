@@ -15,8 +15,8 @@ interface ShareModalProps {
   visible: boolean;
 }
 
-export function ShareModal({ title, visible }: ShareModalProps) {
-  const cn = createClassName(styles, 'share-modal');
+export function ShareButtons({ title, visible }: ShareModalProps) {
+  const cn = createClassName(styles, 'share-buttons');
   const shareUrl = window.location.href;
 
   return (
