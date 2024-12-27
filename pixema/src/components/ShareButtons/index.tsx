@@ -1,6 +1,4 @@
 import { createClassName } from '@/utils/className';
-import styles from './index.module.scss';
-
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -9,6 +7,8 @@ import {
   TelegramShareButton,
   TelegramIcon,
 } from 'react-share';
+
+import styles from './index.module.scss';
 
 interface ShareModalProps {
   title: string;

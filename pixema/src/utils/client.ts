@@ -45,7 +45,6 @@ clientAuth.interceptors.response.use(
     return response;
   },
   function (error) {
-    //FIXME: криво работает
     if (error.status == 401) {
       window.location.href = '/auth/sign-in';
       console.log('yes');

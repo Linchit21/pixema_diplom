@@ -1,6 +1,7 @@
 import { createClassName } from '@/utils/className';
-import styles from './index.module.scss';
 import { useNavigate } from 'react-router';
+
+import styles from './index.module.scss';
 
 export function ErrorActivation() {
   const cn = createClassName(styles, 'activation-error');

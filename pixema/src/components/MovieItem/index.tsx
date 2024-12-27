@@ -1,8 +1,8 @@
 import { IMovieArticle } from '@/types/movie/movie';
 import { useNavigate } from 'react-router';
+import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
-import { createClassName } from '@/utils/className';
 
 interface MovieItemProps {
   movieData: IMovieArticle;

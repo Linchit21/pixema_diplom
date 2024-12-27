@@ -1,9 +1,10 @@
 import { Header } from '@/components/Header';
-import styles from './index.module.scss';
 import { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { createClassName } from '@/utils/className';
+
+import styles from './index.module.scss';
 
 interface MainProps {
   children: ReactNode;

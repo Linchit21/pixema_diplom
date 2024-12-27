@@ -1,15 +1,15 @@
 import { MovieItem } from '@/components/MovieItem';
 import { IMovieArticle } from '@/types/movie/movie';
 import { useSelector } from 'react-redux';
-
-import styles from './index.module.scss';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { EmptyItem } from '../EmptyItem';
 import { createClassName } from '@/utils/className';
 
+import styles from './index.module.scss';
+
 interface MovieListProps {
-  showMoreCallback: () => void;
+  showMoreCallback?: () => void;
 }
 
 export function MovieList({ showMoreCallback }: MovieListProps) {
@@ -30,7 +30,9 @@ export function MovieList({ showMoreCallback }: MovieListProps) {
   }
 
   const handleClickShowMore = () => {
-    showMoreCallback();
+    if (showMoreCallback) {
+      showMoreCallback();
+    }
   };
 
   return (

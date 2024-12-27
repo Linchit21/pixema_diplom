@@ -1,7 +1,8 @@
 import { createClassName } from '@/utils/className';
-import styles from './index.module.scss';
 import { ISettingsProfileValuesType } from '../SettingsProfile';
 import { UseFormRegister } from 'react-hook-form';
+
+import styles from './index.module.scss';
 
 interface InputProps {
   placeholder?: string;

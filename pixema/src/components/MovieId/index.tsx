@@ -15,9 +15,9 @@ import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import { createClassName } from '@/utils/className';
 import { ShareButtons } from '../ShareButtons';
+import { EmptyItem } from '../EmptyItem';
 
 import styles from './index.module.scss';
-import { EmptyItem } from '../EmptyItem';
 
 export function MovieId() {
   const [isVisible, setIsVisible] = useState(false);

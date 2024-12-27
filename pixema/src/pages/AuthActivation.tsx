@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthActivationThunk } from '@/redux/auth-slice';
-
 import { useNavigate, useParams } from 'react-router';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ErrorActivation } from '@/components/Error';
@@ -17,6 +16,7 @@ export function AuthActivation() {
       uid,
       token,
     };
+
     dispatch(fetchAuthActivationThunk(body));
   }, []);
 

@@ -12,10 +12,6 @@ export function Trends() {
   const fetchData = () =>
     dispatch(fetchPremieresItemsThunk({ year: '2024', month: 'OCTOBER' }));
 
-  // year
-  // month
-  // /api/v2.2/films/collections
-
   useEffect(() => {
     fetchData();
 

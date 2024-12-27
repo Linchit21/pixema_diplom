@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 import { fetchFiltersThunk } from '@/redux/filters-slice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ISearchFilterFormValues } from './type';
+import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
-import { createClassName } from '@/utils/className';
 
 interface SearchFilterProps {
   toggle: boolean; // Типизация пропса toggle

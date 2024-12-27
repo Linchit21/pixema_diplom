@@ -20,11 +20,7 @@ export function Favorites() {
 
   const renderFavorites = () => {
     if (movieItems.length != 0) {
-      return (
-        <MovieList
-          showMoreCallback={() => console.log} //FIXME: что сюда передать?
-        />
-      );
+      return <MovieList />;
     } else {
       return <EmptyItem />;
     }

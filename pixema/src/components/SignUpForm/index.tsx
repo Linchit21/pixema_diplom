@@ -7,9 +7,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router';
 import { ISignUpFormValuesType } from './types';
 import { AppDispatch } from '@/redux/store';
+import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
-import { createClassName } from '@/utils/className';
 
 export function SignUpForm() {
   const dispatch: AppDispatch = useDispatch();

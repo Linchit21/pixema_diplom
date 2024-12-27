@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { createClassName } from '@/utils/className';
+import { NavLink } from 'react-router';
 
 import styles from './index.module.scss';
-import { NavLink } from 'react-router';
 
 export function RegistrationConfirm() {
   const cn = createClassName(styles, 'registration-confirm');
