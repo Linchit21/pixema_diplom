@@ -22,7 +22,6 @@ export function SignInForm() {
     const successCallback = () => {
       navigate('/');
     };
-    console.log(body);
     dispatch(fetchSignInThunk({ body, successCallback }));
   };
 

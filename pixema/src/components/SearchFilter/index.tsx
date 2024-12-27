@@ -10,7 +10,7 @@ import { createClassName } from '@/utils/className';
 import styles from './index.module.scss';
 
 interface SearchFilterProps {
-  toggle: boolean; // Типизация пропса toggle
+  toggle: boolean;
   setVisible: (isVisible: boolean) => void;
 }
 

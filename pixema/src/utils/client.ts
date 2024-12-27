@@ -47,10 +47,8 @@ clientAuth.interceptors.response.use(
   function (error) {
     if (error.status == 401) {
       window.location.href = '/auth/sign-in';
-      console.log('yes');
       localStorage.removeItem('jwt');
     }
-    console.error(error);
 
     return Promise.reject(error);
   }

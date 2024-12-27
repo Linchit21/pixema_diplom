@@ -27,7 +27,6 @@ export function SignUpForm() {
       dispatch(fetchSignUpThunk(body));
       navigate('/auth/email');
     }
-    console.log(body);
   };
 
   const emailRef = useRef<FormFieldElement>(null);
@@ -41,7 +40,6 @@ export function SignUpForm() {
 
     return null;
   };
-  console.log(errors);
 
   useEffect(() => {
     if (emailRef.current) {

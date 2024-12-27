@@ -148,7 +148,6 @@ export const movieItemsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchFilterItemsThunk.fulfilled, (state, action) => {
-        console.log(action);
         state.total = action.payload.total;
         state.isLoaded = false;
         state.movieItems = [...state.movieItems, ...action.payload.items];

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthActivationThunk } from '@/redux/auth-slice';
 import { useNavigate, useParams } from 'react-router';
 import { AppDispatch, RootState } from '@/redux/store';
-import { ErrorActivation } from '@/components/Error';
 
 export function AuthActivation() {
   const { uid, token } = useParams();
@@ -24,9 +23,5 @@ export function AuthActivation() {
     navigate('/');
   }
 
-  return (
-    <div>
-      <ErrorActivation />
-    </div>
-  );
+  return <div>Ошибка</div>;
 }
