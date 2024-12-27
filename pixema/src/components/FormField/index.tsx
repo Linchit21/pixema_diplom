@@ -1,7 +1,8 @@
 import React from 'react';
 import { forwardRef } from 'react';
-import styles from './index.module.scss';
 import { FormFieldProps, FormFieldElement } from './types';
+
+import styles from './index.module.scss';
 
 export const FormField = forwardRef<FormFieldElement, FormFieldProps>(
   function FormField(

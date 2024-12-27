@@ -20,10 +20,10 @@
     gap: 40px;
     background-color: $dark;
     margin-bottom: 40px;
-  }
 
-  &__invalid {
-    border: 2px solid red;
+    &_invalid {
+      border: 2px solid red;
+    }
   }
 
   &__input {

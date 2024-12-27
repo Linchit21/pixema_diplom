@@ -10,8 +10,8 @@ interface MainProps {
 }
 
 export function Main({ children }: MainProps) {
-  const { burger } = useSelector((state: RootState) => state.movieItems);
   const cn = createClassName(styles, 'main');
+  const { burger } = useSelector((state: RootState) => state.movieItems);
 
   return (
     <div className={cn('', { open: burger })}>

@@ -1,7 +1,8 @@
 import { ISidebarNavigationItem } from '@/components/Sidebar/constants';
-import styles from '@components/Sidebar/index.module.scss';
 import { NavLink, useMatch, useResolvedPath } from 'react-router';
 import { createClassName } from '@/utils/className';
+
+import styles from '@components/Sidebar/index.module.scss';
 
 interface SidebarLinkProps {
   item: ISidebarNavigationItem;
@@ -18,11 +19,11 @@ export function SidebarLink({ item }: SidebarLinkProps) {
   return (
     <NavLink to={item.path} className={cn('item', { active: !!isActive })}>
       <img
-        className={styles['sidebar__item-icon']}
+        className={cn('item-icon')}
         src={isActive ? item.activeIcon : item.icon}
         alt={item.title}
       />
-      <span className={styles['sidebar__item-title']}>{item.title}</span>
+      <span className={cn('item-title')}>{item.title}</span>
     </NavLink>
   );
 }

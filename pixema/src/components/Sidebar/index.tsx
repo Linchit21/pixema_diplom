@@ -1,11 +1,11 @@
 import { SidebarNavigation } from '@/components/Sidebar/constants';
 import { SidebarLink } from '../SidebarLink';
 import { createClassName } from '@/utils/className';
-
-import styles from './index.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { User } from '../User';
+
+import styles from './index.module.scss';
 
 export function Sidebar() {
   const cn = createClassName(styles, 'sidebar');

@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchFilters } from '@/redux/movie-items-slice';
 import { useEffect } from 'react';
@@ -7,19 +6,22 @@ import { fetchFiltersThunk } from '@/redux/filters-slice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { ISearchFilterFormValues } from './type';
 
+import styles from './index.module.scss';
+import { createClassName } from '@/utils/className';
+
 interface SearchFilterProps {
   toggle: boolean; // Типизация пропса toggle
   setVisible: (isVisible: boolean) => void;
 }
 
 export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
-  const dispatch: AppDispatch = useDispatch();
+  const cn = createClassName(styles, 'search-filter');
+  const { search } = useSelector((state: RootState) => state.movieItems);
+  const { register, handleSubmit, reset } = useForm<ISearchFilterFormValues>();
   const { genres, countries } = useSelector(
     (state: RootState) => state.filters
   );
-  const { search } = useSelector((state: RootState) => state.movieItems);
-
-  const { register, handleSubmit, reset } = useForm<ISearchFilterFormValues>();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchFiltersThunk());
@@ -40,22 +42,22 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
   const handleClickButtonReset = () => reset();
 
   return (
-    <div className={toggle ? '' : styles['search-filter']}>
-      <div className={styles['search-filter__wrapper']}>
-        <div className={styles['search-filter__title']}>
+    <div className={toggle ? '' : cn()}>
+      <div className={cn('wrapper')}>
+        <div className={cn('title')}>
           <div>Filters</div>
           <button
-            className={styles['search-filter__close-button']}
+            className={cn('close-button')}
             type="button"
             onClick={() => setVisible(false)}
           ></button>
         </div>
 
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles['search-filter__sort']}>
-            <div className={styles['search-filter__label']}>Sort by</div>
+          <div className={cn('sort')}>
+            <div className={cn('label')}>Sort by</div>
 
-            <div className={styles['search-filter__toggle']}>
+            <div className={cn('toggle')}>
               <input
                 type="radio"
                 id="RATING"
@@ -63,7 +65,7 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
                 {...register('order')}
               />
               <label
-                className={`${styles['search-filter__radiobutton']} ${styles['search-filter__radiobutton_left']}`}
+                className={`${cn('radiobutton')} ${cn('radiobutton_left')}`}
                 htmlFor="RATING"
               >
                 Rating
@@ -76,20 +78,20 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
                 {...register('order')}
               />
               <label
-                className={`${styles['search-filter__radiobutton']} ${styles['search-filter__radiobutton_right']}`}
+                className={`${cn('radiobutton')} ${cn('radiobutton_right')}`}
                 htmlFor="YEAR"
               >
                 Year
               </label>
             </div>
-            <div className={styles['search-filter__line']}></div>
+            <div className={cn('line')}></div>
           </div>
 
-          <div className={styles['search-filter__settings']}>
-            <div className={styles['search-filter__countries']}>
-              <div className={styles['search-filter__label']}>Genres</div>
+          <div className={cn('settings')}>
+            <div className={cn('countries')}>
+              <div className={cn('label')}>Genres</div>
               <select id="" {...register('genres')}>
-                {/* <option value=""></option> */}
+                <option value=""></option>
                 {genres.map((item, index) => {
                   return (
                     <option key={index} value={item.id}>
@@ -100,8 +102,8 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
               </select>
             </div>
 
-            <div className={styles['search-filter__years']}>
-              <div className={styles['search-filter__label']}>Years</div>
+            <div className={cn('years')}>
+              <div className={cn('label')}>Years</div>
               <div>
                 <input
                   placeholder="From"
@@ -118,8 +120,8 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
               </div>
             </div>
 
-            <div className={styles['search-filter__years']}>
-              <div className={styles['search-filter__label']}>Rating</div>
+            <div className={cn('years')}>
+              <div className={cn('label')}>Rating</div>
               <div>
                 <input
                   placeholder="From"
@@ -136,8 +138,8 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
               </div>
             </div>
 
-            <div className={styles['search-filter__countries']}>
-              <div className={styles['search-filter__label']}>Countries</div>
+            <div className={cn('countries')}>
+              <div className={cn('label')}>Countries</div>
               <select id="" {...register('countries')}>
                 <option value=""></option>
 
@@ -152,16 +154,16 @@ export function SearchFilter({ toggle, setVisible }: SearchFilterProps) {
             </div>
           </div>
 
-          <div className={styles['search-filter__buttons']}>
+          <div className={cn('buttons')}>
             <button
-              className={`${styles['search-filter__button']} ${styles['search-filter__button-clear']} `}
+              className={`${cn('button')} ${cn('button-clear')}`}
               onClick={handleClickButtonReset}
               type="button"
             >
               Clear filter
             </button>
             <button
-              className={`${styles['search-filter__button']} ${styles['search-filter__button-submit']} `}
+              className={`${cn('button')} ${cn('button-submit')}`}
               type="submit"
             >
               Show results

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
+import { NavLink } from 'react-router';
 
 export function RegistrationConfirm() {
+  const cn = createClassName(styles, 'registration-confirm');
   const { profile, isLoaded, error } = useSelector(
     (state: RootState) => state.auth
   );
@@ -17,21 +20,17 @@ export function RegistrationConfirm() {
   }
 
   return (
-    <div className={styles['registration-confirm']}>
-      <div className={styles['registration-confirm__header']}>
-        <p className={styles['registration-confirm__back']}>Back</p>
-        <h2 className={styles['registration-confirm__title']}>Home</h2>
-      </div>
+    <div className={cn()}>
       <div>
-        <div className={styles['registration-confirm__block']}>
-          <p className={styles['registration-confirm__text']}>
-            Please activate your account with the activation link in the email.
+        <div className={cn('block')}>
+          <p className={cn('text')}>
+            Please activate your account with the activation link in the email
             <span> {profile?.email}</span>. <br />
             Please, check your email.
           </p>
-          <button className={styles['registration-confirm__submit-button']}>
-            Go to home
-          </button>
+          <NavLink className={cn('sign-in-link')} to={'/auth/sign-in'}>
+            Sign In
+          </NavLink>
         </div>
       </div>
     </div>

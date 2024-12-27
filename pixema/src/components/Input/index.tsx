@@ -1,13 +1,14 @@
 import { createClassName } from '@/utils/className';
 import styles from './index.module.scss';
+import { ISettingsProfileValuesType } from '../SettingsProfile';
+import { UseFormRegister } from 'react-hook-form';
 
 interface InputProps {
   placeholder?: string;
   type: string;
   title?: string;
   isDisabled?: boolean;
-  register?: (name: string) => {};
-  registerName?: string;
+  register?: ReturnType<UseFormRegister<ISettingsProfileValuesType>>;
 }
 
 export function Input({
@@ -15,7 +16,6 @@ export function Input({
   type,
   title,
   isDisabled = false,
-  registerName,
   register,
 }: InputProps) {
   const cn = createClassName(styles, 'input');
@@ -28,7 +28,7 @@ export function Input({
         disabled={isDisabled}
         className={cn()}
         placeholder={placeholder}
-        {...(register && registerName ? register(registerName) : {})} //FIXME: Рефакторинг
+        {...register}
       />
     </label>
   );

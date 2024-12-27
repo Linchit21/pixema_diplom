@@ -2,17 +2,19 @@ import { useEffect, useRef } from 'react';
 import { FormField } from '@/components/FormField';
 import { useDispatch } from 'react-redux';
 import { fetchSignUpThunk } from '@/redux/auth-slice';
-
-import styles from './index.module.scss';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router';
 import { ISignUpFormValuesType } from './types';
 import { AppDispatch } from '@/redux/store';
 
+import styles from './index.module.scss';
+import { createClassName } from '@/utils/className';
+
 export function SignUpForm() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const cn = createClassName(styles, 'sign-up-form');
 
   const {
     register,
@@ -23,8 +25,9 @@ export function SignUpForm() {
   const onSubmit: SubmitHandler<ISignUpFormValuesType> = (body) => {
     if (body.password === body['confirm password']) {
       dispatch(fetchSignUpThunk(body));
-      navigate('/auth/activation/');
+      navigate('/auth/email');
     }
+    console.log(body);
   };
 
   const emailRef = useRef<FormFieldElement>(null);
@@ -38,6 +41,7 @@ export function SignUpForm() {
 
     return null;
   };
+  console.log(errors);
 
   useEffect(() => {
     if (emailRef.current) {
@@ -46,60 +50,45 @@ export function SignUpForm() {
   }, []);
 
   return (
-    <div className={styles['sign-up-form']}>
+    <div className={cn()}>
       {renderAlert()}
-      <div className={styles['sign-up-form__title']}>Sign Up</div>
+      <div className={cn('title')}>Sign Up</div>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles['sign-up-form__form']}
-      >
-        <div className={styles['sign-up-form__logo']}></div>
-        <div className={styles['sign-up-form__form-fields']}>
+      <form onSubmit={handleSubmit(onSubmit)} className={cn('form')}>
+        <div className={cn('logo')}></div>
+        <div className={cn('form-fields')}>
           <FormField
             label="Username"
-            {...register('username', {
-              required: true,
-            })}
+            {...register('username', { required: true })}
           />
 
           <FormField
             label="Email"
             type="email"
-            {...register('email', {
-              required: true,
-            })}
-            ref={emailRef}
+            {...register('email', { required: true })}
           />
 
           <FormField
             passwordToggle={true}
             label="Password"
             type="password"
-            {...register('password', {
-              required: true,
-            })}
+            {...register('password', { required: true })}
           />
 
           <FormField
             passwordToggle={true}
             label="Confirm password"
             type="password"
-            {...register('confirm password', {
-              required: true,
-            })}
+            {...register('confirm password', { required: true })}
           />
         </div>
 
-        <button type="submit" className={styles['sign-up-form__submit-button']}>
-          SignUp
+        <button type="submit" className={cn('submit-button')}>
+          Sign Up
         </button>
-        <p className={styles['sign-up-form__hint']}>
-          You alredy have account?
-          <NavLink
-            className={styles['sign-up-form__sign-in-link']}
-            to={'/auth/sign-in'}
-          >
+        <p className={cn('hint')}>
+          You already have an account?{' '}
+          <NavLink className={cn('sign-in-link')} to={'/auth/sign-in'}>
             Sign In
           </NavLink>
         </p>

@@ -1,38 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
-import styles from './index.module.scss';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { favorite, resetMovieItem } from '@/redux/movie-items-slice';
-import favorites from '/icons/favorites.svg';
-import share from '/icons/share.svg';
-import favoritesActive from '/icons/favorites_active.svg';
 import { MovieItem } from '../MovieItem';
 import { AppDispatch, RootState } from '@/redux/store';
 import { IMovieArticle, IMovieCountries } from '@/types/movie/movie';
-
-//swiper
+import favorites from '/icons/favorites.svg';
+import share from '/icons/share.svg';
+import favoritesActive from '/icons/favorites_active.svg';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-// import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 import { createClassName } from '@/utils/className';
 import { ShareButtons } from '../ShareButtons';
 
+import styles from './index.module.scss';
+import { EmptyItem } from '../EmptyItem';
+
 export function MovieId() {
-  const dispatch: AppDispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState(false);
   const { movieItem, movieItems, favoriteItems, error } = useSelector(
     (state: RootState) => state.movieItems
   );
   const { movieId } = useParams<{ movieId: string | undefined }>();
+  const dispatch: AppDispatch = useDispatch();
   const cn = createClassName(styles, 'movie-id');
-  console.log(movieItem);
-
-  const [isVisible, setIsVisible] = useState(false);
-
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
 
@@ -62,7 +56,7 @@ export function MovieId() {
   }
 
   if (!movieItem) {
-    return <div>No posts</div>;
+    return <EmptyItem />;
   }
 
   const {
@@ -81,25 +75,21 @@ export function MovieId() {
   } = movieItem;
 
   return (
-    <div className={styles['movie-id']}>
-      <div className={styles['movie-id__preview']}>
-        <div className={styles['movie-id__img-wrapper']}>
-          <img
-            className={styles['movie-id__img']}
-            src={posterUrl}
-            alt={nameRu}
-          />
+    <div className={cn()}>
+      <div className={cn('preview')}>
+        <div className={cn('img-wrapper')}>
+          <img className={cn('img')} src={posterUrl} alt={nameRu} />
         </div>
-        <div className={styles['movie-id__buttons']}>
+        <div className={cn('buttons')}>
           <button
-            className={`${styles['movie-id__button']} ${styles['movie-id__button_left']}`}
+            className={cn('button', { left: true })}
             type="button"
             onClick={handleClickFavoriteButton}
           >
             <img src={find ? favoritesActive : favorites} alt="" />
           </button>
           <button
-            className={`${styles['movie-id__button']} ${styles['movie-id__button_right']}`}
+            className={cn('button', { right: true })}
             type="button"
             onClick={handleClickShareButton}
           >
@@ -111,18 +101,15 @@ export function MovieId() {
         </div>
       </div>
       <div>
-        <div className={styles['movie-id__tags']}>
-          {genres?.map((item, index) => {
-            return <p key={index}>{item.genre}</p>;
-          })}
+        <div className={cn('tags')}>
+          {genres?.map((item, index) => (
+            <p key={index}>{item.genre}</p>
+          ))}
         </div>
-        <div className={styles['movie-id__title']}>{nameRu}</div>
-        <div className={styles['movie-id__ratings']}>
+        <div className={cn('title')}>{nameRu}</div>
+        <div className={cn('ratings')}>
           {ratingKinopoisk && (
-            <a
-              href={webUrl}
-              className={`${cn('rating')} ${cn('rating_kinopoisk')}`}
-            >
+            <a href={webUrl} className={cn('rating', { kinopoisk: true })}>
               <img
                 className={cn('img-kinopoisk')}
                 src="/public/img/kinopoisk.png"
@@ -134,7 +121,7 @@ export function MovieId() {
           {ratingImdb && (
             <a
               href={`https://www.imdb.com/title/${imdbId}/`}
-              className={`${cn('rating')} ${cn('rating_imdb')}`}
+              className={cn('rating', { imdb: true })}
             >
               <img
                 className={cn('img-imdb')}
@@ -145,41 +132,33 @@ export function MovieId() {
             </a>
           )}
         </div>
-        <div className={styles['movie-id__text']}>{description}</div>
-        <div className={styles['movie-id__list']}>
-          <div className={styles['movie-id__list_col-key']}>
+        <div className={cn('text')}>{description}</div>
+        <div className={cn('list')}>
+          <div className={cn('list_col-key')}>
             <p>Год</p>
             <p>Страна</p>
             <p>Время</p>
             <p>Возраст</p>
           </div>
-          <div className={styles['movie-id__list_col-string']}>
+          <div className={cn('list_col-string')}>
             <p>{year}</p>
             <div style={{ display: 'flex', gap: '10px' }}>
-              {countries?.map((item: IMovieCountries, index: number) => {
-                return <p key={index}>{item.country}</p>;
-              })}
+              {countries?.map((item: IMovieCountries, index: number) => (
+                <p key={index}>{item.country}</p>
+              ))}
             </div>
             <p>{filmLength ?? 'Неизвестно'}</p>
             <p>{`${ratingAgeLimits.slice(3)} +`}</p>
           </div>
         </div>
-        {movieItems.length != 0 && (
+        {movieItems.length !== 0 && (
           <>
-            <div className={styles['movie-id__recomendation']}>
-              Recommendations
-            </div>
-            <div className={styles['movie-id__swiper']}>
-              <button
-                ref={prevRef}
-                className={`${styles['movie-id__arrow-prev']} ${styles['movie-id__arrow']}`}
-              >
+            <div className={cn('recomendation')}>Recommendations</div>
+            <div className={cn('swiper')}>
+              <button ref={prevRef} className={cn('arrow', { prev: true })}>
                 ←
               </button>
-              <button
-                ref={nextRef}
-                className={`${styles['movie-id__arrow-next']} ${styles['movie-id__arrow']}`}
-              >
+              <button ref={nextRef} className={cn('arrow', { next: true })}>
                 →
               </button>
               <Swiper
@@ -190,10 +169,8 @@ export function MovieId() {
                   nextEl: nextRef.current,
                 }}
                 onInit={(swiper: SwiperClass) => {
-                  // Связываем стрелки после инициализации
                   if (
                     prevRef.current &&
-                    nextRef.current &&
                     nextRef.current &&
                     swiper.params.navigation &&
                     typeof swiper.params.navigation === 'object'
@@ -207,13 +184,11 @@ export function MovieId() {
                 modules={[Pagination, Navigation]}
                 className="mySwiper"
               >
-                {movieItems?.map((item, index) => {
-                  return (
-                    <SwiperSlide key={index}>
-                      <MovieItem movieData={item} />
-                    </SwiperSlide>
-                  );
-                })}
+                {movieItems?.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <MovieItem movieData={item} />
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
           </>

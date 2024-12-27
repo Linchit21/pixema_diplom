@@ -1,34 +1,12 @@
 import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
   movieItemEndpoint,
-  movieItemsEndpoint,
   movieItemsFilterEndpoint,
   movieItemsSimilarEndpoint,
   moviePremieresItemsEndpoint,
 } from '@/config/api';
 import { IMovieArticle } from '@/types/movie/movie';
 import { client } from '@/utils/client';
-
-export interface IRequestMovieItemsParams {
-  type: string;
-  page?: number;
-}
-
-export interface IRequestMovieItemsResponse {
-  total: number;
-  items: IMovieArticle[];
-}
-
-export const requestMovieItems = async (params: IRequestMovieItemsParams) => {
-  const response = await client.get<IRequestMovieItemsResponse>(
-    movieItemsEndpoint,
-    {
-      params,
-    }
-  );
-
-  return response.data;
-};
 
 export const requestMovieItem = async (id: string) => {
   const response = await client.get(movieItemEndpoint(id));

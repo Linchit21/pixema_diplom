@@ -2,7 +2,6 @@ import {
   IRequestAuthActivationBody,
   IRequestGetUserResponse,
   IRequestRefreshAccessTokenBody,
-  IRequestRefreshAccessTokenResponse,
   IRequestSetPasswordBody,
   IRequestSetPasswordResponse,
   IRequestSignInBody,
@@ -58,7 +57,7 @@ export const fetchAuthActivationThunk = createAsyncThunk<
 
 export interface FetchSignInThunkPayload {
   body: IRequestSignInBody;
-  successCallback: () => void; //TODO: подумай
+  successCallback: () => void;
 }
 
 export const fetchSignInThunk = createAsyncThunk<
@@ -83,7 +82,7 @@ export const fetchGetCurrentUserThunk = createAsyncThunk<
 });
 
 export const fetchRefreshAccessTokenThunk = createAsyncThunk<
-  IRequestRefreshAccessTokenResponse,
+  string,
   IRequestRefreshAccessTokenBody
 >('auth/fetchRefreshAccessTokenThunk', async (body, { getState }) => {
   const data = await requestRefreshAccessToken(body);
@@ -152,9 +151,7 @@ export const authSlice = createSlice({
       })
       .addCase(fetchSignInThunk.rejected, (state, action) => {
         state.isLoaded = false;
-
         state.error = action.error.message ?? 'Ошибка загрузки';
-        console.log(action);
       })
       .addCase(fetchGetCurrentUserThunk.pending, (state) => {
         state.isLoaded = true;
@@ -166,15 +163,10 @@ export const authSlice = createSlice({
       })
       .addCase(fetchGetCurrentUserThunk.rejected, (state, action) => {
         state.isLoaded = false;
-
         state.error = action.error.message ?? 'Ошибка загрузки';
-        console.log(action);
       })
       .addCase(fetchSetPasswordThunk.pending, (state) => {
         state.error = null;
-      })
-      .addCase(fetchSetPasswordThunk.fulfilled, (state, action) => {
-        console.log(action);
       })
       .addCase(fetchSetPasswordThunk.rejected, (state, action) => {
         state.error = action.error.message ?? 'Ошибка загрузки';

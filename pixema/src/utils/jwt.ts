@@ -1,29 +1,31 @@
+import { IRequestRefreshAccessTokenResponse } from '@/services/auth';
 import { jwtDecode } from 'jwt-decode';
 
 export const jwt = {
   _jwtKey: 'jwt',
 
-  setToLocalStorage(tokens) {
+  setToLocalStorage(tokens: IRequestRefreshAccessTokenResponse) {
     const json = JSON.stringify(tokens);
-    // console.log('Set to localStorage');
     localStorage.setItem(this._jwtKey, json);
   },
 
   getFromLocalStorage() {
     const tokens = localStorage.getItem(this._jwtKey);
-    // console.log('Get to localStorage');
 
     if (!tokens) return null;
 
     return JSON.parse(tokens);
   },
 
-  isAccessTokenExpired(accessToken) {
-    const decodedJwt = jwtDecode(accessToken);
-    const { exp } = decodedJwt;
+  isAccessTokenExpired(accessToken: string) {
+    const decodedJwt = jwtDecode<{ exp?: number }>(accessToken);
+
+    if (!decodedJwt.exp) {
+      return true;
+    }
 
     const now = Date.now() / 1000;
 
-    return now >= exp;
+    return now >= decodedJwt.exp;
   },
 };

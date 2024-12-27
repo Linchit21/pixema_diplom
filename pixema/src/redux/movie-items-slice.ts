@@ -1,13 +1,10 @@
 import { ISearchFilterFormValues } from '@/components/SearchFilter/type';
 import {
   IRequestFilterItemsResponse,
-  IRequestMovieItemsParams,
-  IRequestMovieItemsResponse,
   IRequestPremieresItemsParams,
   IRequestPremieresItemsResponse,
   requestFilterItems,
   requestMovieItem,
-  requestMovieItems,
   requestMovieSimilaryItems,
   requestPremieresItems,
 } from '@/services/movieItems';
@@ -39,18 +36,6 @@ const initialState: MovieItemsState = {
   search: {},
   burger: false,
 };
-
-// Запрос за постами для HOME //TODO: нужен?
-export const fetchMovieItemsThunk = createAsyncThunk<
-  IRequestMovieItemsResponse,
-  IRequestMovieItemsParams
->('movieItems/fetchMovieItemsThunk', async (params, { getState }) => {
-  const page = (getState as () => RootState)().movieItems.page;
-
-  const data = await requestMovieItems({ ...params, page });
-
-  return data;
-});
 
 // Запрос за постами для TRENDS
 export const fetchPremieresItemsThunk = createAsyncThunk<
@@ -144,20 +129,6 @@ export const movieItemsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMovieItemsThunk.pending, (state) => {
-        state.isLoaded = true;
-        state.error = null;
-      })
-      .addCase(fetchMovieItemsThunk.fulfilled, (state, action) => {
-        state.total = action.payload.total;
-        state.isLoaded = false;
-        state.movieItems = [...state.movieItems, ...action.payload.items];
-        state.page += 1;
-      })
-      .addCase(fetchMovieItemsThunk.rejected, (state, action) => {
-        state.isLoaded = false;
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      })
       .addCase(fetchPremieresItemsThunk.pending, (state) => {
         state.isLoaded = true;
         state.error = null;

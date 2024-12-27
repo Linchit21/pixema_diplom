@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './index.module.scss';
 import { AppDispatch, RootState } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { logOut } from '@/redux/auth-slice';
 
+import styles from './index.module.scss';
+
 export function User() {
-  const cn = createClassName(styles, 'user');
-  const dispatch: AppDispatch = useDispatch();
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const { user } = useSelector((state: RootState) => state.auth);
+  const cn = createClassName(styles, 'user');
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   function firstLetter(item: string = '') {

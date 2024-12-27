@@ -3,7 +3,7 @@ interface StylesModuleType {
 }
 
 interface ClassNameMod {
-  [key: string]: string | number | boolean | undefined;
+  [key: string]: string | number | boolean | undefined | null;
 }
 
 export function createClassName(

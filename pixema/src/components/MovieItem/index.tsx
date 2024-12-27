@@ -1,12 +1,15 @@
 import { IMovieArticle } from '@/types/movie/movie';
-import styles from './index.module.scss';
 import { useNavigate } from 'react-router';
+
+import styles from './index.module.scss';
+import { createClassName } from '@/utils/className';
 
 interface MovieItemProps {
   movieData: IMovieArticle;
 }
 
 export function MovieItem(props: MovieItemProps) {
+  const cn = createClassName(styles, 'movie-item');
   const {
     movieData: { posterUrl, nameRu, genres, kinopoiskId, filmId },
   } = props;
@@ -22,23 +25,17 @@ export function MovieItem(props: MovieItemProps) {
   };
 
   return (
-    <div className={styles['movie-item']} onClick={handleClickMovieItem}>
-      <div className={styles['movie-item__img-wrapper']}>
-        <img
-          className={styles['movie-item__img']}
-          src={posterUrl}
-          alt={nameRu}
-        />
+    <div className={cn()} onClick={handleClickMovieItem}>
+      <div className={cn('img-wrapper')}>
+        <img className={cn('img')} src={posterUrl} alt={nameRu} />
       </div>
-      <div className={styles['movie-item__title']}>{nameRu}</div>
-      <div className={styles['movie-item__tags']}>
-        {genres?.map((item, index) => {
-          return (
-            <div key={index} className={styles['movie-item__tag']}>
-              {item.genre}
-            </div>
-          );
-        })}
+      <div className={cn('title')}>{nameRu}</div>
+      <div className={cn('tags')}>
+        {genres?.map((item, index) => (
+          <div key={index} className={cn('tag')}>
+            {item.genre}
+          </div>
+        ))}
       </div>
     </div>
   );

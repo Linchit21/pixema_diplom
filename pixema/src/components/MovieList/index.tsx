@@ -6,12 +6,14 @@ import styles from './index.module.scss';
 import { RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { EmptyItem } from '../EmptyItem';
+import { createClassName } from '@/utils/className';
 
 interface MovieListProps {
   showMoreCallback: () => void;
 }
 
 export function MovieList({ showMoreCallback }: MovieListProps) {
+  const cn = createClassName(styles, 'movie-list');
   const { movieItems, total, error, isLoaded } = useSelector(
     (state: RootState) => state.movieItems
   );
@@ -32,22 +34,22 @@ export function MovieList({ showMoreCallback }: MovieListProps) {
   };
 
   return (
-    <div className={styles['movie-list__wrapper']}>
-      <div className={styles['movie-list']}>
-        {movieItems.map((item: IMovieArticle, index: number) => {
-          return <MovieItem key={index} movieData={item} />;
-        })}
+    <div className={cn('wrapper')}>
+      <div className={cn()}>
+        {movieItems.map((item: IMovieArticle, index: number) => (
+          <MovieItem key={index} movieData={item} />
+        ))}
       </div>
       {total > movieItems.length && (
         <button
-          className={styles['movie-list__button']}
+          className={cn('button')}
           type="button"
           onClick={handleClickShowMore}
         >
           Show more
           {isLoaded && (
             <img
-              className={styles['movie-list__spinner']}
+              className={cn('spinner')}
               src="/public/icons/spinner.svg"
               alt=""
             />

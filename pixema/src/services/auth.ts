@@ -37,8 +37,8 @@ export const requestSignUp = async (params: IRequestSignUpParams) => {
 };
 
 export interface IRequestAuthActivationBody {
-  uid: string;
-  token: string;
+  uid: string | undefined;
+  token: string | undefined;
 }
 
 export const requestAuthActivation = async (
@@ -93,6 +93,8 @@ export interface IRequestRefreshAccessTokenResponse {
   access: string;
 }
 
+// export type IRequestRefreshAccessTokenResponse = string;
+
 export const requestRefreshAccessToken = async (
   refresh: IRequestRefreshAccessTokenBody
 ) => {
@@ -107,8 +109,8 @@ export const requestRefreshAccessToken = async (
 };
 
 export interface IRequestSetPasswordBody {
-  ['current_password']: string;
-  ['new_password']: string;
+  ['current_password']: number;
+  ['new_password']: number;
 }
 
 export interface IRequestSetPasswordResponse {

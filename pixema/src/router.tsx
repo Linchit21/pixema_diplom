@@ -5,11 +5,11 @@ import { Trends } from '@/pages/Trends';
 import { Favorites } from '@/pages/Favorites';
 import { SignInForm } from '@/components/SignInForm';
 import { SignUpForm } from '@/components/SignUpForm';
-import { RegistrationConfirm } from '@/components/RegistrationConfirm';
 import { AuthActivation } from '@/pages/AuthActivation';
 import { Movie } from './pages/Movie';
-import { ModalProfile } from './components/ModalProfile';
 import { UnauthorizedLayout } from './components/UnauthorizedLayout';
+import { Settings } from './pages/Settings';
+import { RegistrationConfirm } from './components/RegistrationConfirm';
 
 export const router = createBrowserRouter([
   {
@@ -28,10 +28,6 @@ export const router = createBrowserRouter([
         path: '/movie/:movieId',
         element: <Movie />,
       },
-      // {
-      //   path: '/search/:searchId',
-      //   element: <SearchResult />,
-      // },
       {
         path: '/favorites',
         element: <Favorites />,
@@ -39,7 +35,7 @@ export const router = createBrowserRouter([
 
       {
         path: '/settings',
-        element: <ModalProfile />,
+        element: <Settings />,
       },
     ],
   },
@@ -55,12 +51,12 @@ export const router = createBrowserRouter([
         element: <SignUpForm />,
       },
       {
-        path: '/auth/activation/',
-        element: <RegistrationConfirm />,
-      },
-      {
         path: '/auth/activation/:uid/:token',
         element: <AuthActivation />,
+      },
+      {
+        path: '/auth/email',
+        element: <RegistrationConfirm />,
       },
     ],
   },

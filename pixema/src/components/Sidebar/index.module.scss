@@ -7,7 +7,7 @@
   height: 100vh;
   flex-shrink: 0;
   padding: 48px 40px 64px 62px;
-  position: fixed; //FIXME: main margin-left: 368px
+  position: fixed;
 
   @include media-tablet {
     display: none;

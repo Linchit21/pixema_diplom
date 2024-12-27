@@ -157,7 +157,7 @@
 
   &__swiper {
     position: relative;
-    width: 1120px; //FIXME: костыль
+    width: 1120px;
   }
 
   &__arrow {
@@ -167,15 +167,15 @@
     background-color: $black;
 
     cursor: pointer;
-  }
 
-  &__arrow-prev {
-    top: -20%;
-    right: 25%;
-  }
+    &_prev {
+      top: -20%;
+      right: 15%;
+    }
 
-  &__arrow-next {
-    top: -20%;
-    right: 20%;
+    &_next {
+      top: -20%;
+      right: 10%;
+    }
   }
 }
