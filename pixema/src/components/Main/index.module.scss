@@ -1,0 +1,24 @@
+@import '@styles/helpers/index.scss';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  height: 100%;
+  overflow: hidden;
+  margin-left: 368px;
+  padding: 40px 62px 64px;
+  flex-grow: 1;
+
+  @include media-tablet {
+    margin-left: 0;
+  }
+
+  &_open {
+    @include media-tablet {
+      margin-left: -264px;
+      padding-right: 0;
+      overflow: visible;
+    }
+  }
+}

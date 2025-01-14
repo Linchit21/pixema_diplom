@@ -1,0 +1,32 @@
+@import '@styles/helpers/index.scss';
+
+.movie-item {
+  width: 266px;
+
+  &__img-wrapper {
+    height: 357px;
+    margin-bottom: 24px;
+  }
+
+  &__img {
+    border-radius: 20px;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: $white;
+    margin-bottom: 4px;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 4px 20px;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    font-weight: 500;
+    color: $light;
+    text-transform: capitalize;
+  }
+}

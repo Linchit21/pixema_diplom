@@ -1,0 +1,67 @@
+@import '@styles/helpers/index.scss';
+
+.user {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 264px;
+  height: 56px;
+  position: relative;
+
+  &__initials {
+    @include flex-center;
+    color: $white;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: $primary;
+  }
+
+  &__name {
+    margin-right: auto;
+    font-weight: 600;
+    color: $white;
+  }
+
+  &__arrow {
+    width: 24px;
+    height: 24px;
+    background: url('/icons/arrow_down.svg');
+  }
+
+  &__menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+    background-color: $dark;
+    position: absolute;
+    left: 0;
+    top: calc(100% + 24px);
+
+    &_visible {
+      display: flex;
+    }
+  }
+
+  &__menu-item {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    color: $white;
+    font-weight: 500;
+    padding: 0 20px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $graphite;
+    }
+
+    &_logout {
+      color: $primary;
+    }
+  }
+}

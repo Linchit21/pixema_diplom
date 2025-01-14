@@ -1,0 +1,14 @@
+@import '@styles/helpers/index.scss';
+
+.container {
+  display: flex;
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+
+  @include media-tablet {
+    flex-direction: row-reverse;
+  }
+}

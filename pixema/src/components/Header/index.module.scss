@@ -1,0 +1,71 @@
+@import '@styles/helpers/index.scss';
+
+.header {
+  display: flex;
+  gap: 41px;
+  width: 100%;
+
+  &__form {
+    display: flex;
+    padding: 16px 16px 16px 20px;
+    align-items: center;
+    gap: 20px;
+    background-color: $graphite;
+    border-radius: 10px;
+    height: 56px;
+    flex-grow: 1;
+  }
+
+  &__search {
+    background: none;
+    border: 0;
+    outline: none;
+    font-weight: 500;
+    color: $white;
+    flex-grow: 1;
+
+    &::placeholder {
+      color: $secondary;
+    }
+  }
+
+  &__filter {
+    width: 24px;
+    height: 24px;
+    background: url('/icons/filter.svg');
+  }
+
+  &__modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+  }
+
+  &__user {
+    @include media-tablet {
+      display: none;
+    }
+  }
+
+  &__burger {
+    @include flex-center;
+    display: none;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: $primary;
+    background-image: url(/public/icons/burger_line.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+
+    @include media-tablet {
+      display: block;
+    }
+
+    &_open {
+      background-image: url(/public/icons/burger_open.svg);
+    }
+  }
+}

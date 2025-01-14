@@ -1,0 +1,35 @@
+@import '@styles/helpers/index.scss';
+
+.registration-confirm {
+  margin-top: 100px;
+  padding: 30px;
+  color: $white;
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin: 0 auto;
+    background-color: $dark;
+    border: 1px solid rgba(218, 218, 218, 1);
+    width: 100%;
+    padding: 100px;
+  }
+
+  &__text {
+    line-height: 50px;
+    font-size: 36px;
+    width: 100%;
+
+    & span {
+      font-weight: 800;
+    }
+  }
+
+  &__sign-in-link {
+    text-decoration: none;
+    margin-left: 10px;
+    line-height: 50px;
+    font-size: 36px;
+  }
+}

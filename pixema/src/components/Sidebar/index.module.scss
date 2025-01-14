@@ -1,0 +1,84 @@
+@import '@styles/helpers/index.scss';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 368px;
+  height: 100vh;
+  flex-shrink: 0;
+  padding: 48px 40px 64px 62px;
+  position: fixed;
+
+  @include media-tablet {
+    display: none;
+    position: static;
+    padding: 48px 0 64px 48px;
+    width: 264px;
+  }
+
+  &_open {
+    @include media-tablet {
+      display: block;
+    }
+  }
+
+  &__logo {
+    margin-bottom: 64px;
+    width: 158px;
+    height: 40px;
+    background: url('/img/pixema.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @include media-tablet {
+      display: none;
+    }
+  }
+
+  &__user {
+    display: none;
+
+    @include media-tablet {
+      display: block;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  &__item {
+    display: flex;
+    height: 24px;
+    gap: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    color: $secondary;
+
+    &_active {
+      color: $primary;
+    }
+  }
+
+  &__item-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__item-title {
+    font-weight: 600;
+  }
+
+  &__footer {
+    margin-top: auto;
+    color: $light;
+    font-weight: 500;
+
+    @include media-tablet {
+      display: none;
+    }
+  }
+}

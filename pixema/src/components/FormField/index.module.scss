@@ -1,0 +1,19 @@
+@import '@/styles/helpers/index.scss';
+
+.form-field {
+  &__label {
+    margin-bottom: 8px;
+  }
+
+  &__input-wraper {
+    position: relative;
+  }
+
+  &__input-field {
+    width: 100%;
+    padding: 16px 0 16px 20px;
+    border-radius: 10px;
+    background-color: $graphite;
+    color: $white;
+  }
+}

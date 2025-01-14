@@ -1,0 +1,13 @@
+@import '@styles/helpers/colors.scss';
+
+@mixin media-tablet {
+  @media (max-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin media-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}

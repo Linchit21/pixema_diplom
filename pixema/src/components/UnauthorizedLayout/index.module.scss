@@ -1,0 +1,30 @@
+@import '@styles/helpers/index.scss';
+
+.unauthorized-layout {
+  height: 100vh;
+  background-image: url(/public/img/unauthorized.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+  }
+
+  &__logo {
+    position: absolute;
+    top: 43px;
+    left: 62px;
+    width: 158px;
+    height: 40px;
+    background: url('/img/pixema.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

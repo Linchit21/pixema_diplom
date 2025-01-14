@@ -1,0 +1,149 @@
+@import '@styles/helpers/index.scss';
+
+.search-filter {
+  display: none;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 48px 40px;
+    width: 518px;
+    border-radius: 10px;
+    background-color: $dark;
+    color: $white;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    margin-bottom: 48px;
+  }
+
+  &__close-button {
+    background-image: url(/public/icons/close.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+
+    &:hover {
+      background-image: url(/public/icons/close_hover.svg);
+    }
+  }
+
+  &__sort {
+    margin-bottom: 32px;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+  }
+
+  &__toggle {
+    display: flex;
+    margin-bottom: 33px;
+
+    & input {
+      display: none;
+
+      &:checked + label {
+        background-color: $black;
+        transition: ease-in-out 0.2s;
+      }
+    }
+  }
+
+  &__radiobutton {
+    flex-grow: 1;
+    text-align: center;
+    padding: 16px 0;
+    font-weight: 500;
+    line-height: 24px;
+
+    &_left {
+      border-radius: 10px 0 0 10px;
+      background-color: $graphite;
+    }
+
+    &_right {
+      border-radius: 0 10px 10px 0;
+      background-color: $graphite;
+    }
+  }
+
+  &__line {
+    border: 1px solid $graphite;
+  }
+
+  &__settings {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 111px;
+    gap: 24px;
+  }
+
+  &__movie-name {
+    & input {
+      padding: 16px 0 16px 20px;
+      background-color: $graphite;
+      border-radius: 10px;
+      width: 100%;
+      color: $white;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+
+  &__years {
+    & input {
+      padding: 16px 0 16px 20px;
+      background-color: $graphite;
+      border-radius: 10px;
+      width: 199px;
+      color: $white;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    & div {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__countries {
+    & select {
+      background-color: $graphite;
+      padding: 16px 20px;
+      color: $white;
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    width: 199px;
+    padding: 17px 0 15px;
+    border-radius: 10px;
+    color: $white;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  &__button-clear {
+    background-color: $graphite;
+  }
+
+  &__button-submit {
+    background-color: $primary;
+  }
+}

@@ -1,0 +1,61 @@
+@import '@/styles/helpers/index.scss';
+
+/* Switch Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+
+  &__input {
+    display: none; /* Скрываем стандартный чекбокс */
+  }
+
+  &__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px; /* Скругляем края для округленного переключателя */
+  }
+
+  /* Стили для передвижной части переключателя */
+  &__slider:before {
+    content: '';
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+
+  /* Стили при активации */
+  &__input:checked + &__slider {
+    background-color: #2196f3; /* Цвет фона при активации */
+  }
+
+  &__input:checked + &__slider:before {
+    transform: translateX(26px); /* Двигаем "кнопку" переключателя вправо */
+  }
+
+  /* Стили для фокуса */
+  &__input:focus + &__slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+
+  /* Модификация для круглых переключателей */
+  &__slider.round {
+    border-radius: 34px;
+  }
+
+  &__slider.round:before {
+    border-radius: 50%;
+  }
+}
