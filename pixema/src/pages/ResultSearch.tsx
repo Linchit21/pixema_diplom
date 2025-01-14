@@ -2,6 +2,7 @@ import { MovieList } from '@/components/MovieList';
 import {
   fetchFilterItemsThunk,
   resetMovieItems,
+  searchFilters,
 } from '@/redux/movie-items-slice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useEffect } from 'react';
@@ -14,6 +15,8 @@ export function ResultSearch() {
   const { keyword } = useParams();
 
   useEffect(() => {
+    dispatch(searchFilters({ keyword: keyword }));
+
     //При уничтожении компонента, сбрасываем стэйт
     return () => {
       dispatch(resetMovieItems());
@@ -21,14 +24,12 @@ export function ResultSearch() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchFilterItemsThunk({ ...search, keyword }));
+    dispatch(fetchFilterItemsThunk({ ...search }));
   }, [search]);
 
   return (
     <MovieList
-      showMoreCallback={() =>
-        dispatch(fetchFilterItemsThunk({ ...search, keyword }))
-      }
+      showMoreCallback={() => dispatch(fetchFilterItemsThunk({ ...search }))}
     />
   );
 }
