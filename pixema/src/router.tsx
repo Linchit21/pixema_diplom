@@ -10,6 +10,7 @@ import { Movie } from './pages/Movie';
 import { UnauthorizedLayout } from './components/UnauthorizedLayout';
 import { Settings } from './pages/Settings';
 import { RegistrationConfirm } from './components/RegistrationConfirm';
+import { ResultSearch } from './pages/ResultSearch';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: '/favorites',
         element: <Favorites />,
+      },
+      {
+        path: '/search/:keyword',
+        element: <ResultSearch />,
       },
 
       {

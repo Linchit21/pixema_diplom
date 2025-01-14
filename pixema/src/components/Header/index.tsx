@@ -43,6 +43,7 @@ export function Header() {
     event.preventDefault();
 
     dispatch(searchFilters({ keyword: searchItem }));
+    navigate(`/search/${searchItem}`);
   };
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {

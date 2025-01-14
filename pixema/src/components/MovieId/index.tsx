@@ -138,7 +138,7 @@ export function MovieId() {
             <p>Год</p>
             <p>Страна</p>
             <p>Время</p>
-            <p>Возраст</p>
+            <p>{ratingAgeLimits && 'Возраст'}</p>
           </div>
           <div className={cn('list_col-string')}>
             <p>{year}</p>
@@ -148,7 +148,7 @@ export function MovieId() {
               ))}
             </div>
             <p>{filmLength ?? 'Неизвестно'}</p>
-            <p>{`${ratingAgeLimits.slice(3)} +`}</p>
+            <p>{ratingAgeLimits && `${ratingAgeLimits.slice(3)} +`}</p>
           </div>
         </div>
         {movieItems.length !== 0 && (
