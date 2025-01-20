@@ -107,8 +107,8 @@ export const movieItemsSlice = createSlice({
     resetMovieItems: (state) => {
       state.page = 1;
       state.total = 0;
-      state.search = {};
       state.movieItems = [];
+      state.search = {};
     },
     resetMovieItem: (state) => {
       state.movieItem = null;
