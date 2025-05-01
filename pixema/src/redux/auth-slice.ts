@@ -107,72 +107,74 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: (state) => {
-      state.jwt = null;
       state.user = null;
       localStorage.removeItem('jwt');
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchSignUpThunk.pending, (state) => {
-        state.isLoaded = true;
-        state.error = null;
-      })
-      .addCase(fetchSignUpThunk.fulfilled, (state, action) => {
-        state.isLoaded = false;
-        state.profile = action.payload;
-      })
-      .addCase(fetchSignUpThunk.rejected, (state, action) => {
-        state.isLoaded = false;
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(fetchSignUpThunk.pending, (state) => {
+  //       state.isLoaded = true;
+  //       state.error = null;
+  //     })
+  //     .addCase(fetchSignUpThunk.fulfilled, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.profile = action.payload;
+  //     })
+  //     .addCase(fetchSignUpThunk.rejected, (state, action) => {
+  //       state.isLoaded = false;
 
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      })
-      .addCase(fetchAuthActivationThunk.pending, (state) => {
-        state.isLoaded = true;
-        state.error = null;
-        state.isActivated = false;
-      })
-      .addCase(fetchAuthActivationThunk.fulfilled, (state) => {
-        state.isLoaded = false;
-        state.isActivated = true;
-      })
-      .addCase(fetchAuthActivationThunk.rejected, (state, action) => {
-        state.isLoaded = false;
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      })
-      .addCase(fetchSignInThunk.pending, (state) => {
-        state.isLoaded = true;
-        state.error = null;
-      })
-      .addCase(fetchSignInThunk.fulfilled, (state, action) => {
-        state.isLoaded = false;
-        state.jwt = action.payload;
-        action.meta.arg.successCallback();
-      })
-      .addCase(fetchSignInThunk.rejected, (state, action) => {
-        state.isLoaded = false;
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      })
-      .addCase(fetchGetCurrentUserThunk.pending, (state) => {
-        state.isLoaded = true;
-        state.error = null;
-      })
-      .addCase(fetchGetCurrentUserThunk.fulfilled, (state, action) => {
-        state.isLoaded = false;
-        state.user = action.payload;
-      })
-      .addCase(fetchGetCurrentUserThunk.rejected, (state, action) => {
-        state.isLoaded = false;
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      })
-      .addCase(fetchSetPasswordThunk.pending, (state) => {
-        state.error = null;
-      })
-      .addCase(fetchSetPasswordThunk.rejected, (state, action) => {
-        state.error = action.error.message ?? 'Ошибка загрузки';
-      });
-  },
+  //       state.error = action.error.message ?? 'Ошибка загрузки';
+  //     })
+  //     .addCase(fetchAuthActivationThunk.pending, (state) => {
+  //       state.isLoaded = true;
+  //       state.error = null;
+  //       state.isActivated = false;
+  //     })
+  //     .addCase(fetchAuthActivationThunk.fulfilled, (state) => {
+  //       state.isLoaded = false;
+  //       state.isActivated = true;
+  //     })
+  //     .addCase(fetchAuthActivationThunk.rejected, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.error = action.error.message ?? 'Ошибка загрузки';
+  //     })
+  //     .addCase(fetchSignInThunk.pending, (state) => {
+  //       state.isLoaded = true;
+  //       state.error = null;
+  //     })
+  //     .addCase(fetchSignInThunk.fulfilled, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.jwt = action.payload;
+  //       action.meta.arg.successCallback();
+  //     })
+  //     .addCase(fetchSignInThunk.rejected, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.error = action.error.message ?? 'Ошибка загрузки';
+  //     })
+  //     .addCase(fetchGetCurrentUserThunk.pending, (state) => {
+  //       state.isLoaded = true;
+  //       state.error = null;
+  //     })
+  //     .addCase(fetchGetCurrentUserThunk.fulfilled, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.user = action.payload;
+  //     })
+  //     .addCase(fetchGetCurrentUserThunk.rejected, (state, action) => {
+  //       state.isLoaded = false;
+  //       state.error = action.error.message ?? 'Ошибка загрузки';
+  //     })
+  //     .addCase(fetchSetPasswordThunk.pending, (state) => {
+  //       state.error = null;
+  //     })
+  //     .addCase(fetchSetPasswordThunk.rejected, (state, action) => {
+  //       state.error = action.error.message ?? 'Ошибка загрузки';
+  //     });
+  // },
 });
 
 export const authReducer = authSlice.reducer;
-export const { logOut } = authSlice.actions;
+export const { logOut, setUser } = authSlice.actions;

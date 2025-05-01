@@ -1,19 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { FormField } from '@/components/FormField';
-import { useDispatch } from 'react-redux';
-import { fetchSignUpThunk } from '@/redux/auth-slice';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink } from 'react-router';
 import { ISignUpFormValuesType } from './types';
-import { AppDispatch } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
 
 export function SignUpForm() {
-  const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch: AppDispatch = useDispatch();
+  // const navigate = useNavigate();
   const cn = createClassName(styles, 'sign-up-form');
 
   const {
@@ -22,10 +21,23 @@ export function SignUpForm() {
     formState: { errors },
   } = useForm<ISignUpFormValuesType>();
 
-  const onSubmit: SubmitHandler<ISignUpFormValuesType> = (body) => {
+  const onSubmit: SubmitHandler<ISignUpFormValuesType> = async (body) => {
     if (body.password === body['confirm password']) {
-      dispatch(fetchSignUpThunk(body));
-      navigate('/auth/email');
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          body.email,
+          body.password
+        );
+
+        const user = userCredential.user;
+
+        await updateProfile(user, {
+          displayName: body.username,
+        });
+      } catch (error) {
+        console.log('Registration error:', error);
+      }
     }
   };
 

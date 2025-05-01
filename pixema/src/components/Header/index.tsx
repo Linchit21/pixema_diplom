@@ -4,30 +4,37 @@ import { useNavigate } from 'react-router';
 import { SearchFilter } from '../SearchFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { fetchGetCurrentUserThunk } from '@/redux/auth-slice';
+import { setUser } from '@/redux/auth-slice';
 import { searchFilters, setBurger } from '@/redux/movie-items-slice';
 import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
 
 export function Header() {
   const cn = createClassName(styles, 'header');
   const [searchItem, setSearchItem] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(false);
   const { burger } = useSelector((state: RootState) => state.movieItems);
-  const { jwt } = useSelector((state: RootState) => state.auth);
   const { search } = useSelector((state: RootState) => state.movieItems);
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(user);
+
   useEffect(() => {
-    if (jwt?.access) {
-      dispatch(fetchGetCurrentUserThunk(jwt?.access));
-    } else {
-      navigate('/auth/sign-in');
-    }
-  }, [jwt]);
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        console.log('User logged in:', authUser);
+      } else {
+        navigate('/auth/sign-in');
+      }
+    });
+
+    return () => unsubscribe(); // очистка слушателя при размонтировании
+  }, []);
 
   useEffect(() => {
     if (!search.keyword) {
