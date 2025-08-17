@@ -1,23 +1,34 @@
 import {
-  IRequestAuthActivationBody,
   IRequestGetUserResponse,
-  IRequestRefreshAccessTokenBody,
-  IRequestSetPasswordBody,
-  IRequestSetPasswordResponse,
-  IRequestSignInBody,
-  IRequestSignInResponse,
-  IRequestSignUpParams,
   IRequestSignUpResponse,
-  requestAuthActivation,
-  requestGetUser,
-  requestRefreshAccessToken,
-  requestSetPassword,
-  requestSignIn,
-  requestSignUp,
 } from '@/services/auth';
-import { jwt } from '@/utils/jwt';
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
+
+export const fetchSignInThunk = createAsyncThunk<User, { email: string; password: string }>(
+  'auth/fetchSignInThunk',
+  async ({ email, password }) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  }
+);
+
+export const fetchSignUpThunk = createAsyncThunk<User, { email: string; password: string }>(
+  'auth/fetchSignUpThunk',
+  async ({ email, password }) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  }
+);
+
+export const fetchSignOutThunk = createAsyncThunk<void, void>(
+  'auth/fetchSignOutThunk',
+  async () => {
+    await signOut(auth);
+  }
+);
 
 export interface AuthState {
   profile: IRequestSignUpResponse | null;
@@ -25,7 +36,6 @@ export interface AuthState {
   isLoaded: boolean;
   error: string | null;
   isActivated: boolean;
-  jwt: IRequestSignInResponse | null;
 }
 
 const initialState: AuthState = {
@@ -34,73 +44,72 @@ const initialState: AuthState = {
   isLoaded: false,
   error: null,
   isActivated: false,
-  jwt: jwt.getFromLocalStorage() || null,
 };
 
-export const fetchSignUpThunk = createAsyncThunk<
-  IRequestSignUpResponse,
-  IRequestSignUpParams
->('auth/fetchSignUpThunk', async (body) => {
-  const data = await requestSignUp(body);
+// export const fetchSignUpThunk = createAsyncThunk<
+//   IRequestSignUpResponse,
+//   IRequestSignUpParams
+// >('auth/fetchSignUpThunk', async (body) => {
+//   const data = await requestSignUp(body);
 
-  return data;
-});
+//   return data;
+// });
 
-export const fetchAuthActivationThunk = createAsyncThunk<
-  string,
-  IRequestAuthActivationBody
->('auth/fetchAuthActivationThunk', async (body) => {
-  const data = await requestAuthActivation(body);
+// export const fetchAuthActivationThunk = createAsyncThunk<
+//   string,
+//   IRequestAuthActivationBody
+// >('auth/fetchAuthActivationThunk', async (body) => {
+//   const data = await requestAuthActivation(body);
 
-  return data;
-});
+//   return data;
+// });
 
-export interface FetchSignInThunkPayload {
-  body: IRequestSignInBody;
-  successCallback: () => void;
-}
+// export interface FetchSignInThunkPayload {
+//   body: IRequestSignInBody;
+//   successCallback: () => void;
+// }
 
-export const fetchSignInThunk = createAsyncThunk<
-  IRequestSignInResponse,
-  FetchSignInThunkPayload
->('auth/fetchSignInThunk', async (payload) => {
-  const data = await requestSignIn(payload.body);
+// export const fetchSignInThunk = createAsyncThunk<
+//   IRequestSignInResponse,
+//   FetchSignInThunkPayload
+// >('auth/fetchSignInThunk', async (payload) => {
+//   const data = await requestSignIn(payload.body);
 
-  // Запись токена при запросе
-  jwt.setToLocalStorage(data);
+//   // Запись токена при запросе
+//   jwt.setToLocalStorage(data);
 
-  return data;
-});
+//   return data;
+// });
 
-export const fetchGetCurrentUserThunk = createAsyncThunk<
-  IRequestGetUserResponse,
-  string
->('auth/fetchGetCurrentUserThunk', async (body) => {
-  const data = await requestGetUser(body);
+// export const fetchGetCurrentUserThunk = createAsyncThunk<
+//   IRequestGetUserResponse,
+//   string
+// >('auth/fetchGetCurrentUserThunk', async (body) => {
+//   const data = await requestGetUser(body);
 
-  return data;
-});
+//   return data;
+// });
 
-export const fetchRefreshAccessTokenThunk = createAsyncThunk<
-  string,
-  IRequestRefreshAccessTokenBody
->('auth/fetchRefreshAccessTokenThunk', async (body, { getState }) => {
-  const data = await requestRefreshAccessToken(body);
+// export const fetchRefreshAccessTokenThunk = createAsyncThunk<
+//   string,
+//   IRequestRefreshAccessTokenBody
+// >('auth/fetchRefreshAccessTokenThunk', async (body, { getState }) => {
+//   const data = await requestRefreshAccessToken(body);
 
-  const currentJwt = (getState as () => RootState)().auth.jwt;
-  jwt.setToLocalStorage({ ...currentJwt, access: data });
+//   const currentJwt = (getState as () => RootState)().auth.jwt;
+//   jwt.setToLocalStorage({ ...currentJwt, access: data });
 
-  return data;
-});
+//   return data;
+// });
 
-export const fetchSetPasswordThunk = createAsyncThunk<
-  IRequestSetPasswordResponse,
-  IRequestSetPasswordBody
->('auth/fetchRefreshAccessTokenThunk', async (body) => {
-  const data = await requestSetPassword(body);
+// export const fetchSetPasswordThunk = createAsyncThunk<
+//   IRequestSetPasswordResponse,
+//   IRequestSetPasswordBody
+// >('auth/fetchRefreshAccessTokenThunk', async (body) => {
+//   const data = await requestSetPassword(body);
 
-  return data;
-});
+//   return data;
+// });
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -108,7 +117,7 @@ export const authSlice = createSlice({
   reducers: {
     logOut: (state) => {
       state.user = null;
-      localStorage.removeItem('jwt');
+      fetchSignOutThunk();
     },
     setUser: (state, action) => {
       state.user = action.payload;

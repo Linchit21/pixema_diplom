@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { FormField } from '@/components/FormField';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { ISignUpFormValuesType } from './types';
 import { createClassName } from '@/utils/className';
 
@@ -12,7 +12,7 @@ import { auth } from '@/firebaseConfig';
 
 export function SignUpForm() {
   // const dispatch: AppDispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const cn = createClassName(styles, 'sign-up-form');
 
   const {
@@ -35,8 +35,12 @@ export function SignUpForm() {
         await updateProfile(user, {
           displayName: body.username,
         });
+
+      navigate('/');
+
       } catch (error) {
         console.log('Registration error:', error);
+        //TODO: Сделать подсказку пользователю
       }
     }
   };

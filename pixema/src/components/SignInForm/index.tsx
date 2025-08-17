@@ -1,28 +1,32 @@
 import { FormField } from '@/components/FormField';
-import { useDispatch } from 'react-redux';
-import { fetchSignInThunk } from '@/redux/auth-slice';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router';
 import { ISignInFormValuesType } from './types';
-import { AppDispatch } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
 
 export function SignInForm() {
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const cn = createClassName(styles, 'sign-in-form');
 
   const { register, handleSubmit } = useForm<ISignInFormValuesType>({});
 
-  const onSubmit: SubmitHandler<ISignInFormValuesType> = (
-    body: ISignInFormValuesType
-  ) => {
-    const successCallback = () => {
+  const onSubmit: SubmitHandler<ISignInFormValuesType> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/');
-    };
-    dispatch(fetchSignInThunk({ body, successCallback }));
+    } catch (error) {
+      console.error('Error signing in:', error);
+      // Здесь можно обработать ошибку, например, показать уведомление пользователю
+      // dispatch(showErrorNotification('Failed to sign in. Please try again.'));
+      //TODO: обработка ошибок, если нужно
+    }
   };
 
   return (

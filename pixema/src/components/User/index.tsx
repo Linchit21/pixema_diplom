@@ -1,5 +1,3 @@
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -10,9 +8,7 @@ import { auth, signOut } from '@/firebaseConfig';
 
 export function User() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  // const { user } = useSelector((state: RootState) => state.auth);
   const cn = createClassName(styles, 'user');
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const user = auth.currentUser;
