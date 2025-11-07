@@ -1,18 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { logOut } from '@/redux/auth-slice';
 
 import styles from './index.module.scss';
+import { auth, signOut } from '@/firebaseConfig';
 
 export function User() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const { user } = useSelector((state: RootState) => state.auth);
   const cn = createClassName(styles, 'user');
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = auth.currentUser;
 
   function firstLetter(item: string = '') {
     return item.charAt(0).toUpperCase();
@@ -32,7 +31,7 @@ export function User() {
     {
       text: 'Log Out',
       onClick: () => {
-        dispatch(logOut());
+        signOut(auth);
         navigate('/auth/sign-in');
       },
       isLogOut: true,
@@ -41,8 +40,10 @@ export function User() {
 
   return (
     <div className={cn()}>
-      <div className={styles.user__initials}>{firstLetter(user?.username)}</div>
-      <div className={styles.user__name}>{user?.username}</div>
+      <div className={styles.user__initials}>
+        {firstLetter(user?.displayName)}
+      </div>
+      <div className={styles.user__name}>{user?.displayName}</div>
       <button
         className={styles.user__arrow}
         type="button"

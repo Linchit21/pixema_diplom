@@ -4,24 +4,26 @@ import {
   resetMovieItems,
 } from '@/redux/movie-items-slice';
 import { AppDispatch } from '@/redux/store';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 export function Home() {
   const dispatch: AppDispatch = useDispatch();
 
+  // Загружаем фильмы при монтировании и сбрасываем при размонтировании
   useEffect(() => {
-    //При уничтожении компонента, сбрасываем стэйт
+    dispatch(fetchFilterItemsThunk({ratingFrom: 1, ratingTo: 9}));
+
     return () => {
       dispatch(resetMovieItems());
     };
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchFilterItemsThunk());
-  }, []);
-
-  return (
-    <MovieList showMoreCallback={() => dispatch(fetchFilterItemsThunk())} />
+  // Мемоизируем callback для передачи в MovieList
+  const showMoreCallback = useCallback(
+    () => dispatch(fetchFilterItemsThunk()),
+    [dispatch]
   );
+
+  return <MovieList showMoreCallback={showMoreCallback} />;
 }

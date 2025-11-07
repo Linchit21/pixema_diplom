@@ -5,7 +5,7 @@ import { Trends } from '@/pages/Trends';
 import { Favorites } from '@/pages/Favorites';
 import { SignInForm } from '@/components/SignInForm';
 import { SignUpForm } from '@/components/SignUpForm';
-import { AuthActivation } from '@/pages/AuthActivation';
+// import { AuthActivation } from '@/pages/AuthActivation';
 import { Movie } from './pages/Movie';
 import { UnauthorizedLayout } from './components/UnauthorizedLayout';
 import { Settings } from './pages/Settings';
@@ -55,10 +55,10 @@ export const router = createBrowserRouter([
         path: '/auth/sign-up',
         element: <SignUpForm />,
       },
-      {
-        path: '/auth/activation/:uid/:token',
-        element: <AuthActivation />,
-      },
+      // {
+      //   path: '/auth/activation/:uid/:token',
+      //   element: <AuthActivation />,
+      // },
       {
         path: '/auth/email',
         element: <RegistrationConfirm />,

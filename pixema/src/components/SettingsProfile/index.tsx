@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { Input } from '../Input';
 import { createClassName } from '@/utils/className';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { fetchSetPasswordThunk } from '@/redux/auth-slice';
+// import { fetchSetPasswordThunk } from '@/redux/auth-slice';
 
 import styles from './index.module.scss';
 
@@ -28,7 +28,7 @@ export function SettingsProfile() {
         ['current_password']: data.password,
         ['new_password']: data['new_password'],
       };
-      dispatch(fetchSetPasswordThunk(body));
+      // dispatch(fetchSetPasswordThunk(body));
       reset();
     } else {
       return error;

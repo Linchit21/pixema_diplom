@@ -1,83 +1,101 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormField } from '@/components/FormField';
-import { useDispatch } from 'react-redux';
-import { fetchSignUpThunk } from '@/redux/auth-slice';
 import { FormFieldElement } from '@/components/FormField/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router';
 import { ISignUpFormValuesType } from './types';
-import { AppDispatch } from '@/redux/store';
 import { createClassName } from '@/utils/className';
 
 import styles from './index.module.scss';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '@/firebaseConfig';
 
 export function SignUpForm() {
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const cn = createClassName(styles, 'sign-up-form');
-
+  const [authError, setAuthError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setFocus,
   } = useForm<ISignUpFormValuesType>();
 
-  const onSubmit: SubmitHandler<ISignUpFormValuesType> = (body) => {
-    if (body.password === body['confirm password']) {
-      dispatch(fetchSignUpThunk(body));
-      navigate('/auth/email');
-    }
-  };
-
-  const emailRef = useRef<FormFieldElement>(null);
-
-  const renderAlert = () => {
-    if (Object.keys(errors).length) {
-      return (
-        <div className="alert alert-danger">The form has empty fields!</div>
-      );
-    }
-
-    return null;
-  };
-
   useEffect(() => {
-    if (emailRef.current) {
-      emailRef.current.focus();
+    setFocus('username');
+  }, [setFocus]);
+
+  const onSubmit: SubmitHandler<ISignUpFormValuesType> = async (body) => {
+    setAuthError(null);
+
+    if (
+      !body.username ||
+      !body.email ||
+      !body.password ||
+      !body['confirm password']
+    ) {
+      setAuthError('Please fill in all fields');
+      return;
     }
-  }, []);
+
+    // Проверка совпадения паролей
+    if (body.password !== body['confirm password']) {
+      setAuthError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        body.email,
+        body.password
+      );
+
+      await updateProfile(userCredential.user, {
+        displayName: body.username,
+      });
+
+      navigate('/');
+    } catch (error: any) {
+      console.log('Registration error:', error);
+      setAuthError(error.message); // сообщение от Firebase
+    }
+  };
 
   return (
     <div className={cn()}>
-      {renderAlert()}
       <div className={cn('title')}>Sign Up</div>
+      <div
+        className={`${cn('error')} ${authError ? cn('invalid') : cn('valid')}`}
+      >
+        {authError}
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className={cn('form')}>
         <div className={cn('logo')}></div>
         <div className={cn('form-fields')}>
           <FormField
             label="Username"
-            {...register('username', { required: true })}
+            {...register('username')}
           />
 
           <FormField
             label="Email"
             type="email"
-            {...register('email', { required: true })}
+            {...register('email')}
           />
 
           <FormField
             passwordToggle={true}
             label="Password"
             type="password"
-            {...register('password', { required: true })}
+            {...register('password')}
           />
 
           <FormField
             passwordToggle={true}
             label="Confirm password"
             type="password"
-            {...register('confirm password', { required: true })}
+            {...register('confirm password')}
           />
         </div>
 
