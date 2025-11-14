@@ -125,11 +125,7 @@ export function MovieId() {
               href={`https://www.imdb.com/title/${imdbId}/`}
               className={cn('rating', { imdb: true })}
             >
-              <img
-                className={cn('img-imdb')}
-                src={imdb}
-                alt="imdb"
-              />
+              <img className={cn('img-imdb')} src={imdb} alt="imdb" />
               <p>{ratingImdb}</p>
             </a>
           )}

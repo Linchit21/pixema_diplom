@@ -1,4 +1,5 @@
 import { createClassName } from '@/utils/className';
+import empty from '/img/empty.png'
 
 import styles from './index.module.scss';
 
@@ -8,7 +9,7 @@ export function EmptyItem() {
   return (
     <div className={cn()}>
       <div className={cn('img')}>
-        <img src="/public/img/empty.png" alt="" />
+        <img src={empty} alt="empty" />
       </div>
       <p>Empty state text</p>
     </div>

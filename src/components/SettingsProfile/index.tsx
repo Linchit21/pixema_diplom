@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { Input } from '../Input';
 import { createClassName } from '@/utils/className';
 import { SubmitHandler, useForm } from 'react-hook-form';
-// import { fetchSetPasswordThunk } from '@/redux/auth-slice';
 
 import styles from './index.module.scss';
 
@@ -18,7 +17,8 @@ export function SettingsProfile() {
   const { user, error } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit, reset } =
     useForm<ISettingsProfileValuesType>();
-  const dispatch: AppDispatch = useDispatch();
+
+  console.log(user);
 
   const onSubmit: SubmitHandler<ISettingsProfileValuesType> = async (
     data: ISettingsProfileValuesType
@@ -48,7 +48,7 @@ export function SettingsProfile() {
           <Input
             type="text"
             isDisabled={true}
-            placeholder={user?.username}
+            placeholder={user?.displayName}
             title="Name"
           />
         </div>
