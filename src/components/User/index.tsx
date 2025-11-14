@@ -1,10 +1,9 @@
 import { createClassName } from '@/utils/className';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { logOut } from '@/redux/auth-slice';
-
-import styles from './index.module.scss';
 import { auth, signOut } from '@/firebaseConfig';
+import userIcon from '../../../public/img/user.png'
+import styles from './index.module.scss';
 
 export function User() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -12,10 +11,6 @@ export function User() {
   const navigate = useNavigate();
 
   const user = auth.currentUser;
-
-  function firstLetter(item: string = '') {
-    return item.charAt(0).toUpperCase();
-  }
 
   const handleClickOpenMenu = () => {
     setIsOpened(!isOpened);
@@ -41,7 +36,7 @@ export function User() {
   return (
     <div className={cn()}>
       <div className={styles.user__initials}>
-        {firstLetter(user?.displayName)}
+        <img src={user?.photoURL ? user.photoURL : userIcon} alt="" />
       </div>
       <div className={styles.user__name}>{user?.displayName}</div>
       <button

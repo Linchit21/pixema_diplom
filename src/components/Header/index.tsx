@@ -22,11 +22,17 @@ export function Header() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        dispatch(setUser(authUser));
+        dispatch(
+          setUser({
+            uid: authUser.uid,
+            email: authUser.email,
+            displayName: authUser.displayName,
+            photoURL: authUser.photoURL,
+          })
+        );
       } else {
         navigate('/auth/sign-in');
       }
