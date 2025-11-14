@@ -9,6 +9,7 @@ import favorites from '/icons/favorites.svg';
 import share from '/icons/share.svg';
 import favoritesActive from '/icons/favorites_active.svg';
 import imdb from '/img/imdb.png';
+import kinopoisk from '/img/kinopoisk.png';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -113,8 +114,8 @@ export function MovieId() {
             <a href={webUrl} className={cn('rating', { kinopoisk: true })}>
               <img
                 className={cn('img-kinopoisk')}
-                src="/public/img/kinopoisk.png"
-                alt=""
+                src={kinopoisk}
+                alt="kinopoisk"
               />
               <p>{ratingKinopoisk}</p>
             </a>
@@ -127,7 +128,7 @@ export function MovieId() {
               <img
                 className={cn('img-imdb')}
                 src={imdb}
-                alt=""
+                alt="imdb"
               />
               <p>{ratingImdb}</p>
             </a>
