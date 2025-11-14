@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-   base: '/pixema_diplom/',
+   base: '/',
   plugins: [react()],
   optimizeDeps: {
     include: ['swiper/react', 'swiper/modules'],
