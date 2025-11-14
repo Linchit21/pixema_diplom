@@ -1,42 +1,47 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { getAuth, updatePassword  } from 'firebase/auth';
 import { Input } from '../Input';
 import { createClassName } from '@/utils/className';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import styles from './index.module.scss';
+import { useState } from 'react';
 
 export interface ISettingsProfileValuesType {
-  password: number;
-  ['new_password']: number;
-  ['confirm_password']?: number;
+  ['new_password']: string;
+  ['confirm_password']?: string;
 }
 
 export function SettingsProfile() {
   const cn = createClassName(styles, 'modal-profile');
-  const { user, error } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit, reset } =
     useForm<ISettingsProfileValuesType>();
 
-  console.log(user);
+  const [isError, setIsError] = useState('');
+
+  const auth = getAuth();
+  const firebaseUser = auth.currentUser;
 
   const onSubmit: SubmitHandler<ISettingsProfileValuesType> = async (
     data: ISettingsProfileValuesType
   ) => {
-    if (data['new_password'] == data['confirm_password']) {
-      const body = {
-        ['current_password']: data.password,
-        ['new_password']: data['new_password'],
-      };
-      // dispatch(fetchSetPasswordThunk(body));
-      reset();
+    if (data['new_password'] === data['confirm_password'] && firebaseUser) {
+      updatePassword(firebaseUser, data['new_password'])
+        .then(() => {
+          reset()
+          alert('Password has be changed');
+        })
+        .catch((error) => {
+          setIsError(String(error));
+          console.log(error)
+        });
     } else {
-      return error;
+      setIsError('The password does not match');
     }
   };
 
   const handleClickResetButton = () => {
     reset();
+    setIsError('');
   };
 
   return (
@@ -48,7 +53,7 @@ export function SettingsProfile() {
           <Input
             type="text"
             isDisabled={true}
-            placeholder={user?.displayName}
+            placeholder={firebaseUser?.displayName ?? undefined}
             title="Name"
           />
         </div>
@@ -56,7 +61,7 @@ export function SettingsProfile() {
           <Input
             type="text"
             isDisabled={true}
-            placeholder={user?.email}
+            placeholder={firebaseUser?.email ?? undefined}
             title="Email"
           />
         </div>
@@ -64,15 +69,7 @@ export function SettingsProfile() {
 
       <div className={cn('wrapper-name')}>Password</div>
 
-      <div className={cn('wrapper', { invalid: error })}>
-        <div className={cn('input')}>
-          <Input
-            placeholder="Password"
-            title="Password"
-            type="password"
-            register={register('password')}
-          />
-        </div>
+      <div className={cn('wrapper', { invalid: isError })}>
         <div className={cn('item-column')}>
           <Input
             placeholder="New password"
@@ -88,6 +85,7 @@ export function SettingsProfile() {
             register={register('confirm_password')}
           />
         </div>
+        {isError && <div className={cn('error')}>{isError}</div>}
       </div>
 
       <div className={cn('buttons')}>

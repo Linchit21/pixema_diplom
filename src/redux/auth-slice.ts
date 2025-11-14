@@ -39,11 +39,11 @@ export const fetchSignOutThunk = createAsyncThunk<void, void>(
 );
 
 export interface AuthState {
-  user: User | null;
+  user: User | undefined;
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: undefined,
 };
 
 export const authSlice = createSlice({
@@ -51,7 +51,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: (state) => {
-      state.user = null;
+      state.user = undefined;
       fetchSignOutThunk();
     },
     setUser: (state, action) => {

@@ -86,4 +86,8 @@
       background-color: $primary;
     }
   }
+
+  &__error {
+    color: $red;
+  }
 }
