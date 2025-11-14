@@ -8,6 +8,7 @@ import { IMovieArticle, IMovieCountries } from '@/types/movie/movie';
 import favorites from '/icons/favorites.svg';
 import share from '/icons/share.svg';
 import favoritesActive from '/icons/favorites_active.svg';
+import imdb from '/img/imdb.png';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -125,7 +126,7 @@ export function MovieId() {
             >
               <img
                 className={cn('img-imdb')}
-                src="/public/img/imdb.png"
+                src={imdb}
                 alt=""
               />
               <p>{ratingImdb}</p>
